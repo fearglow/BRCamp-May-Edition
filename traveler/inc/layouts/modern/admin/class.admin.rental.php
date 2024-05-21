@@ -928,14 +928,14 @@
                         ],
                         [
                             'id'           => 'rental_bed',
-                            'label'        => __( 'No. Bed', 'traveler' ),
+                            'label'        => __( 'No. Tents', 'traveler' ),
                             'desc'         => __( 'Bed Number', 'traveler' ),
                             'type'         => 'text',
                             'std'          => 1
                         ],
                         [
                             'id'           => 'rental_bath',
-                            'label'        => __( 'No. Bath', 'traveler' ),
+                            'label'        => __( 'No. Trailer', 'traveler' ),
                             'desc'         => __( 'Bath Number', 'traveler' ),
                             'type'         => 'text',
                             'std'          => 1
