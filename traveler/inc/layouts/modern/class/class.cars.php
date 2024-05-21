@@ -152,6 +152,7 @@ if (!class_exists('STCars')) {
             add_action('st_wc_cart_item_information_st_cars', [$this, '_show_wc_cart_item_information']);
             add_action('st_wc_cart_item_information_btn_st_cars', [$this, '_show_wc_cart_item_information_btn']);
             add_action('st_before_cart_item_st_cars', [$this, '_show_wc_cart_post_type_icon']);
+            add_action('st_before_cart_item_car_transfer', [$this, '_show_wc_cart_post_type_icon']);
             /**
              * Filter Class Icon
              *
@@ -620,9 +621,14 @@ if (!class_exists('STCars')) {
          *
          *
          * */
-        function _show_wc_cart_post_type_icon()
+        function _show_wc_cart_post_type_icon($post_type)
         {
-            echo '<span class="booking-item-wishlist-title"><i class="fa fa-car"></i> ' . __('car', 'traveler') . ' <span></span></span>';
+			if ( $post_type == 'car_transfer' ) {
+				$post_type = __('Transfer', 'traveler');
+			} else {
+				$post_type = __('Car', 'traveler');
+			}
+            echo '<span class="booking-item-wishlist-title"><i class="fa fa-car"></i> ' . $post_type . ' <span></span></span>';
         }
         /**
          *

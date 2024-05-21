@@ -304,18 +304,21 @@
 			            if ( $period >= $booking_period ) {
 				            if(!empty($v['post_id']) && !in_array($v['post_id'], $ids))
 			                {
-                                if (TravelHelper::is_wpml()) {
-                                    $v['post_id'] = TravelHelper::post_translated_new($v['post_id'],'st_tours');
-                                    if(isset($v['post_id']) && !empty($v['post_id'])){
-                                        array_push($ids, $v['post_id']);
-                                    }
+                                // if (TravelHelper::is_wpml()) {
+                                //     $v['post_id'] = TravelHelper::post_translated_new($v['post_id'],'st_tours');
+                                //     if(isset($v['post_id']) && !empty($v['post_id'])){
+                                //         array_push($ids, $v['post_id']);
+                                //     }
 
-                                } else {
-                                    array_push($ids, $v['post_id']);
-                                }
+                                // } else {
+                                //     array_push($ids, $v['post_id']);
+                                // }
+
+								array_push($ids, $v['post_id']);
                             }
 			            }
 		            }
+					$ids = array_unique( $ids );
 		            if(!empty($ids))
 		                $data_id = implode(',', $ids);
 	            }

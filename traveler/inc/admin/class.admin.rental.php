@@ -1160,7 +1160,7 @@
                             'std'          => 0,
                             'desc'         => __( 'Minimum stay in this rental', 'traveler' ),
                         ],
-						[
+                        [
 							'label'        => __('Maximum Booking Days', 'traveler'),
 							'id'           => 'rentals_booking_max_day',
 							'type'         => 'numeric-slider',

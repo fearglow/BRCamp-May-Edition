@@ -37,7 +37,7 @@ if ($type_form === 'mix_service') {
 $item_row_tablet =  2;
 $item_row_tablet_extra = 2;
 if (!empty($v) && $type_form  !== 'mix_service') { ?>
-    <div class="st-list-service <?php echo esc_attr($list_style . ' ' . $style . '' . $grid_tour_style); ?>" <?php echo st_render_html_attributes($attrs); ?>
+    <div class="st-list-service <?php echo esc_attr($list_style . ' ' . $style . ' ' . $grid_tour_style); ?>" <?php echo st_render_html_attributes($attrs); ?>
     >
         <?php
         $args = [
@@ -75,6 +75,18 @@ if (!empty($v) && $type_form  !== 'mix_service') { ?>
                         $list_ids = ST_Elementor::st_explode_select2($post_ids_hotel);
                         $args['post__in'] = array_keys($list_ids);
                     }
+
+					if ( is_singular( 'location' ) ) {
+						global $wpdb;
+						$location_id = get_the_ID();
+						$sql = "SELECT post_id FROM {$wpdb->prefix}st_location_relationships WHERE 1=1 AND location_from IN ({$location_id}) AND post_type IN ('st_hotel')";
+						$res = $wpdb->get_results($sql, ARRAY_A);
+						$res = array_map ( function($re) {
+							return $re['post_id'];
+						}, $res );
+						$args['post__in'] = $res;
+					}
+
                     $current_lang = TravelHelper::current_lang();
                     $main_lang = TravelHelper::primary_lang();
 					if (TravelHelper::is_wpml()) {
@@ -179,11 +191,24 @@ if (!empty($v) && $type_form  !== 'mix_service') { ?>
                         $list_ids = ST_Elementor::st_explode_select2($post_ids_tour);
                         $args['post__in'] = array_keys($list_ids);
                     }
+
+					if ( is_singular( 'location' ) ) {
+						global $wpdb;
+						$location_id = get_the_ID();
+						$sql = "SELECT post_id FROM {$wpdb->prefix}st_location_relationships WHERE 1=1 AND location_from IN ({$location_id}) AND post_type IN ('st_tours')";
+						$res = $wpdb->get_results($sql, ARRAY_A);
+						$res = array_map ( function($re) {
+							return $re['post_id'];
+						}, $res );
+						$args['post__in'] = $res;
+					}
+
                     $current_lang = TravelHelper::current_lang();
                     $main_lang = TravelHelper::primary_lang();
                     $tour = STTour::get_instance();
                     $tour->alter_search_query();
                     $query_service = new WP_Query($args);
+					$tour->remove_alter_search_query();
                     if ($query_service->have_posts()) {
                         if ($list_style == 'grid') {
                             $html = '<div class="service-list-wrapper service-tour"><div class="row">';
@@ -278,6 +303,18 @@ if (!empty($v) && $type_form  !== 'mix_service') { ?>
                         $list_ids = ST_Elementor::st_explode_select2($post_ids_activity);
                         $args['post__in'] = array_keys($list_ids);
                     }
+
+					if ( is_singular( 'location' ) ) {
+						global $wpdb;
+						$location_id = get_the_ID();
+						$sql = "SELECT post_id FROM {$wpdb->prefix}st_location_relationships WHERE 1=1 AND location_from IN ({$location_id}) AND post_type IN ('st_activity')";
+						$res = $wpdb->get_results($sql, ARRAY_A);
+						$res = array_map ( function($re) {
+							return $re['post_id'];
+						}, $res );
+						$args['post__in'] = $res;
+					}
+
                     $current_lang = TravelHelper::current_lang();
                     $main_lang = TravelHelper::primary_lang();
                     $activity = STActivity::inst();
@@ -484,6 +521,18 @@ if (!empty($v) && $type_form  !== 'mix_service') { ?>
                         $list_ids = ST_Elementor::st_explode_select2($post_ids_rental);
                         $args['post__in'] = array_keys($list_ids);
                     }
+
+					if ( is_singular( 'location' ) ) {
+						global $wpdb;
+						$location_id = get_the_ID();
+						$sql = "SELECT post_id FROM {$wpdb->prefix}st_location_relationships WHERE 1=1 AND location_from IN ({$location_id}) AND post_type IN ('st_rental')";
+						$res = $wpdb->get_results($sql, ARRAY_A);
+						$res = array_map ( function($re) {
+							return $re['post_id'];
+						}, $res );
+						$args['post__in'] = $res;
+					}
+
                     $current_lang = TravelHelper::current_lang();
                     $main_lang = TravelHelper::primary_lang();
                     $rental = STRental::inst();
@@ -630,12 +679,35 @@ if (!empty($v) && $type_form  !== 'mix_service') { ?>
                                                 $list_ids = ST_Elementor::st_explode_select2($post_ids_hotel);
                                                 $args['post__in'] = array_keys($list_ids);
                                             }
+
+											if ( is_singular( 'location' ) ) {
+												global $wpdb;
+												$location_id = get_the_ID();
+												$sql = "SELECT post_id FROM {$wpdb->prefix}st_location_relationships WHERE 1=1 AND location_from IN ({$location_id}) AND post_type IN ('st_hotel')";
+												$res = $wpdb->get_results($sql, ARRAY_A);
+												$res = array_map ( function($re) {
+													return $re['post_id'];
+												}, $res );
+												$args['post__in'] = $res;
+											}
+
                                             $current_lang = TravelHelper::current_lang();
                                             $main_lang = TravelHelper::primary_lang();
+											if (TravelHelper::is_wpml()) {
+												global $sitepress;
+												$sitepress->switch_lang($main_lang, true);
+											}
+
                                             $hotel = STHotel::inst();
                                             $hotel->alter_search_query();
                                             $query_service = new WP_Query($args);
                                             $hotel->remove_alter_search_query();
+
+											if (TravelHelper::is_wpml()) {
+												global $sitepress;
+												$sitepress->switch_lang($current_lang, true);
+											}
+
                                             if ($query_service->have_posts()) {
                                                 if ($list_style == 'grid') {
                                                     $html = '<div class="row">';
@@ -689,7 +761,7 @@ if (!empty($v) && $type_form  !== 'mix_service') { ?>
                                                     $html .= '</div>';
                                                 }
                                                 echo balanceTags($html); ?>
-                                            <?php
+                                            	<?php
                                                 wp_reset_postdata();
                                             }
                                         }
@@ -731,6 +803,18 @@ if (!empty($v) && $type_form  !== 'mix_service') { ?>
                                                 $list_ids = ST_Elementor::st_explode_select2($post_ids_tour);
                                                 $args_tour['post__in'] = array_keys($list_ids);
                                             }
+
+											if ( is_singular( 'location' ) ) {
+												global $wpdb;
+												$location_id = get_the_ID();
+												$sql = "SELECT post_id FROM {$wpdb->prefix}st_location_relationships WHERE 1=1 AND location_from IN ({$location_id}) AND post_type IN ('st_tours')";
+												$res = $wpdb->get_results($sql, ARRAY_A);
+												$res = array_map ( function($re) {
+													return $re['post_id'];
+												}, $res );
+												$args['post__in'] = $res;
+											}
+
                                             $current_lang = TravelHelper::current_lang();
                                             $main_lang = TravelHelper::primary_lang();
                                             $tour = STTour::get_instance();
@@ -833,6 +917,18 @@ if (!empty($v) && $type_form  !== 'mix_service') { ?>
                                                 $list_ids = ST_Elementor::st_explode_select2($post_ids_activity);
                                                 $args_activity['post__in'] = array_keys($list_ids);
                                             }
+
+											if ( is_singular( 'location' ) ) {
+												global $wpdb;
+												$location_id = get_the_ID();
+												$sql = "SELECT post_id FROM {$wpdb->prefix}st_location_relationships WHERE 1=1 AND location_from IN ({$location_id}) AND post_type IN ('st_activity')";
+												$res = $wpdb->get_results($sql, ARRAY_A);
+												$res = array_map ( function($re) {
+													return $re['post_id'];
+												}, $res );
+												$args['post__in'] = $res;
+											}
+
                                             $current_lang = TravelHelper::current_lang();
                                             $main_lang = TravelHelper::primary_lang();
                                             $activity = STActivity::inst();
@@ -1047,6 +1143,18 @@ if (!empty($v) && $type_form  !== 'mix_service') { ?>
                                                 $list_ids = ST_Elementor::st_explode_select2($post_ids_rental);
                                                 $args_rental['post__in'] = array_keys($list_ids);
                                             }
+
+											if ( is_singular( 'location' ) ) {
+												global $wpdb;
+												$location_id = get_the_ID();
+												$sql = "SELECT post_id FROM {$wpdb->prefix}st_location_relationships WHERE 1=1 AND location_from IN ({$location_id}) AND post_type IN ('st_rental')";
+												$res = $wpdb->get_results($sql, ARRAY_A);
+												$res = array_map ( function($re) {
+													return $re['post_id'];
+												}, $res );
+												$args_rental['post__in'] = $res;
+											}
+
                                             $current_lang = TravelHelper::current_lang();
                                             $main_lang = TravelHelper::primary_lang();
 

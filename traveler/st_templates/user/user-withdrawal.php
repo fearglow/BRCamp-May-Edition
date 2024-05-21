@@ -98,19 +98,19 @@ $your_balance = $total_earning['average_total'] - $total_price_payout - $total_e
          ?>
         <div class="col-md-2 col-sm-4 col-xs-4">
             <div class="item-pay <?php if($st_partner_payout =='bank_transfer') echo "active";  ?>">
-                <img alt="<?php echo TravelHelper::get_alt_image(); ?>" src="<?php echo ST_TRAVELER_URI.'/img/user/banktransfer.png' ?>" class="img-thumbnail st_payout" />
+				<p><?= esc_html__( 'Bank Transfer', 'traveler' ) ?></p>
             </div>
             <input class="i-radio st_partner_payout" type="radio" name="st_partner_payout" value="bank_transfer" <?php if($st_partner_payout =='bank_transfer') echo "checked";  ?> />
         </div>
         <div class="col-md-2 col-sm-4 col-xs-4">
             <div class="item-pay <?php if($st_partner_payout =='paypal') echo "active";  ?>">
-                <img alt="<?php echo TravelHelper::get_alt_image(); ?>" src="<?php echo ST_TRAVELER_URI.'/img/user/paypal_logo.jpg' ?>" class="img-thumbnail active st_payout" />
+				<p><?= esc_html__( 'Paypal', 'traveler' ) ?></p>
             </div>
             <input class="i-radio st_partner_payout" type="radio" name="st_partner_payout" value="paypal"  <?php if($st_partner_payout =='paypal') echo "checked";  ?> />
         </div>
         <div class="col-md-2 col-sm-4 col-xs-4">
             <div class="item-pay <?php if($st_partner_payout =='stripe') echo "active";  ?>">
-                <img alt="<?php echo TravelHelper::get_alt_image(); ?>" src="<?php echo get_template_directory_uri().'/img/user/stripe_logo.jpg' ?>" class="img-thumbnail st_payout" />
+				<p><?= esc_html__( 'Stripe', 'traveler' ) ?></p>
             </div>
             <input class="i-radio st_partner_payout" type="radio" name="st_partner_payout" value="stripe" <?php if($st_partner_payout =='stripe') echo "checked";  ?> />
         </div>

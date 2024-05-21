@@ -1228,14 +1228,14 @@
                             'std'          => 0,
                             'desc'         => __( 'Minimum stay in this rental', 'traveler' ),
                         ],
-						[
+                        [
 							'label'        => __('Maximum Booking Days', 'traveler'),
 							'id'           => 'rentals_booking_max_day',
 							'type'         => 'numeric-slider',
 							'min_max_step' => '0,180,1',
 							'desc'         => __('The maximum number of days guests can book', 'traveler'),
 							'std'          => 0,
-						],						
+						],	
                         [
                             'label' => __( 'Allow external booking', 'traveler' ),
                             'id'    => 'st_rental_external_booking',

@@ -17,14 +17,14 @@ $price_total_with_tax = STPrice::getTotalPriceWithTaxInOrder($total_order,$order
 <div class="col-md-12">
     <strong><?php esc_html_e("Subtotal: ",'traveler') ?></strong>
     <div class="pull-right">
-        <strong><?php echo TravelHelper::format_money($subtotal); ?></strong>
+        <strong><?php echo TravelHelper::format_money_from_db($subtotal, $currency); ?></strong>
     </div>
 </div>
 <?php $coupon_price = isset($data_price['coupon_price']) ? $data_price['coupon_price'] : 0; ?>
 <div class="col-md-12 <?php if(empty($coupon_price)) echo "hide"; ?>">
     <strong><?php esc_html_e("Coupon: ",'traveler') ?></strong>
     <div class="pull-right">
-        <strong><?php echo TravelHelper::format_money($coupon_price); ?></strong>
+        <strong><?php echo TravelHelper::format_money_from_db($coupon_price, $currency); ?></strong>
     </div>
 </div>
 <div class="col-md-12">
@@ -41,60 +41,63 @@ $price_total_with_tax = STPrice::getTotalPriceWithTaxInOrder($total_order,$order
     </div>
 </div>
 <?php
+
+$item = get_post_meta($order_id, 'st_cart_info', true);
+$item = $item[$service_id];
+$price_with_tax = (float)$item['data']['price_with_tax'];
+$price_with_tax -= $coupon_price;
+$total_price = 0;
+
 if(is_array($deposit_status) && !empty($deposit_status['type']) && floatval($deposit_status['amount']) > 0){
+	$total_price = $deposit_price;
     ?>
     <?php if(!empty($price_total_with_tax)){ ?>
         <div class="col-md-12">
             <strong><?php esc_html_e("Total: ",'traveler') ?></strong>
             <div class="pull-right">
-                <strong><?php echo TravelHelper::format_money($price_total_with_tax); ?></strong>
+                <strong><?php echo TravelHelper::format_money_from_db($price_with_tax, $currency); ?></strong>
             </div>
         </div>
     <?php } ?>
     <div class="col-md-12">
         <strong><?php esc_html_e("Deposit: ",'traveler') ?></strong>
         <div class="pull-right">
-            <strong><?php echo TravelHelper::format_money($deposit_price); ?></strong>
+            <strong><?php echo TravelHelper::format_money_from_db($deposit_price, $currency); ?></strong>
         </div>
     </div>
     <?php
     if(!empty($booking_fee_price)){
+		$total_price = $total_price + $booking_fee_price;
         ?>
         <div class="col-md-12">
             <strong><?php esc_html_e("Fee: ",'traveler') ?></strong>
             <div class="pull-right">
-                <strong><?php echo TravelHelper::format_money($booking_fee_price); ?></strong>
+                <strong><?php echo TravelHelper::format_money_from_db($booking_fee_price, $currency); ?></strong>
             </div>
         </div>
     <?php } ?>
     <div class="col-md-12">
         <strong><?php esc_html_e("Pay Amount: ",'traveler') ?></strong>
         <div class="pull-right">
-            <strong><?php echo TravelHelper::format_money($pay_amount); ?></strong>
+            <strong><?php echo TravelHelper::format_money_from_db($total_price, $currency); ?></strong>
         </div>
     </div>
     <?php
 }else{
-    ?>
-    <div class="col-md-12">
-        <strong><?php esc_html_e("Total: ",'traveler') ?></strong>
-        <div class="pull-right">
-            <strong><?php echo TravelHelper::format_money($price_total_with_tax); ?></strong>
-        </div>
-    </div>
-    <?php if(!empty($booking_fee_price)){
+    if(!empty($booking_fee_price)){
+		$price_with_tax = $price_with_tax + $booking_fee_price;
         ?>
         <div class="col-md-12">
             <strong><?php esc_html_e("Fee: ",'traveler') ?></strong>
             <div class="pull-right">
-                <strong><?php echo TravelHelper::format_money($booking_fee_price); ?></strong>
+                <strong><?php echo TravelHelper::format_money_from_db($booking_fee_price, $currency); ?></strong>
             </div>
         </div>
     <?php } ?>
     <div class="col-md-12">
         <strong><?php esc_html_e("Pay Amount: ",'traveler') ?></strong>
         <div class="pull-right">
-            <strong><?php echo TravelHelper::format_money($pay_amount); ?></strong>
+            <strong><?php echo TravelHelper::format_money_from_db($price_with_tax, $currency); ?></strong>
         </div>
     </div>
     <?php

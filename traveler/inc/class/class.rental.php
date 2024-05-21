@@ -534,7 +534,7 @@
                 $period          = STDate::dateDiff( $today, $check_in );
                 $compare         = TravelHelper::dateCompare( $today, $check_in );
                 $booking_min_day = intval( get_post_meta( $rental_origin, 'rentals_booking_min_day', true ) );
-				$booking_max_day = intval( get_post_meta( $rental_origin, 'rentals_booking_max_day', true ) );
+                $booking_max_day = intval( get_post_meta( $rental_origin, 'rentals_booking_max_day', true ) );
 
                 if ( $compare < 0 ) {
                     STTemplate::set_message( __( 'You can not set check-in date in the past', 'traveler' ), 'danger' );
@@ -550,20 +550,20 @@
                     return false;
                 }
                 if ( $booking_min_day ) {
-					error_log('Max Booking Days: ' . $booking_max_day);
+                    error_log('Max Booking Days: ' . $booking_max_day);
 					error_log('Booking Days Difference: ' . $booking_min_day_diff);
                     $booking_min_day_diff = STDate::dateDiff( $check_in, $check_out );
                     if ( $booking_min_day_diff < $booking_min_day ) {
                         STTemplate::set_message( sprintf( __( 'Please book at least %d day(s) in total', 'traveler' ), $booking_min_day ), 'danger' );
-						error_log('Max Booking Days: ' . $booking_max_day);
+                        error_log('Max Booking Days: ' . $booking_max_day);
 						error_log('Booking Days Difference: ' . $booking_min_day_diff);
                         $form_validate = false;
 
                         return false;
                     }
                 }
-				
-				if ($booking_max_day > 0) { 
+                
+                if ($booking_max_day > 0) { 
 					if ($booking_min_day_diff > $booking_max_day) {
 						STTemplate::set_message(sprintf(__('The booking cannot exceed %d day(s)', 'traveler'), $booking_max_day), 'danger');
 						$form_validate = false;

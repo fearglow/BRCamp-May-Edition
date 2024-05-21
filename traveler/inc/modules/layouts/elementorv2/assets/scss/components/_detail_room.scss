@@ -745,6 +745,9 @@ body.st-mod-style #st-content-wrapper.st-style-elementor {
                     display: flex !important;
                     z-index: 9999999;
                 }
+				.hotel-target-book-mobile.hide {
+					display: none !important;
+				}
 
                 .fixed-on-mobile {
                     overflow: auto;
@@ -858,6 +861,16 @@ body.st-mod-style #st-content-wrapper.st-style-elementor {
             }
         }
     }
+
+	body.st-mod-style #st-content-wrapper.st-style-elementor {
+		&.singe-room-layout-3 {
+			.widgets {
+				.st-fixed-form-booking {
+					margin-top: 0;
+				}
+			}
+		}
+	}
 }
 
 @media screen and (max-width: 575px) {

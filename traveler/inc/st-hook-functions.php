@@ -934,34 +934,6 @@ if ( ! function_exists( 'st_add_scripts' ) ) {
 
 			wp_enqueue_style( 'st-partner-h-v2', get_template_directory_uri() . '/v2/css/partner-h.css' );
 
-			// wp_enqueue_script('daterangepicker-lang-js', get_template_directory_uri() . '/v2/js/daterangepicker/languages/' . get_locale() . '.js', ['jquery'], null, true);
-			$lang      = get_locale();
-			$lang_file = ST_TRAVELER_DIR . '/v2/js/daterangepicker/languages/' . $lang . '.js';
-			if ( file_exists( $lang_file ) ) {
-				wp_enqueue_script( 'daterangepicker-lang-js', get_template_directory_uri() . '/v2/js/daterangepicker/languages/' . $lang . '.js', [ 'jquery' ], null, true );
-			} else {
-				$locale_array = explode( '_', $lang );
-				if ( ! empty( $locale_array ) and $locale_array[0] ) {
-					$locale = $locale_array[0];
-
-					$lang_file = ST_TRAVELER_DIR . '/v2/js/daterangepicker/languages/' . $lang . '.js';
-					if ( file_exists( $lang_file ) ) {
-						wp_enqueue_script( 'daterangepicker-lang-js', get_template_directory_uri() . '/v2/js/daterangepicker/languages/' . $lang . '.js', [ 'jquery' ], null, true );
-					} else {
-						$lang      = TravelHelper::get_minify_locale( get_locale() );
-						$lang_file = ST_TRAVELER_DIR . '/v2/js/daterangepicker/languages/' . $lang . '.js';
-						if ( file_exists( $lang_file ) ) {
-							wp_enqueue_script( 'daterangepicker-lang-js', get_template_directory_uri() . '/v2/js/daterangepicker/languages/' . $lang . '.js', [ 'jquery' ], null, true );
-						}
-					}
-				} else {
-					$lang      = TravelHelper::get_minify_locale( get_locale() );
-					$lang_file = ST_TRAVELER_DIR . '/v2/js/daterangepicker/languages/' . $lang . '.js';
-					if ( file_exists( $lang_file ) ) {
-						wp_enqueue_script( 'daterangepicker-lang-js', get_template_directory_uri() . '/v2/js/daterangepicker/languages/' . $lang . '.js', [ 'jquery' ], null, true );
-					}
-				}
-			}
 			wp_enqueue_script( 'daterangepicker-js', get_template_directory_uri() . '/v2/js/daterangepicker/daterangepicker.js', [ 'jquery' ], null, true );
 			wp_enqueue_script( 'st-partner-v2', get_template_directory_uri() . '/v2/js/partner.js', [ 'jquery' ], null, true );
 			wp_enqueue_script( 'st-partner-h-v2', get_template_directory_uri() . '/v2/js/partner-h.js', [ 'jquery' ], null, true );

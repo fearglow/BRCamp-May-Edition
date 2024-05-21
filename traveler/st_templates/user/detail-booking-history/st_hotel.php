@@ -111,7 +111,7 @@ $price_by_per_person = get_post_meta( $room_id, 'price_by_per_person', true );
                         <div class="col-md-12">
                             <div class="item_booking_detail">
                                 <strong><?php esc_html_e("Room Price:",'traveler') ?> </strong>
-                                <?php echo  TravelHelper::format_money( get_post_meta($order_id , 'item_price' , true)); ?>
+                                <?php echo  TravelHelper::format_money_from_db( get_post_meta($order_id , 'item_price' , true), $currency ); ?>
                             </div>
                         </div>
                         <?php
@@ -138,7 +138,7 @@ $price_by_per_person = get_post_meta( $room_id, 'price_by_per_person', true );
                             <div class="item_booking_detail">
                                 <strong><?php esc_html_e("Adult Price :",'traveler') ?> </strong>
                                 <?php $adult_price =  get_post_meta( $order_id, 'adult_price', true ); ?>
-                                <?php echo TravelHelper::format_money($adult_price) ?>
+                                <?php echo TravelHelper::format_money_from_db($adult_price, $currency) ?>
                             </div>
                         </div>
                         <?php
@@ -155,7 +155,7 @@ $price_by_per_person = get_post_meta( $room_id, 'price_by_per_person', true );
                             <div class="item_booking_detail">
                                 <strong><?php esc_html_e("Child Price :",'traveler') ?> </strong>
                                 <?php $child_price =  get_post_meta( $order_id, 'child_price', true ); ?>
-                                <?php echo TravelHelper::format_money($child_price) ?>
+                                <?php echo TravelHelper::format_money_from_db($child_price, $currency) ?>
                             </div>
                         </div>
                         <?php

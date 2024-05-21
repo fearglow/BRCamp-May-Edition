@@ -12,6 +12,7 @@
 	$args = [
 		'post_type' => 'hotel_room',
 		'posts_per_page' => -1,
+		'post_status' => [ 'publish', 'future' ],
 		'meta_query' => [
 			[
 				'key' => 'room_parent',
@@ -28,11 +29,12 @@
             'name' => get_the_title(),
             'price_by_per_person' => get_post_meta( get_the_ID(), 'price_by_per_person', true )
 		];
-?>
-<?php endwhile; wp_reset_postdata();
-wp_enqueue_script('bulk-calendar' );
-wp_enqueue_script('bootstrap-datepicker.js' );
-wp_enqueue_script( 'bootstrap-datepicker-lang.js' );
+	endwhile;
+	wp_reset_postdata();
+
+	wp_enqueue_script('bulk-calendar' );
+	wp_enqueue_script('bootstrap-datepicker.js' );
+	wp_enqueue_script( 'bootstrap-datepicker-lang.js' );
 ?>
 <div class="calendar-wrapper">
     <div class="st-inventory-form">
@@ -63,7 +65,7 @@ wp_enqueue_script( 'bootstrap-datepicker-lang.js' );
         <div class="panel-room">
             <input class="input-price" type="number" name="input-room-number" value="" placeholder="">
             <input class="input-room-id" type="hidden" name="input-room-id" value="" placeholder="" min="0">
-            <a href="javascript: void(0);" class="button btn-add-number-room" style="margin-left: 10px;">Update <i class="fa fa-spin fa-spinner loading-icon"></i></a>
+            <a href="javascript: void(0);" class="button btn-add-number-room" style="margin-left: 10px;"><?= __('Update', 'travaler') ?> <i class="fa fa-spin fa-spinner loading-icon"></i></a>
             <span class="close">
                 <i class="fa fa-times"></i>
             </span>

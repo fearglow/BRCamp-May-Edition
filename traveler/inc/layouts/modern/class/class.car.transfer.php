@@ -409,7 +409,7 @@ if ( ! class_exists( 'STCarTransfer' ) ) {
 				}
 			}
 			$distance = $this->get_driving_distance( $transfer_from, $transfer_to, $roundtrip );
-			if ( ! empty( $distance['message'] ) ) {
+			if ( ! empty( $distance['message'] ) && $transfer->price_type === 'distance' ) {
 				echo json_encode( [
 					'status'  => 0,
 					'class'   => 'mt20 alert alert-danger',
@@ -618,12 +618,12 @@ if ( ! class_exists( 'STCarTransfer' ) ) {
 			} else {
 				$has_return = 'no';
 			}
-			$price_return = (float)$transfer->price_return;
-			if(!isset($price_return) || empty($price_return)){
-				$price_return = (float)$transfer->price_return;
+			$price_return = (float) $transfer->price_return;
+			if ( ! isset( $price_return ) || empty( $price_return ) ) {
+				$price_return = (float) $transfer->price_return;
 			}
-			$price_item = (float)$transfer->price;
-			$data = [
+			$price_item = (float) $transfer->price;
+			$data       = [
 				'check_in'            => $check_in_n,
 				'check_in_time'       => $check_in_time,
 				'check_out_time'      => $check_out_time,
@@ -687,7 +687,7 @@ if ( ! class_exists( 'STCarTransfer' ) ) {
 			$transfer     = $this->get_transfer( $car_id, $transfer_from, $transfer_to );
 			$price        = floatval( $transfer->price );
 			$price_return = floatval( $transfer->price_return );
-			if ( isset( $price_return ) && ! empty( $price_return ) ) {
+			if ( isset( $price_return ) && $price_return !== '' ) {
 				$price_return = $price_return;
 			} else {
 				$price_return = $price;

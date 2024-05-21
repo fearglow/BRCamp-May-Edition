@@ -223,6 +223,9 @@ if ( ! class_exists( 'STAdminCars' ) ) {
 		}
 
 		static function _save_journey_car( $car_id, $car_object ) {
+			if ( STInput::request( 'btn_update_post_type_car' ) ) {
+				return;
+			}
 			if ( $car_object->post_type == 'st_cars' ) {
 				if ( STInput::request( 'sc' ) == 'edit-cars' and isset( $_POST['st_update_post_cars'] ) ) {
 					$transfers             = [];
@@ -1257,6 +1260,18 @@ if ( ! class_exists( 'STAdminCars' ) ) {
 			$layout_single   = apply_filters( 'st_layout_single_car', $layout_single );
 			$value_baggage   = apply_filters( 'st_value_baggage', 50 );
 			$value_door      = apply_filters( 'st_value_door', 30 );
+
+			$deposit_settings = [
+				[
+					'value' => '',
+					'label' => __( 'Disallow deposit', 'traveler' ),
+				],
+				[
+					'value' => 'percent',
+					'label' => __( 'Deposit by percent', 'traveler' ),
+				],
+			];
+			$deposit_settings = apply_filters( 'st_deposit_admin', $deposit_settings );
 			$this->metabox[] = [
 				'id'       => 'cars_metabox',
 				'title'    => __( 'Cars Setting', 'traveler' ),
@@ -1784,16 +1799,7 @@ if ( ! class_exists( 'STAdminCars' ) ) {
 						'label'   => __( 'Deposit payment options', 'traveler' ),
 						'desc'    => __( 'You can select <code>Disallow Deposit</code>, <code>Deposit by percent</code>' ),
 						'type'    => 'select',
-						'choices' => [
-							[
-								'value' => '',
-								'label' => __( 'Disallow deposit', 'traveler' ),
-							],
-							[
-								'value' => 'percent',
-								'label' => __( 'Deposit by percent', 'traveler' ),
-							],
-						],
+						'choices' => $deposit_settings,
 					],
 					[
 						'label'     => __( 'Deposit percent', 'traveler' ),

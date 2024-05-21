@@ -52,10 +52,10 @@
                 </a>
             <?php } ?>
             <a href="<?php echo esc_url($url); ?>">
-                <img itemprop="photo" src="<?php echo wp_get_attachment_image_url( $thumbnail_id, array(450, 300) ); ?>" alt="<?php echo get_the_title();?>"
+                <img itemprop="photo" src="<?php echo wp_get_attachment_image_url( $thumbnail_id, array(900, 600) ); ?>" alt="<?php echo get_the_title();?>"
                      class="<?php echo esc_attr($class_image);?>">
             </a>
-            <img itemprop="image" src="<?php echo wp_get_attachment_image_url($thumbnail_id, array(450, 300)); ?>"
+            <img itemprop="image" src="<?php echo wp_get_attachment_image_url($thumbnail_id, array(900, 600)); ?>"
                      alt="<?php echo get_the_title(); ?>" class="d-none"/>
             <?php
                 if(!empty($phone_number)){?>

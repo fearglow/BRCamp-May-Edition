@@ -50,7 +50,7 @@ if( !empty($slider) && $slider === 'slider'){
             <a href="<?php echo esc_url($url); ?>">
                 <?php
                 if(has_post_thumbnail()){
-                    the_post_thumbnail(array(450, 300), array('alt' => TravelHelper::get_alt_image(), 'itemprop' => 'image', 'class' => 'img-responsive'));
+                    the_post_thumbnail(array(900, 600), array('alt' => TravelHelper::get_alt_image(), 'itemprop' => 'image', 'class' => 'img-responsive'));
                 }else{
                     echo '<img itemprop="image" src="'. get_template_directory_uri() . '/img/no-image.png' .'" alt="Default Thumbnail" class="img-responsive" />';
                 }

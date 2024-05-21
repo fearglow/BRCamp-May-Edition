@@ -1056,12 +1056,6 @@ if ( ! class_exists( 'STAdminActivity' ) ) {
 						'std'          => 1,
 					],
 					[
-						'label' => __( 'Venue facilities', 'traveler' ),
-						'id'    => 'venue-facilities',
-						'type'  => 'text',
-						'desc'  => __( 'The facilities that customer may experience during activities', 'traveler' ),
-					],
-					[
 						'id'    => 'activity_include',
 						'label' => __( 'Activity Included', 'traveler' ),
 						'type'  => 'textarea',

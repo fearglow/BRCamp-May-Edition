@@ -1365,3 +1365,9 @@ $info-xphone: "screen and (max-width : 520px)";
     margin-bottom: 0px !important;
   }
 }
+
+.hotel-single {
+	.st-breadcrumb {
+		display: none;
+	}
+}

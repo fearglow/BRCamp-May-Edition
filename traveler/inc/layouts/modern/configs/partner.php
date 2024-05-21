@@ -1080,40 +1080,85 @@ if($new_layout === 'modern'){
                                     $is_feature_tour,
                                 )
                             ),
-                            array(
-                                'type' => 'list-item',
-                                'label' => __('Badges', 'traveler'),
-                                'name' => 'list_badges',
-                                'col' => '6',
-                                'plh' => '',
-                                'text_add' => __('Add New', 'traveler'),
-                                'fields' => array(
-                                    array(
-                                        'type' => 'text',
-                                        'label' => __('Title', 'traveler'),
-                                        'name' => 'title'
-                                    ),
-                                    array(
-                                        'type' => 'text',
-                                        'label' => __('Content', 'traveler'),
-                                        'name' => 'content',
-                                        'rows' => 5
-                                    ),
-                                    array(
-                                        'type' => 'upload',
-                                        'label' => __('Icon', 'traveler'),
-                                        'output' => 'url',
-                                        'name' => 'icon'
-                                    ),
-
-                                )
-							),
 							[
-								'type' => 'post_select_ajax',
-								'label' => __('Up Sell', 'traveler'),
-								'name' => 'up_sell',
-								'col' => '6',
-							]
+								'type' => 'group',
+                                'label' => __('Badges & Up Sell', 'traveler'),
+                                'col' => '12',
+								'fields' => [
+									[
+										'type' => 'list-item',
+										'label' => __('Badges', 'traveler'),
+										'name' => 'list_badges',
+										'col' => '6',
+										'plh' => '',
+										'text_add' => __('Add New', 'traveler'),
+										'fields' => [
+											[
+												'type' => 'text',
+												'label' => __('Title', 'traveler'),
+												'name' => 'title'
+											],
+											[
+												'type' => 'text',
+												'label' => __('Content', 'traveler'),
+												'name' => 'content',
+												'rows' => 5
+											],
+											[
+												'type' => 'upload',
+												'label' => __('Icon', 'traveler'),
+												'output' => 'url',
+												'name' => 'icon'
+											],
+										]
+									],
+									[
+										'type' => 'post_select_ajax',
+										'label' => __('Up Sell', 'traveler'),
+										'name' => 'up_sell',
+										'col' => '6',
+									],
+								]
+							],
+							[
+                                'type' => 'group',
+                                'label' => __('DETAIL CONTACT', 'traveler'),
+                                'col' => '12',
+                                'fields' => [
+                                    [
+                                        'type' => 'text',
+                                        'label' => __('Email address', 'traveler'),
+                                        'name' => 'contact_email',
+                                        'col' => '3',
+                                        'plh' => '',
+                                        'required' => false
+									],
+                                    [
+                                        'type' => 'text',
+                                        'label' => __('Website', 'traveler'),
+                                        'name' => 'website',
+                                        'col' => '3',
+                                        'plh' => '',
+                                        'required' => false
+									],
+                                    [
+                                        'type' => 'text',
+                                        'label' => __('Phone', 'traveler'),
+                                        'name' => 'phone',
+                                        'col' => '3',
+                                        'plh' => '',
+                                        'required' => false
+									],
+                                    [
+                                        'type' => 'text',
+                                        'label' => __('Fax', 'traveler'),
+                                        'name' => 'fax',
+                                        'col' => '3',
+                                        'plh' => '',
+                                        'required' => false
+                                    ]
+                                ]
+							],
 
                         ),
                         'info' => apply_filters('st_partner_tour_info', array()),
@@ -1653,43 +1698,88 @@ if($new_layout === 'modern'){
                                         'required' => true,
                                         'rows' => 6
                                     ),
+									$is_feature_activity,
                                 )
                             ),
-                            array(
-                                'type' => 'list-item',
-                                'label' => __('Badges', 'traveler'),
-                                'name' => 'list_badges',
-                                'col' => '6',
-                                'plh' => '',
-                                'text_add' => __('Add New', 'traveler'),
-                                'fields' => array(
-                                    array(
-                                        'type' => 'text',
-                                        'label' => __('Title', 'traveler'),
-                                        'name' => 'title'
-                                    ),
-                                    array(
-                                        'type' => 'text',
-                                        'label' => __('Content', 'traveler'),
-                                        'name' => 'content',
-                                        'rows' => 5
-                                    ),
-                                    array(
-                                        'type' => 'upload',
-                                        'label' => __('Icon', 'traveler'),
-                                        'output' => 'url',
-                                        'name' => 'icon'
-                                    ),
-
-                                )
-                            ),
-                            $is_feature_activity,
 							[
-								'type' => 'post_select_ajax',
-								'label' => __('Up Sell', 'traveler'),
-								'name' => 'up_sell',
-								'col' => '6',
-							]
+								'type' => 'group',
+                                'label' => __('Badges & Up Sell', 'traveler'),
+                                'col' => '12',
+								'fields' => [
+									[
+										'type' => 'list-item',
+										'label' => __('Badges', 'traveler'),
+										'name' => 'list_badges',
+										'col' => '6',
+										'plh' => '',
+										'text_add' => __('Add New', 'traveler'),
+										'fields' => [
+											[
+												'type' => 'text',
+												'label' => __('Title', 'traveler'),
+												'name' => 'title'
+											],
+											[
+												'type' => 'text',
+												'label' => __('Content', 'traveler'),
+												'name' => 'content',
+												'rows' => 5
+											],
+											[
+												'type' => 'upload',
+												'label' => __('Icon', 'traveler'),
+												'output' => 'url',
+												'name' => 'icon'
+											],
+										]
+									],
+									[
+										'type' => 'post_select_ajax',
+										'label' => __('Up Sell', 'traveler'),
+										'name' => 'up_sell',
+										'col' => '6',
+									],
+								]
+							],
+							[
+                                'type' => 'group',
+                                'label' => __('DETAIL CONTACT', 'traveler'),
+                                'col' => '12',
+                                'fields' => [
+                                    [
+                                        'type' => 'text',
+                                        'label' => __('Email address', 'traveler'),
+                                        'name' => 'contact_email',
+                                        'col' => '3',
+                                        'plh' => '',
+                                        'required' => false
+									],
+                                    [
+                                        'type' => 'text',
+                                        'label' => __('Website', 'traveler'),
+                                        'name' => 'contact_web',
+                                        'col' => '3',
+                                        'plh' => '',
+                                        'required' => false
+									],
+                                    [
+                                        'type' => 'text',
+                                        'label' => __('Phone', 'traveler'),
+                                        'name' => 'contact_phone',
+                                        'col' => '3',
+                                        'plh' => '',
+                                        'required' => false
+									],
+                                    [
+                                        'type' => 'text',
+                                        'label' => __('Fax', 'traveler'),
+                                        'name' => 'contact_fax',
+                                        'col' => '3',
+                                        'plh' => '',
+                                        'required' => false
+                                    ]
+                                ]
+							],
 
                         ),
                         'info' => apply_filters('st_partner_activity_info', array()),
@@ -2276,306 +2366,313 @@ if($new_layout === 'modern'){
                                 'multi' => true
                             )
                         ),
-                        'prices' => array(
-                            array(
-                                'type' => 'select',
-                                'label' => __('Car Types', 'traveler'),
-                                'name' => 'car_type',
-                                'col' => '4',
-                                'plh' => '',
-                                'required' => false,
-                                'options' => array(
-                                    'normal' => __('Normal', 'traveler'),
-                                    'car_transfer' => __('Car Transfer', 'traveler'),
-                                ),
-                            ),
-                            array(
-                                'type' => 'select',
-                                'label' => __('Price Type', 'traveler'),
-                                'name' => 'price_type',
-                                'col' => '4',
-                                'plh' => '',
-                                'required' => false,
-                                'condition' => 'car_type:is(car_transfer)',
-                                'options' => array(
-                                    'distance' => __('By Distance', 'traveler'),
-                                    'fixed' => __('By Fixed', 'traveler'),
-                                    'passenger' => __('By Passenger', 'traveler'),
-                                ),
-                            ),
-                            array(
-                                'type' => 'text',
-                                'label' => __('Passengers', 'traveler'),
-                                'name' => 'num_passenger',
-                                'col' => '4',
-                                'plh' => '',
-                                'condition' => 'car_type:is(car_transfer)',
-                                'required' => true
-                            ),
-                            array(
-                                'type' => 'text',
-                                'label' => __('Price', 'traveler'),
-                                'name' => 'cars_price',
-                                'col' => '4',
-                                'plh' => '',
-                                'operator' => 'or',
-                                'required' => true
-                            ),
+                        'prices' => apply_filters( 'st_partner_car_prices', array(
+							array(
+								'type' => 'select',
+								'label' => __('Car Types', 'traveler'),
+								'name' => 'car_type',
+								'col' => '4',
+								'plh' => '',
+								'required' => false,
+								'options' => array(
+									'normal' => __('Normal', 'traveler'),
+									'car_transfer' => __('Car Transfer', 'traveler'),
+								),
+							),
+							array(
+								'type' => 'select',
+								'label' => __('Price Type', 'traveler'),
+								'name' => 'price_type',
+								'col' => '4',
+								'plh' => '',
+								'required' => false,
+								'condition' => 'car_type:is(car_transfer)',
+								'options' => array(
+									'distance' => __('By Distance', 'traveler'),
+									'fixed' => __('By Fixed', 'traveler'),
+									'passenger' => __('By Passenger', 'traveler'),
+								),
+							),
+							array(
+								'type' => 'text',
+								'label' => __('Passengers', 'traveler'),
+								'name' => 'num_passenger',
+								'col' => '4',
+								'plh' => '',
+								'condition' => 'car_type:is(car_transfer)',
+								'required' => true
+							),
+							array(
+								'type' => 'text',
+								'label' => __('Price', 'traveler'),
+								'name' => 'cars_price',
+								'col' => '4',
+								'plh' => '',
+								'operator' => 'or',
+								'condition' => 'car_type:is(normal)',
+								// 'required' => true
+							),
 
-                            array(
-                                'type' => 'list-item',
-                                'label' => __('Journey', 'traveler'),
-                                'name' => 'journey',
-                                'col' => '8',
-                                'plh' => '',
-                                'text_add' => __('Add New', 'traveler'),
-                                'condition' => 'car_type:is(car_transfer)',
-                                'fields' => array(
-                                    array(
-                                        'type' => 'text',
-                                        'label' => __('Title', 'traveler'),
-                                        'name' => 'journey_title'
-                                    ),
-                                    array(
-                                        'type' => 'select',
-                                        'label' => __('Transfer from', 'traveler'),
-                                        'name' => 'journey_transfer_from',
-                                        'options' => st_convert_destination_car_transfer()
-                                    ),
-                                    array(
-                                        'type' => 'select',
-                                        'label' => __('Transfer to', 'traveler'),
-                                        'name' => 'journey_transfer_to',
-                                        'options' => st_convert_destination_car_transfer()
-                                    ),
-                                    array(
-                                        'type' => 'text',
-                                        'label' => __('Price', 'traveler'),
-                                        'name' => 'journey_price',
-                                    ),
-                                    array(
-                                        'type' => 'checkbox',
-                                        'label' => __('Return', 'traveler'),
-                                        'name' => 'journey_return',
-                                        'options' => array(
-                                            'yes' => 'Return'
-                                        )
-                                    ),
-                                )
-                            ),
-                            array(
-                                'type' => 'select',
-                                'label' => __('Custom Price', 'traveler'),
-                                'name' => 'is_custom_price',
-                                'col' => '4',
-                                'plh' => '',
-                                'required' => false,
-                                'options' => array(
-                                    'price_by_date' => __('Price by Date', 'traveler'),
-                                    'price_by_number' => __('Price by number of day/hour', 'traveler'),
-                                ),
-                            ),
-                            array(
-                                'type' => 'list-item',
-                                'label' => __('Price by date', 'traveler'),
-                                'name' => 'price_by_date',
-                                'col' => '6',
-                                'plh' => '',
-                                'text_add' => __('Add New', 'traveler'),
-                                'condition' => 'is_custom_price:is(price_by_date)',
-                                'fields' => array(
-                                    array(
-                                        'type' => 'datepicker',
-                                        'label' => __('Start date', 'traveler'),
-                                        'name' => 'st_start_date'
-                                    ),
-                                    array(
-                                        'type' => 'datepicker',
-                                        'label' => __('End date', 'traveler'),
-                                        'name' => 'st_end_date',
-                                    ),
-                                    array(
-                                        'type' => 'text',
-                                        'label' => __('Price', 'traveler'),
-                                        'name' => 'st_price',
-                                    ),
-                                )
-                            ),
-                            array(
-                                'type' => 'list-item',
-                                'label' => __('Price by number', 'traveler'),
-                                'name' => 'price_by_number_of_day_hour',
-                                'col' => '6',
-                                'plh' => '',
-                                'text_add' => __('Add New', 'traveler'),
-                                'condition' => 'is_custom_price:is(price_by_number)',
-                                'fields' => array(
-                                    array(
-                                        'type' => 'text',
-                                        'label' => __('Title', 'traveler'),
-                                        'name' => 'st_title'
-                                    ),
-                                    array(
-                                        'type' => 'text',
-                                        'label' => __('Number start', 'traveler'),
-                                        'name' => 'st_number_start',
-                                    ),
-                                    array(
-                                        'type' => 'text',
-                                        'label' => __('Number end', 'traveler'),
-                                        'name' => 'st_number_end',
-                                    ),
-                                    array(
-                                        'type' => 'text',
-                                        'label' => __('Price', 'traveler'),
-                                        'name' => 'st_price_by_number',
-                                    ),
-                                )
-                            ),
-                            array(
-                                'type' => 'list-item',
-                                'label' => __('Extra', 'traveler'),
-                                'name' => 'extra_price',
-                                'col' => '6',
-                                'plh' => '',
-                                'text_add' => __('Add New', 'traveler'),
-                                'fields' => array(
-                                    array(
-                                        'type' => 'text',
-                                        'label' => __('Title', 'traveler'),
-                                        'name' => 'extra[title]'
-                                    ),
-                                    array(
-                                        'type' => 'text',
-                                        'label' => __('Name', 'traveler'),
-                                        'name' => 'extra[extra_name]',
-                                        'std' => 'extra_'
-                                    ),
-                                    array(
-                                        'type' => 'text',
-                                        'label' => __('Max of number', 'traveler'),
-                                        'name' => 'extra[extra_max_number]',
-                                    ),
-                                    array(
-                                        'type' => 'text',
-                                        'label' => __('Price', 'traveler'),
-                                        'name' => 'extra[extra_price]',
-                                    ),
-                                    array(
-                                        'type' => 'select',
-                                        'label' => __('Required Extra', 'traveler'),
-                                        'name' => 'extra[extra_required]',
-                                        'options' => array(
-                                            'off' => __('Off', 'traveler'),
-                                            'on' => __('On', 'traveler'),
-                                        ),
-                                    ),
-                                    array(
-                                        'type' => 'select',
-                                        'label' => __('Price type', 'traveler'),
-                                        'name' => 'extra[extra_price_type]',
-                                        'options' => array(
-                                            'by_day' => __('By day', 'traveler'),
-                                            'fixed' => __('Fixed', 'traveler'),
-                                        ),
-                                    ),
-                                )
-                            ),
-                            array(
-                                'type' => 'text',
-                                'label' => __('Discount rate', 'traveler'),
-                                'name' => 'discount',
-                                'col' => '6',
-                                'plh' => '',
-                                'clear' => true,
-                                'std' => '0',
-                                'required' => false
-                            ),
-                            array(
-                                'type' => 'select',
-                                'label' => __('Create sale schedule', 'traveler'),
-                                'name' => 'is_sale_schedule',
-                                'col' => '6',
-                                'plh' => '',
-                                'required' => false,
-                                'options' => array(
-                                    'off' => __('No', 'traveler'),
-                                    'on' => __('Yes', 'traveler'),
-                                ),
-                            ),
-                            array(
-                                'type' => 'datepicker',
-                                'label' => __('Sale start date', 'traveler'),
-                                'name' => 'sale_price_from',
-                                'col' => '6',
-                                'plh' => '',
-                                'condition' => 'is_sale_schedule:is(on)',
-                                'required' => true
-                            ),
-                            array(
-                                'type' => 'datepicker',
-                                'label' => __('Sale end date', 'traveler'),
-                                'name' => 'sale_price_to',
-                                'col' => '6',
-                                'plh' => '',
-                                'condition' => 'is_sale_schedule:is(on)',
-                                'required' => true
-                            ),
-                            array(
-                                'type' => 'select',
-                                'label' => __('Deposit payment options', 'traveler'),
-                                'name' => 'deposit_payment_status',
-                                'col' => '6',
-                                'plh' => '',
-                                'required' => false,
-                                'clear' => true,
-                                'options' => array(
-                                    '' => __('Disallow Deposit', 'traveler'),
-                                    'percent' => __('Deposit By Percent', 'traveler'),
-                                ),
-                            ),
-                            array(
-                                'type' => 'text',
-                                'label' => __('Deposit amount', 'traveler'),
-                                'name' => 'deposit_payment_amount',
-                                'col' => '6',
-                                'plh' => '',
-                                'condition' => __('deposit_payment_status:is(percent)'),
-                                'required' => true,
-                            ),
-                            array(
-                                'type' => 'select',
-                                'label' => __('Allow Cancel', 'traveler'),
-                                'name' => 'st_allow_cancel',
-                                'col' => '6',
-                                'plh' => '',
-                                'required' => false,
-                                'options' => array(
-                                    'off' => __('No', 'traveler'),
-                                    'on' => __('Yes', 'traveler'),
-                                ),
-                            ),
-                            array(
-                                'type' => 'text',
-                                'label' => __('Number of days before the arrival', 'traveler'),
-                                'name' => 'st_cancel_number_days',
-                                'col' => '6',
-                                'plh' => '',
-                                'condition' => 'st_allow_cancel:is(on)',
-                                'required' => true,
-                                'clear' => true
-                            ),
-                            array(
-                                'type' => 'text',
-                                'label' => __('Cancellation Fee', 'traveler'),
-                                'name' => 'st_cancel_percent',
-                                'col' => '6',
-                                'plh' => '',
-                                'required' => true,
-                                'condition' => 'st_allow_cancel:is(on)'
-                            ),
-
-                        ),
+							array(
+								'type' => 'list-item',
+								'label' => __('Journey', 'traveler'),
+								'name' => 'journey',
+								'col' => '8',
+								'plh' => '',
+								'text_add' => __('Add New', 'traveler'),
+								'condition' => 'car_type:is(car_transfer)',
+								'fields' => array(
+									array(
+										'type' => 'text',
+										'label' => __('Title', 'traveler'),
+										'name' => 'journey_title'
+									),
+									array(
+										'type' => 'select',
+										'label' => __('Transfer from', 'traveler'),
+										'name' => 'journey_transfer_from',
+										'options' => st_convert_destination_car_transfer()
+									),
+									array(
+										'type' => 'select',
+										'label' => __('Transfer to', 'traveler'),
+										'name' => 'journey_transfer_to',
+										'options' => st_convert_destination_car_transfer()
+									),
+									array(
+										'type' => 'text',
+										'label' => __('Price', 'traveler'),
+										'name' => 'journey_price',
+									),
+									array(
+										'type' => 'select',
+										'label' => __('Return', 'traveler'),
+										'name' => 'journey_return',
+										'options' => array(
+											'yes' => 'Yes',
+											'no'  => 'No',
+										)
+									),
+									[
+										'type'      => 'text',
+										'label'     => __( 'Price return', 'traveler' ),
+										'name'      => 'journey_price_return',
+										// 'condition' => 'journey_return:is(yes)',
+									],
+								)
+							),
+							array(
+								'type' => 'select',
+								'label' => __('Custom Price', 'traveler'),
+								'name' => 'is_custom_price',
+								'col' => '4',
+								'plh' => '',
+								'required' => false,
+								'options' => array(
+									'price_by_date' => __('Price by Date', 'traveler'),
+									'price_by_number' => __('Price by number of day/hour', 'traveler'),
+								),
+							),
+							array(
+								'type' => 'list-item',
+								'label' => __('Price by date', 'traveler'),
+								'name' => 'price_by_date',
+								'col' => '6',
+								'plh' => '',
+								'text_add' => __('Add New', 'traveler'),
+								'condition' => 'is_custom_price:is(price_by_date)',
+								'fields' => array(
+									array(
+										'type' => 'datepicker',
+										'label' => __('Start date', 'traveler'),
+										'name' => 'st_start_date'
+									),
+									array(
+										'type' => 'datepicker',
+										'label' => __('End date', 'traveler'),
+										'name' => 'st_end_date',
+									),
+									array(
+										'type' => 'text',
+										'label' => __('Price', 'traveler'),
+										'name' => 'st_price',
+									),
+								)
+							),
+							array(
+								'type' => 'list-item',
+								'label' => __('Price by number', 'traveler'),
+								'name' => 'price_by_number_of_day_hour',
+								'col' => '6',
+								'plh' => '',
+								'text_add' => __('Add New', 'traveler'),
+								'condition' => 'is_custom_price:is(price_by_number)',
+								'fields' => array(
+									array(
+										'type' => 'text',
+										'label' => __('Title', 'traveler'),
+										'name' => 'st_title'
+									),
+									array(
+										'type' => 'text',
+										'label' => __('Number start', 'traveler'),
+										'name' => 'st_number_start',
+									),
+									array(
+										'type' => 'text',
+										'label' => __('Number end', 'traveler'),
+										'name' => 'st_number_end',
+									),
+									array(
+										'type' => 'text',
+										'label' => __('Price', 'traveler'),
+										'name' => 'st_price_by_number',
+									),
+								)
+							),
+							array(
+								'type' => 'list-item',
+								'label' => __('Extra', 'traveler'),
+								'name' => 'extra_price',
+								'col' => '6',
+								'plh' => '',
+								'text_add' => __('Add New', 'traveler'),
+								'fields' => array(
+									array(
+										'type' => 'text',
+										'label' => __('Title', 'traveler'),
+										'name' => 'extra[title]'
+									),
+									array(
+										'type' => 'text',
+										'label' => __('Name', 'traveler'),
+										'name' => 'extra[extra_name]',
+										'std' => 'extra_'
+									),
+									array(
+										'type' => 'text',
+										'label' => __('Max of number', 'traveler'),
+										'name' => 'extra[extra_max_number]',
+									),
+									array(
+										'type' => 'text',
+										'label' => __('Price', 'traveler'),
+										'name' => 'extra[extra_price]',
+									),
+									array(
+										'type' => 'select',
+										'label' => __('Required Extra', 'traveler'),
+										'name' => 'extra[extra_required]',
+										'options' => array(
+											'off' => __('Off', 'traveler'),
+											'on' => __('On', 'traveler'),
+										),
+									),
+									array(
+										'type' => 'select',
+										'label' => __('Price type', 'traveler'),
+										'name' => 'extra[extra_price_type]',
+										'options' => array(
+											'by_day' => __('By day', 'traveler'),
+											'fixed' => __('Fixed', 'traveler'),
+										),
+									),
+								)
+							),
+							array(
+								'type' => 'text',
+								'label' => __('Discount rate', 'traveler'),
+								'name' => 'discount',
+								'col' => '6',
+								'plh' => '',
+								'clear' => true,
+								'std' => '0',
+								'required' => false
+							),
+							array(
+								'type' => 'select',
+								'label' => __('Create sale schedule', 'traveler'),
+								'name' => 'is_sale_schedule',
+								'col' => '6',
+								'plh' => '',
+								'required' => false,
+								'options' => array(
+									'off' => __('No', 'traveler'),
+									'on' => __('Yes', 'traveler'),
+								),
+							),
+							array(
+								'type' => 'datepicker',
+								'label' => __('Sale start date', 'traveler'),
+								'name' => 'sale_price_from',
+								'col' => '6',
+								'plh' => '',
+								'condition' => 'is_sale_schedule:is(on)',
+								'required' => true
+							),
+							array(
+								'type' => 'datepicker',
+								'label' => __('Sale end date', 'traveler'),
+								'name' => 'sale_price_to',
+								'col' => '6',
+								'plh' => '',
+								'condition' => 'is_sale_schedule:is(on)',
+								'required' => true
+							),
+							array(
+								'type' => 'select',
+								'label' => __('Deposit payment options', 'traveler'),
+								'name' => 'deposit_payment_status',
+								'col' => '6',
+								'plh' => '',
+								'required' => false,
+								'clear' => true,
+								'options' => array(
+									'' => __('Disallow Deposit', 'traveler'),
+									'percent' => __('Deposit By Percent', 'traveler'),
+								),
+							),
+							array(
+								'type' => 'text',
+								'label' => __('Deposit amount', 'traveler'),
+								'name' => 'deposit_payment_amount',
+								'col' => '6',
+								'plh' => '',
+								'condition' => __('deposit_payment_status:is(percent)'),
+								'required' => true,
+							),
+							array(
+								'type' => 'select',
+								'label' => __('Allow Cancel', 'traveler'),
+								'name' => 'st_allow_cancel',
+								'col' => '6',
+								'plh' => '',
+								'required' => false,
+								'options' => array(
+									'off' => __('No', 'traveler'),
+									'on' => __('Yes', 'traveler'),
+								),
+							),
+							array(
+								'type' => 'text',
+								'label' => __('Number of days before the arrival', 'traveler'),
+								'name' => 'st_cancel_number_days',
+								'col' => '6',
+								'plh' => '',
+								'condition' => 'st_allow_cancel:is(on)',
+								'required' => true,
+								'clear' => true
+							),
+							array(
+								'type' => 'text',
+								'label' => __('Cancellation Fee', 'traveler'),
+								'name' => 'st_cancel_percent',
+								'col' => '6',
+								'plh' => '',
+								'required' => true,
+								'condition' => 'st_allow_cancel:is(on)'
+							),
+						) ),
                         'locations' => array(
                             array(
                                 'type' => 'multi_location',

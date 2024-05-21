@@ -372,7 +372,9 @@ if (!class_exists('STCart')) {
                     $status = get_post_meta($order_id, 'status', true);
                     $payment_method = get_post_meta($order_id, 'payment_method', true);
                     if ($status == 'incomplete') {
-                        self::send_email_confirm($order_id);
+						if ( $payment_method == 'st_submit_form' ) {
+							self::send_email_confirm($order_id);
+						}
                         if ($email_to_admin === 'on') {
                             self::_send_admin_booking_email($order_id, true);
                         }
@@ -1405,7 +1407,8 @@ if (!class_exists('STCart')) {
                 } else {
                     $user_id = get_current_user_id();
                 }
-                if ($user_id) {
+				$partner_create_booking = STInput::request('add_booking_partner_field');
+                if ($user_id && empty($partner_create_booking)) {
                     //Now Update the Post Meta
                     update_post_meta($insert_post, 'id_user', $user_id);
                     //Update User Meta

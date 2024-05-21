@@ -139,7 +139,7 @@
                     update_option( 'hotel_permalink', $_POST[ 'hotel_permalink' ] );
                     update_option( 'hotel_room_permalink', $_POST[ 'hotel_room_permalink' ] );
                     update_option( 'rental_permalink', $_POST[ 'rental_permalink' ] );
-                    update_option( 'rental_room_permalink', $_POST[ 'rental_room_permalink' ] );
+                    // update_option( 'rental_room_permalink', $_POST[ 'rental_room_permalink' ] );
                     update_option( 'car_permalink', $_POST[ 'car_permalink' ] );
                     update_option( 'tour_permalink', $_POST[ 'tour_permalink' ] );
                     update_option( 'activity_permalink', $_POST[ 'activity_permalink' ] );

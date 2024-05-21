@@ -6327,13 +6327,13 @@ $spCol: var(--main-color, #5191FA);
                 left: 0;
                 background: #ED0925;
                 display: inline-block;
-                padding: 0 10px;
+                padding: 6px 10px;
                 color: #FFF;
                 font-size: 13px;
                 font-weight: 500;
                 z-index: 1;
-                height: 30px;
-                line-height: 30px;
+                // height: 30px;
+                // line-height: 30px;
 
                 @media(max-width: 479px) {
                     top: 10px;
@@ -6940,6 +6940,13 @@ $spCol: var(--main-color, #5191FA);
         &:last-child {
             border-bottom: 0px;
         }
+		&.onsale {
+			text-decoration: line-through;
+			font-size: 13px;
+			line-height: 20px;
+			color: var(--grey-color, #5E6D77);
+			border: none;
+		}
     }
 }
 

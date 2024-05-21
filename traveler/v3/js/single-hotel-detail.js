@@ -5,6 +5,9 @@
         $body: $('body'),
         isValidated: {},
         renderHtmlHotel() {
+			let number_room_search = $('input[name="room_num_search"]').val();
+			let max_adult = $('input[name="adult_number"]').attr( 'data-max-adult' );
+			let max_child = $('input[name="child_number"]').attr( 'data-max-child' );
             var data = jQuery('form.hotel-room-booking-form').serializeArray();
             jQuery('.loader-wrapper').hide();
             let priceWrapper = $('#st-price-render');
@@ -42,6 +45,8 @@
                             }
 
                             if (priceWrapper.length) {
+								$('input[name="adult_number"]').attr( 'data-max', max_adult * number_room_search );
+								$('input[name="child_number"]').attr( 'data-max', max_child * number_room_search );
                                 let priceWrapper = $('#st-price-render');
                                 $('.number-night', priceWrapper).text(response.data.number_night);
                                 $('.sale-price', priceWrapper).text(response.data.sale_price);
@@ -197,7 +202,6 @@
                 if ($('.form-more-extra .extras').length > 0) {
                     $('.form-more-extra .extras li').each(function () {
                         $(this).find('.extra-service-select').on('change', function () {
-
                             SingleHotelDetail.renderHtmlHotel();
                         })
                     });
@@ -517,11 +521,13 @@
             $('.hotel-target-book-mobile .btn-mpopup', body).on('click', function (ev) {
                 ev.preventDefault();
                 $('.fixed-on-mobile', body).toggleClass('open').fadeToggle(300);
+				$('.hotel-target-book-mobile', body).addClass('hide');
                 $(body).addClass('st_overflow');
             });
             $('.fixed-on-mobile .close-icon', body).on('click', function (ev) {
                 ev.preventDefault();
                 $('.fixed-on-mobile', body).toggleClass('open').fadeToggle(300);
+				$('.hotel-target-book-mobile', body).removeClass('hide');
                 $(body).removeClass('st_overflow');
             });
         },

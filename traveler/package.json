@@ -16,16 +16,14 @@
   "author": "Shinetheme",
   "license": "ISC",
   "dependencies": {
-    "graceful-fs": "^4.2.2",
     "axios": "^0.18.1",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
     "cross-env": "^5.2.0",
-    "grunt": "^1.0.4",
+    "graceful-fs": "^4.2.2",
     "gulp-autoprefixer": "^6.0.0",
     "gulp-sass": "^4.0.2",
     "gulp-scss": "^1.4.0",
-    "less-loader": "^4.1.0",
     "lodash": "^4.17.15",
     "natives": "^1.1.6",
     "sass-loader": "^7.1.0",
@@ -51,12 +49,11 @@
   },
   "devDependencies": {
     "css-loader": "^0.28.11",
+    "grunt": "^1.6.1",
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-uglify": "^3.4.0",
     "gulp": "^3.9.1",
     "gulp-bower": "0.0.14",
-    "less": "^4.1.2",
-    "node-sass": "^4.14.0",
     "style-loader": "^0.21.0"
   },
   "bugs": {

@@ -42,7 +42,7 @@
 
     }
 
-	$currency = TravelHelper::_get_currency_book_history( $item_id );
+	$currency = get_post_meta( $item_id, 'currency', true );
 
     $rate     = floatval( get_post_meta( $item_id, 'currency_rate', true ) );
 
@@ -454,7 +454,7 @@
 
                                             if ( !empty( $check_in ) ) {
 
-                                                $check_in = date( 'm/d/Y', strtotime( $check_in ) );
+                                                $check_in = date( TravelHelper::getDateFormat(), strtotime( $check_in ) );
 
                                             } else {
 
@@ -488,7 +488,7 @@
 
                                             if ( !empty( $check_out ) ) {
 
-                                                $check_out = date( 'm/d/Y', strtotime( $check_out ) );
+                                                $check_out = date( TravelHelper::getDateFormat(), strtotime( $check_out ) );
 
                                             } else {
 
@@ -681,6 +681,44 @@
 
                                 </div>
 
+								<?php
+								if(!empty($discount_rate = get_post_meta($item_id, 'discount_rate', true))){
+									$discount_type = get_post_meta($order_item_id, 'discount_type', true);
+									?>
+									<div class="form-row">
+										<label class="form-label" for="">
+											<?php echo __('Discount/Person', 'traveler'); ?>
+										</label>
+										<div class="controls">
+											<strong>
+												<?php
+												if ($discount_type == 'amount') {
+													echo TravelHelper::format_money_from_db($discount_rate, $currency);
+												} else {
+													echo esc_html($discount_rate) . '%';
+												} ?>
+											</strong>
+										</div>
+									</div>
+								<?php } ?>
+
+								<?php
+								$data_price = get_post_meta($item_id, 'data_prices', true);
+								$total_price_origin  = floatval($data_price['total_price_origin']);
+								$total_bulk_discount = !empty($data_price['total_bulk_discount']) ? floatval($data_price['total_bulk_discount']) : '';
+								if($total_bulk_discount > 0){
+									?>
+									<div class="form-row">
+										<label class="form-label" for=""><?php _e( 'Bulk Discount', 'traveler' ) ?></label>
+										<div class="controls">
+											<strong>
+												- <?php echo TravelHelper::format_money_from_db($total_bulk_discount, $currency); ?>
+											</strong>
+										</div>
+									</div>
+								<?php } ?>
+
+
                                 <div class="form-row">
 
                                     <label class="form-label"
@@ -715,23 +753,24 @@
 
                                         <?php if ( is_array( $extra_price ) && count( $extra_price ) ): ?>
 
-                                            <table class="table" style="table-layout: fixed;" width="200">
+                                            <table class="table" style="table-layout: fixed;" width="300">
 
                                                 <?php foreach ( $extra_price as $key => $val ): ?>
 
                                                     <tr>
 
-                                                        <td width="80%">
+                                                        <td width="50%">
 
                                                             <label for="<?php echo esc_attr($val[ 'extra_name' ]); ?>"
-
-                                                                   class="ml20"><strong><?php echo esc_attr($val[ 'title' ]); ?></strong></label>
+                                                                class="ml20">
+																<strong><?php echo esc_html( $val['title'] ) . '(' . TravelHelper::format_money_from_db( $val['extra_price'], $currency ) . ')'; ?></strong>
+															</label>
 
                                                         </td>
 
-                                                        <td width="20%">
+                                                        <td width="50%">
 
-                                                            <strong><?php echo (int) $data_number[ $val[ 'extra_name' ] ]; ?></strong>
+                                                            <strong><?php echo (int) $data_number[ $val[ 'extra_name' ] ] . __(' Item(s)', 'traveler'); ?></strong>
 
                                                         </td>
 
@@ -747,25 +786,19 @@
 
                                 </div>
 
-                                <?php
+								<?php if ( st()->get_option( 'tax_enable', 'off' ) == 'on' && st()->get_option( 'st_tax_include_enable', 'off' ) == 'off' ) { ?>
+									<div class="form-row">
+										<label class="form-label" for=""><?php _e( 'Tax', 'traveler' ) ?></label>
+										<div class="controls">
+											<?php
+												$tax = floatval( st()->get_option( 'tax_value', 0 ) );
+											?>
+											<strong><?php echo esc_attr( $tax ) . '(%)'; ?></strong>
+										</div>
+									</div>
+								<?php } ?>
 
-                                if(!empty($booking_fee_price = get_post_meta($item_id, 'booking_fee_price', true))){
 
-                                    ?>
-
-                                    <div class="form-row">
-
-                                        <label class="form-label" for=""><?php _e( 'Fee', 'traveler' ) ?></label>
-
-                                        <div class="controls">
-
-                                            <strong><?php echo TravelHelper::format_money_from_db($booking_fee_price ,$currency); ?></strong>
-
-                                        </div>
-
-                                    </div>
-
-                                <?php } ?>
                                 <div class="form-row">
                                     <?php $coupon_code = get_post_meta($item_id, 'coupon_code', true); ?>
                                     <label class="form-label" for=""><?php echo _e('Coupon code: ','traveler');?><?php echo esc_html($coupon_code);?></label>
@@ -783,6 +816,32 @@
                                     </div>
 
                                 </div>
+
+								<?php
+								$deposit_status = get_post_meta($item_id, 'deposit_money', true);
+								if((is_array($deposit_status) && !empty($deposit_status['type']) && floatval($deposit_status['amount']) > 0)){
+									$deposit_price = isset($data_price['deposit_price']) ? $data_price['deposit_price'] : 0;
+									?>
+									<div class="form-row">
+										<label class="form-label" for=""><?php _e( 'Deposit', 'traveler' ) ?></label>
+										<div class="controls">
+											<strong><?php echo TravelHelper::format_money_from_db($deposit_price ,$currency); ?></strong>
+										</div>
+									</div>
+								<?php } ?>
+
+								<?php
+
+                                if(!empty($booking_fee_price = get_post_meta($item_id, 'booking_fee_price', true))){
+                                    ?>
+                                    <div class="form-row">
+                                        <label class="form-label" for=""><?php _e( 'Fee', 'traveler' ) ?></label>
+                                        <div class="controls">
+                                            <strong><?php echo TravelHelper::format_money_from_db($booking_fee_price ,$currency); ?></strong>
+                                        </div>
+                                    </div>
+                                <?php } ?>
+
                                 <div class="form-row">
 
                                     <label class="form-label" for=""><?php _e( 'Pay Amount', 'traveler' ) ?></label>

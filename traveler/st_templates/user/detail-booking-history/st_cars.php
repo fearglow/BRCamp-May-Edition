@@ -125,7 +125,7 @@ $price = get_post_meta($order_id,'item_price',true);
                     <div class="col-md-12">
                         <div class="item_booking_detail">
                             <strong><?php esc_html_e("Car Price:",'traveler') ?> </strong>
-                            <?php echo TravelHelper::format_money($price);
+                            <?php echo TravelHelper::format_money_from_db($price, $currency);
                             ?> / <?php echo STCars::get_price_unit_by_unit_id($data_prices['unit'] , 'plural');
                             ?>
                         </div>
@@ -156,7 +156,7 @@ $price = get_post_meta($order_id,'item_price',true);
                     <div class="col-md-6 <?php if(empty($price_equipment)) echo "hide"; ?>">
                         <div class="item_booking_detail">
                             <strong><?php esc_html_e("Equipment Price:",'traveler') ?> </strong>
-                            <?php echo TravelHelper::format_money($price_equipment);
+                            <?php echo TravelHelper::format_money_from_db($price_equipment, $currency);
                             $items = ST_Order_Item_Model::getOrderByID($order_id);
                             //foreach ($item[0]['raw_data'] as $key => $value) {
                             $data_equipment = json_decode($items[0]['raw_data'])->data_equipment;

@@ -161,7 +161,7 @@ jQuery(function($) {
                     $(this).html(doc.pag);
                 });
 
-                
+
             },
             complete: function () {
                 st_loadding_wishlist.hide();
@@ -287,7 +287,7 @@ jQuery(function($) {
                     $(this).html(doc.pag);
                 });
 
-                
+
             },
             complete: function () {
                 st_loadding_wishlist.hide();
@@ -413,7 +413,7 @@ jQuery(function($) {
                     $(this).html(doc.pag);
                 });
 
-                
+
             },
             complete: function () {
                 st_loadding_wishlist.hide();
@@ -540,7 +540,7 @@ jQuery(function($) {
                     $(this).html(doc.pag);
                 });
 
-                
+
             },
             complete: function () {
                 st_loadding_wishlist.hide();
@@ -665,7 +665,7 @@ jQuery(function($) {
                     $(this).html(doc.pag);
                 });
 
-                
+
             },
             complete: function () {
                 st_loadding_wishlist.hide();
@@ -690,15 +690,15 @@ jQuery(function($) {
         });
         if($('.form-add-booking-partner').length > 0){
             triggerGuestInputChange(adultNumber,childrenNumber,infantNumber);
-            $(document).on('change', '#form-add-booking-partner select[name="adult_number"]', function() { 
+            $(document).on('change', '#form-add-booking-partner select[name="adult_number"]', function() {
                 adultNumber.value = ($(this).find('option:selected').val());
                 triggerGuestInputChange(adultNumber,childrenNumber,infantNumber);
             });
-            $(document).on('change', '#form-add-booking-partner select[name="child_number"]', function() { 
+            $(document).on('change', '#form-add-booking-partner select[name="child_number"]', function() {
                 childrenNumber.value = ($(this).find('option:selected').val());
                 triggerGuestInputChange(adultNumber,childrenNumber,infantNumber);
             });
-            $(document).on('change', '#form-add-booking-partner select[name="infant_number"]', function() { 
+            $(document).on('change', '#form-add-booking-partner select[name="infant_number"]', function() {
                 infantNumber.value = ($(this).find('option:selected').val());
                 triggerGuestInputChange(adultNumber,childrenNumber,infantNumber);
             });
@@ -716,17 +716,17 @@ jQuery(function($) {
                     var hideChildren = 'off';
                     var hideInfant = 'off';
                 }
-            
+
                 var controlWraps = guestNameInput.find('.guest_name_control');
                 var controls = guestNameInput.find('.control-item');
-                
+
                 if (isNaN(children)){
                     children = 0;
                 }
                 if (isNaN(infant)){
                     infant = 0;
                 }
-                    
+
                 if (hideAdult == 'on') {
                     adult = 0;
                 }
@@ -744,13 +744,13 @@ jQuery(function($) {
                 } else {
                     // Append
                     if($('#guest_name_control_item').length > 0){
-                    
+
                         for (var i = controls.length ? (controls.length) : 0; i < adult; i++)
                         {
                             var div = $($('#guest_name_control_item').clone().html());
                             var p = div.find('input').attr('placeholder');
                             div.find('input').attr('placeholder', p.replace('%d', i + 1));
-                    
+
                             $('.guest_name_control').append(div);
                         }
 
@@ -767,6 +767,81 @@ jQuery(function($) {
                 }
             }
         }
-        
+
     });
+
+
+	$( function() {
+		var adultNumber = $('#form-booking-inpage select[name="adult_number"]');
+		var childrenNumber = $('#form-booking-inpage select[name="child_number"]');
+		var infantNumber = $('#form-booking-inpage select[name="infant_number"]');
+		var guestNameInput = $('#form-booking-inpage .guest_name_input');
+		adultNumber.on('change', triggerGuestInputChangeInbox);
+		childrenNumber.on('change', triggerGuestInputChangeInbox);
+		infantNumber.on('change', triggerGuestInputChangeInbox);
+
+		function triggerGuestInputChangeInbox(e) {
+			console.log('partner activity');
+			guestNameInput.trigger('guest-change-inbox', {
+				'adult': parseInt(adultNumber.find(":selected").val()),
+				'children': parseInt(childrenNumber.find(":selected").val()),
+				'infant': parseInt(infantNumber.find(":selected").val()),
+			});
+		};
+
+		guestNameInput.on('guest-change-inbox', function (e, number) {
+			var adult = number.adult;
+			var children = number.children;
+			var infant = number.infant;
+			var hideAdult = $(this).data('hide-adult');
+			var hideChildren = $(this).data('hide-children');
+			var controlWraps = $(this).find('.guest_name_control');
+			var controls = controlWraps.find('.control-item');
+			if (isNaN(children)){
+				children = 0;
+			}
+
+			if (isNaN(infant)){
+				infant = 0;
+			}
+
+			if (hideAdult == 'on') {
+				adult = 0;
+			}
+
+			if (typeof hideChildren == 'undefined' || hideChildren != 'on'){
+				adult += children+infant;
+			}
+			console.log('adult', adult);
+
+
+			//adult-=1;// Only input guest >=2 name
+
+			if (adult <= 0) {
+				$(this).addClass('d-none');
+			} else {
+				// Append
+				for (var i = controls.length ? (controls.length) : 0; i < adult; i++)
+				{
+					var div = $($('#guest_name_control_item').clone().html());
+					var p = div.find('input').attr('placeholder');
+					div.find('input').attr('placeholder', p.replace('%d', i + 1));
+
+					controlWraps.append(div);
+				}
+
+				// Remove
+				controls.each(function () {
+					if ($(this).index() > adult - 1)
+					{
+						$(this).remove();
+					}
+				});
+
+				$(this).removeClass('d-none');
+			}
+		});
+
+		triggerGuestInputChangeInbox();
+	} );
 });

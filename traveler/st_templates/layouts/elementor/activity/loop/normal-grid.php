@@ -11,9 +11,9 @@ if(isset($_REQUEST['location_id'])) {
 $url=st_get_link_with_search(get_permalink(),array('start','date','duration','people'),$_REQUEST);
 
 if (!empty($item_row)) {
-                            
+
     $class = 'col-lg-' . (12 / $item_row).' col-sm-6 col-md-6';
-    
+
 } else {
     $class='col-12 col-sm-6 col-md-4 col-lg-4';
 }
@@ -49,7 +49,7 @@ if( !empty($slider) && $slider === 'slider'){
             <a href="<?php echo esc_url($url); ?>" itemprop="url">
                 <?php
                 if(has_post_thumbnail()){
-                    the_post_thumbnail(array(450, 300), array('alt' => TravelHelper::get_alt_image(), 'itemprop' => 'image', 'class' => 'img-responsive'));
+                    the_post_thumbnail(array(900, 600), array('alt' => TravelHelper::get_alt_image(), 'itemprop' => 'image', 'class' => 'img-responsive'));
                 }else{
                     echo '<img itemprop="photo" src="'. get_template_directory_uri() . '/img/no-image.png' .'" alt="Default Thumbnail" class="img-responsive" />';
                 }
@@ -59,16 +59,16 @@ if( !empty($slider) && $slider === 'slider'){
             <?php echo st_get_avatar_in_list_service(get_the_ID(),70)?>
         </div>
         <div class="content-item" itemscope itemtype="https://schema.org/Place">
-            
+
             <h3 class="title" itemprop="name"><a href="<?php echo esc_url($url); ?>"><?php echo get_the_title(); ?></a></h3>
             <?php if ($address = get_post_meta(get_the_ID(), 'address', TRUE)): ?>
                 <p class="service-location plr15 location" itemprop="location">
-                    <span itemprop="address" itemscope itemtype="https://schema.org/PostalAddress"> 
+                    <span itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
                         <?php echo TravelHelper::getNewIcon('Ico_maps', '#666666', '15px', '15px', true); ?><?php echo esc_html($address); ?>
                     </span>
                 </p>
             <?php endif;?>
-            <?php 
+            <?php
                 $datetime = date("Y-m-d H:i:s");
 
                  // Updated ISO8601
@@ -86,7 +86,7 @@ if( !empty($slider) && $slider === 'slider'){
                             </ul>
                         <?php }
                     ?>
-                    
+
                     <?php
                     $count_review = get_comment_count(get_the_ID())['approved'];
                     ?>

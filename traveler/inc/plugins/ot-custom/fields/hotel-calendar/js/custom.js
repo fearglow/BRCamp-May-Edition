@@ -48,11 +48,23 @@ jQuery(function($){
 					self.fullCalendar.unselect();
 					setCheckInOut("", "", self.form_container);
 				} else {
+					let starts = moment(start)
+						.subtract(
+							moment(start).utcOffset(),
+							'minutes'
+						).utc().toDate();
+
+					let ends = moment(end)
+						.subtract(
+							moment(end).utcOffset(),
+							'minutes'
+						).utc().toDate();
+
 					var zone = moment(start).format("Z");
 					zone = zone.split(":");
 					zone = "" + parseInt(zone[0]) + ":00";
-					var check_in = moment(start).utcOffset(zone).format(String(st_params.dateformat || "MM/DD/YYYY").toUpperCase());
-					var check_out = moment(end).utcOffset(zone).subtract(1, 'day').format(String(st_params.dateformat || "MM/DD/YYYY").toUpperCase());
+					var check_in = moment(starts).utcOffset(zone).format(String(st_params.dateformat || "MM/DD/YYYY").toUpperCase());
+					var check_out = moment(ends).utcOffset(zone).subtract(1, 'day').format(String(st_params.dateformat || "MM/DD/YYYY").toUpperCase());
 					setCheckInOut(check_in, check_out, self.form_container);
 				}
 			},
@@ -157,12 +169,22 @@ jQuery(function($){
 				jsEvent,
 				view
 			}) {
-				let startTime = moment(event.start, String(st_params.dateformat || "MM/DD/YYYY").toUpperCase())
-					.format(String(st_params.dateformat || 'MM/DD/YYYY').toUpperCase());
+				let starts = moment(event.start)
+					.subtract(
+						moment(event.start).utcOffset(),
+						'minutes'
+					).utc().toDate();
+
+				let ends = moment(event.end)
+					.subtract(
+						moment(event.end).utcOffset(),
+						'minutes'
+					).utc().toDate();
+
+				let startTime = moment(starts).format(String(st_params.dateformat || 'MM/DD/YYYY').toUpperCase());
 				let endTime;
 				if (event.end) {
-					endTime = moment(event.end, String(st_params.dateformat || "MM/DD/YYYY").toUpperCase())
-						.format(String(st_params.dateformat || 'MM/DD/YYYY').toUpperCase());
+					endTime = moment(ends).format(String(st_params.dateformat || 'MM/DD/YYYY').toUpperCase());
 				} else {
 					endTime = startTime;
 				}

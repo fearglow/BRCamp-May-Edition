@@ -13,6 +13,8 @@ $item = $data;
 $item_id = $item['data']['st_booking_id'];
 $extras = isset($item['data']['data_equipment']) ? $item['data']['data_equipment'] : array();
 
+$currency = get_post_meta( $item_id, 'currency', true );
+
 ?>
 <div class="service-section">
     <div class="service-left">
@@ -78,7 +80,7 @@ $extras = isset($item['data']['data_equipment']) ? $item['data']['data_equipment
                     <span class="label"><?php echo __('Price by number of day', 'traveler'); ?></span>
                 </li>
                 <li class="extra-value">
-                    <span class="pull-left"><?php echo esc_html($item['data']['car_title_sale_price']['title_price']['title']); ?></span><span class="pull-right"> <?php echo TravelHelper::format_money($item['data']['car_title_sale_price']['title_price']['price']) ;?></span>
+                    <span class="pull-left"><?php echo esc_html($item['data']['car_title_sale_price']['title_price']['title']); ?></span><span class="pull-right"> <?php echo TravelHelper::format_money_from_db($item['data']['car_title_sale_price']['title_price']['price'], $currency) ;?></span>
                 </li>
             <?php }
         ?>
@@ -110,9 +112,9 @@ $extras = isset($item['data']['data_equipment']) ? $item['data']['data_equipment
                         <span class="pull-right">
                             <?php
                             if($price_type == 'fixed'){
-                                echo esc_html($extras['title'][$name]) . ' (' . TravelHelper::format_money($price_item) . ') x ' . esc_html($number_item) . ' ' . __('Item(s)', 'traveler');
+                                echo esc_html($extras['title'][$name]) . ' (' . TravelHelper::format_money_from_db($price_item, $currency) . ') x ' . esc_html($number_item) . ' ' . __('Item(s)', 'traveler');
                             }else{
-                                echo esc_html($extras['title'][$name]) . ' (' . TravelHelper::format_money($price_item) . ') x ' . esc_html($number_item) . ' ' . __('Item(s)', 'traveler'). ' x '.esc_html($days_extra).' '. __('Day(s)', 'traveler');
+                                echo esc_html($extras['title'][$name]) . ' (' . TravelHelper::format_money_from_db($price_item, $currency) . ') x ' . esc_html($number_item) . ' ' . __('Item(s)', 'traveler'). ' x '.esc_html($days_extra).' '. __('Day(s)', 'traveler');
                             }
 
                             ?>

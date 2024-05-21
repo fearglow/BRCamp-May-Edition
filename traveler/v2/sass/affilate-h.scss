@@ -464,3 +464,12 @@
   }
 
 }
+
+
+.page-template-template-tp-flights-search-modern,
+.page-template-template-tp-flights-search {
+	overflow: auto !important;
+	&:not(.admin-bar) iframe {
+		top: 0 !important;
+	}
+}

@@ -667,7 +667,7 @@ jQuery(function($) {
                 }
                 var current_url = $('#current_url_hotel').val();
                 if (!required) {
-                    window.location.href = current_url + '/hotels/?' + param
+                    window.location.href = current_url + '/hotels?' + param
                 }
             })
         })

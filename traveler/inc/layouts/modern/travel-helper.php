@@ -236,6 +236,7 @@ if (!class_exists('TravelHelper')) {
                 add_action('template_redirect', [__CLASS__, 'change_language_wpml']);
             }
             add_action('template_redirect', [__CLASS__, 'change_current_currency']);
+			add_action( 'init', [__CLASS__, 'set_currency_woo'] );
 
             //Currency
             if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
@@ -885,6 +886,15 @@ if (!class_exists('TravelHelper')) {
         static function get_currency_cookie() {
             return isset( $_COOKIE['currency'] ) ? unserialize(stripslashes(gzuncompress(base64_decode($_COOKIE['currency'])))) : false;
         }
+
+		static function set_currency_woo() {
+			if ( st_check_is_checkout_woocomerce( false ) && is_plugin_active( 'woocommerce-currency-switcher/index.php' ) && class_exists( 'WOOCS' ) ) {
+				global $WOOCS;
+				$current = self::get_current_currency('name');
+				$WOOCS->set_currency( $current );
+			}
+		}
+
         static function change_current_currency($currency_name = false) {
             $change_currencyds = self::get_currency_cookie('change_currencyds');
 

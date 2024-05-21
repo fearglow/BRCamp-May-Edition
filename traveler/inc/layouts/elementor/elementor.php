@@ -30,7 +30,7 @@ class ST_Elementor {
 	}
 
 	public function select_tax_ajax(){
-		
+
 	}
 	public function _select2_ajax() {
 		check_ajax_referer( 'security', 'security' );
@@ -75,7 +75,7 @@ class ST_Elementor {
 			'results' => $items,
 		]);
 	}
-	
+
 	public function get_post_ajax() {
 		$string    = ! empty( $_GET['s'] ) ? $_GET['s'] : '';
 		$post_type = ! empty( $_GET['post_type'] ) ? $_GET['post_type'] : 'post';
@@ -258,26 +258,28 @@ class ST_Elementor {
 	public static function listSerrviceSelectionName( $item_exclude = [] ) {
 		$option        = get_option( st_options_id() );
 		$array_service = apply_filters('st_services_core', [
-			'st_tours'    => __( 'Tour', 'traveler' ),
-			'st_hotel'    => __( 'Hotel', 'traveler' ),
-			'st_activity' => __( 'Activity', 'traveler' ),
-			'st_rental'   => __( 'Rental', 'traveler' ),
-			'st_cars'     => __( 'Car Rental', 'traveler' ),
-			'tp_flight'   => __( 'TravelerPayout Flight', 'traveler' ),
-			'tp_hotel'    => __( 'TravelerPayout Hotel', 'traveler' ),
-			'bookingdc'   => __( 'Booking.com', 'traveler' ),
-			'expedia'     => __( 'Expedia', 'traveler' ),
+			'st_tours'       => __( 'Tour', 'traveler' ),
+			'st_hotel'       => __( 'Hotel', 'traveler' ),
+			'st_activity'    => __( 'Activity', 'traveler' ),
+			'st_rental'      => __( 'Rental', 'traveler' ),
+			'st_cars'        => __( 'Car Rental', 'traveler' ),
+			'tp_flight'      => __( 'TravelerPayout Flight', 'traveler' ),
+			'tp_hotel'       => __( 'TravelerPayout Hotel', 'traveler' ),
+			'bookingdc'      => __( 'Booking.com', 'traveler' ),
+			'expedia'        => __( 'Expedia', 'traveler' ),
+			'st_cartransfer' => __( 'Transfercar', 'traveler' )
 		]);
 
-		$array_service = array_diff( $array_service, $item_exclude );
+		// $array_service = array_diff( $array_service, $item_exclude );
 		$disable_list  = isset( $option['list_disabled_feature'] ) ? $option['list_disabled_feature'] : [];
 		foreach ( $disable_list as $service_disable ) {
 			unset( $array_service[ $service_disable ] );
 		}
-		if ( ! in_array( 'st_cartransfer', $item_exclude ) ) {
-			if ( ! in_array( 'st_cars', $disable_list ) ) {
-				$array_service['st_cartransfer'] = __( 'Transfercar', 'traveler' );
 
+		if ( !empty( $item_exclude ) ) {
+			$item_exclude = explode( ',', $item_exclude[0] );
+			foreach ( $item_exclude as $exclude ) {
+				unset( $array_service[ $exclude ] );
 			}
 		}
 		return $array_service;

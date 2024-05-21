@@ -64,6 +64,7 @@
         initGallery() {
             let sliderEl = $('.st-gallery.style-slider');
             if (sliderEl.length) {
+				let rtl = sliderEl.data('rtl');
                 let sliderItems = 2;
                 $('.owl-carousel', sliderEl).on('initialized.owl.carousel changed.owl.carousel', function (e) {
                     if (!e.namespace) {
@@ -78,6 +79,7 @@
                     margin: 10,
                     dots: false,
                     nav: true,
+					rtl: rtl == 'on' ? true : false,
                     responsive: {
                         768: {
                             center: true,

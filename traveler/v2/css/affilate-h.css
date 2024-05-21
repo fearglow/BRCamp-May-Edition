@@ -418,4 +418,13 @@
   }
 }
 
+.page-template-template-tp-flights-search-modern,
+.page-template-template-tp-flights-search {
+  overflow: auto !important;
+}
+.page-template-template-tp-flights-search-modern:not(.admin-bar) iframe,
+.page-template-template-tp-flights-search:not(.admin-bar) iframe {
+  top: 0 !important;
+}
+
 /*# sourceMappingURL=affilate-h.css.map */

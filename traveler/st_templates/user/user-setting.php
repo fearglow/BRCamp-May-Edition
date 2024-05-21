@@ -39,8 +39,8 @@ $role = array_shift($role);
                 <div class="partner-package-info">
                     <div class="row">
                         <div class="col-xs-12 col-sm-4">
-                            <div class="packages-heading">
-                                <img src="<?php echo get_template_directory_uri(); ?>/img/membership.png" alt="<?php echo TravelHelper::get_alt_image(); ?>" class="heading-image img-responsive">
+                            <div class="packages-heading" style="font-size: 24px;">
+								<?= esc_html__( 'Membership Package', 'traveler' ) ?>
                             </div>
                             <h3 class="uppercase color-main"><strong><?php echo esc_html($order->package_name ); ?></strong></h3>
                             <?php
@@ -123,26 +123,26 @@ $role = array_shift($role);
                                         $date = strtotime('+'. (int) $order->package_time . ' days', $order->created);
                                         echo $date_end = date('Y-m-d', $date);
                                     }
-                                    
+
                                     ?>
                                 </strong>
-                                
-                                
+
+
                             </p>
-                           
-                            <?php 
+
+                            <?php
                              $number_left = STDate::dateDiff(date('Y-m-d'),$date_end);
                                 if($number_left > 0){ ?>
                                     <p class="text-center">
                                     <strong>
-                                        <?php 
+                                        <?php
                                         echo esc_html($number_left);
                                         echo ( $number_left == 1 ) ? __( ' (Day left)', 'traveler' ) : __( ' (Days left)', 'traveler' ); ?>
                                     </strong>
                                 </p>
                                 <?php }
                             ?>
-                            
+
                             <h5 class="text-center"><?php echo __('Services', 'traveler'); ?></h5>
                             <p class="text-center">
                                 <strong>
@@ -170,8 +170,8 @@ $role = array_shift($role);
             <div class="row mb20">
                 <div class="col-xs-12">
                     <div class="partner-package-info">
-                        <div class="packages-heading">
-                            <img src="<?php echo get_template_directory_uri(); ?>/img/membership.png" alt="<?php echo TravelHelper::get_alt_image(); ?>" class="heading-image img-responsive">
+                        <div class="packages-heading" style="font-size: 24px;">
+							<?= esc_html__( 'Membership Package', 'traveler' ) ?>
                         </div>
                         <p class="text-warning">
                             <?php echo __('Your account need to register a membership package to continue using.', 'traveler'); ?>
@@ -227,14 +227,14 @@ $role = array_shift($role);
                     <label for="st_email"><?php st_the_language('user_mail') ?></label>
                     <input name="st_email" class="form-control" value="<?php echo esc_attr($data->user_email) ?>" type="text" />
                 </div>
-                <?php 
+                <?php
                     @ob_start();
                 ?>
                 <div class="form-group form-group-filled">
                     <label for="st_phone"><?php st_the_language('user_phone_number') ?></label>
                     <input name="st_phone" class="form-control" value="<?php echo esc_attr(get_user_meta($data->ID , 'st_phone' , true)) ?>" type="text" />
                 </div>
-                <?php 
+                <?php
                     $html= @ob_get_clean();
                     echo apply_filters('st_user_settings_phone_field', $html, $data);
                 ?>

@@ -110,10 +110,19 @@ if (STInput::get('scaction') == 'email-notification') {
                             $total_price = get_post_meta($post_id, 'total_price', true);
                         } else {
                             $total_price = get_post_meta($post_id, '_order_total', true);
+							if ( empty( $total_price ) ) {
+								global $wpdb;
+								$querystr = "SELECT total_amount
+											FROM  " . $wpdb->prefix . "wc_orders
+											WHERE
+											id = '{$post_id}'
+											";
+								$total_price = $wpdb->get_row( $querystr, OBJECT )->total_amount;
+							}
                         }
 
-                        $currency = TravelHelper::_get_currency_book_history($post_id);
-                        echo TravelHelper::format_money($total_price);
+						$currency = get_post_meta( $post_id, 'currency', true );
+                        echo TravelHelper::format_money_from_db($total_price, $currency);
                         ?>
                     </td>
                     <td class="hidden-xs"><?php echo date_i18n($format, strtotime($value->created)) ?></td>

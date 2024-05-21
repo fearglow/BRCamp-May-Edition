@@ -51,7 +51,7 @@ if(empty($sidebar_pos))
                     }
                     ?>
                 </div>
-                
+
             </div>
         </div>
     </div>

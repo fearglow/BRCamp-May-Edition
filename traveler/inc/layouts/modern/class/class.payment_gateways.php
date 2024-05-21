@@ -93,7 +93,7 @@
             static function get_payment_gateways_html( $post_id = false, $style = false)
             {
                 if(New_Layout_Helper::isNewLayout()) {
-                    $all = self::get_payment_gateways();
+					$all = apply_filters( 'st_payment_gateways_order', self::get_payment_gateways() );
                     if (is_array($all) and !empty($all)) {
                         $i = 1;
                         $available = [];

@@ -23,14 +23,9 @@ if(isset($slider) and $slider)
 <div class="<?php echo esc_attr($class); ?>">
     <div class="item has-matchHeight">
         <div class="thumb featured-image">
-            <?php
-                $is_featured = get_post_meta( $post_translated, 'is_featured', true );
-                if ( $is_featured == 'on' ) {
-                    ?>
-                    <div class="featured"><?php echo esc_html__( 'Bestseller', 'traveler' ) ?></div>
-                    <?php
-                }
-            ?>
+			<div class="service-tag bestseller">
+                <?php echo STFeatured::get_featured(); ?>
+            </div>
             <?php if (is_user_logged_in()) { ?>
                 <?php $data = STUser_f::get_icon_wishlist(); ?>
                 <div class="service-add-wishlist login <?php echo ($data['status']) ? 'added' : ''; ?>"

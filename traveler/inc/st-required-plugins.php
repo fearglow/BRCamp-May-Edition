@@ -47,7 +47,7 @@ if(!class_exists('STRequiredPlugins'))
                     'slug'               => 'st-option-tree', // The plugin slug (typically the folder name).
                     'source'                => 'http://shinetheme.com/demosd/plugins/traveler/st-option-tree.zip', // The plugin source.
                     'required'           => true, // If false, the plugin is only 'recommended' instead of required.
-                    'version'            => "2.7.4.4",
+                    'version'            => "2.7.5",
                 ),
                 array(
                     'name'      =>'MailChimp for WordPress',
@@ -69,7 +69,7 @@ if(!class_exists('STRequiredPlugins'))
                     'slug'      => 'traveler-layout-essential-for-elementor',
                     'required'  => false,
                     'source'     => 'http://shinetheme.com/demosd/plugins/traveler/traveler-layout-essential-for-elementor.zip',
-                    'version'     => "1.0.3",
+                    'version'     => "1.0.7",
                 )
             );
             array_push($plugins,
@@ -85,7 +85,7 @@ if(!class_exists('STRequiredPlugins'))
                     'slug'               => 'js_composer', // The plugin slug (typically the folder name).
                     'source'                => 'http://shinetheme.com/demosd/plugins/traveler/js_composer.zip', // The plugin source.
                     'required'           => true, // If false, the plugin is only 'recommended' instead of required.
-                    'version'            => "7.3",
+                    'version'            => "7.6",
                 )
             );
 

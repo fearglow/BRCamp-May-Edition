@@ -54,7 +54,7 @@ if ($ids) {
             if (!st_check_service_available('st_tours')) {
                 break;
             }
-            
+
             $query = new WP_Query($args);
             if ($query->have_posts()) {
                 while ($query->have_posts()):
@@ -69,7 +69,7 @@ if ($ids) {
             if (!st_check_service_available('st_activity')) {
                 break;
             }
-            
+
             $query = new WP_Query($args);
             if ($query->have_posts()) {
                 while ($query->have_posts()):
@@ -84,6 +84,15 @@ if ($ids) {
             if (!st_check_service_available('st_cars')) {
                 break;
             }
+			$args['meta_query'] = [
+				'relation' => 'AND',
+				[
+					'key'     => 'car_type',
+					'value'   => 'normal',
+					'type'    => 'CHAR',
+					'compare' => '=',
+				],
+			];
             $query = new WP_Query($args);
             if ($query->have_posts()) {
                 while ($query->have_posts()):
@@ -98,7 +107,7 @@ if ($ids) {
             if (!st_check_service_available('st_rental')) {
                 break;
             }
-           
+
             $query = new WP_Query($args);
             if ($query->have_posts()) {
                 while ($query->have_posts()):
@@ -107,7 +116,7 @@ if ($ids) {
                 endwhile;
             }
             $post = $old_post;
-            break;    
+            break;
     }
     ?>
 </div>

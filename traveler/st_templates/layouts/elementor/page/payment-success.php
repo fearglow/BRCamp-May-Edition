@@ -72,6 +72,9 @@ do_action( 'st_destroy_cart_complete' );
 			if ( isset( $_REQUEST['order_token_code'] ) && $status_order !== 'complete' && $st_payment_method === 'st_razor' ) {
 				do_action( 'st_receipt_st_razor', $order_code );
 			}
+			if ( isset( $_REQUEST['order_token_code'] ) && $status_order !== 'complete' && $st_payment_method === 'st_iyzico' ) {
+				do_action( 'st_receipt_st_iyzico', $order_code );
+			}
 			if ( isset( $_REQUEST['order_token_code'] ) && $status_order === 'complete' && $st_payment_method === 'st_razor' ) {
 				do_action( 'st-sendmail-razor-pay', $order_code );
 			}

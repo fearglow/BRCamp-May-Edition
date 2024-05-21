@@ -549,7 +549,7 @@ class ST_Admin_Settings extends STAdmin
                         $all[$field['id']] = array_values($all[$field['id']]);
                         break;
                     case "checkbox":
-                        $all[$field['id']] = isset($all[$field['id']]) ? array_values($all[$field['id']]) : [];
+                        $all[$field['id']] = !empty($all[$field['id']]) ? array_values($all[$field['id']]) : [];
                         break;
                 }
                 $model[$field['id']] = isset($all[$field['id']]) ? $all[$field['id']] : '';
@@ -1836,16 +1836,7 @@ class ST_Admin_Settings extends STAdmin
                 'post_type' => 'st_template_email',
                 'sparam' => 'page',
                 'section' => 'option_email_partner',
-            ],
-            [
-                'id' => 'partner_resend_email_for_admin',
-                'label' => __('[Register] Resend email to administrator', 'traveler'),
-				'desc' => 'Title: New Update Certificate Partner...',
-                'type' => 'post-select-ajax',
-                'post_type' => 'st_template_email',
-                'sparam' => 'page',
-                'section' => 'option_email_partner',
-            ],
+			],
             [
                 'id' => 'user_register_email_for_admin',
                 'label' => __('[Register normal user] Email to administrator', 'traveler'),
@@ -3185,7 +3176,7 @@ class ST_Admin_Settings extends STAdmin
             [
                 'id' => 'enable_email_confirm_for_customer',
                 'label' => __('Email confirm to customer after booking', 'traveler'),
-                'desc' => __('Email confirm to customer after booking', 'traveler'),
+                'desc' => __('Email confirm to customer after booking - for Modal Checkout Bank Transfer only', 'traveler'),
                 'type' => 'on-off',
                 'std' => 'on',
                 'section' => 'option_email',
@@ -4520,29 +4511,7 @@ class ST_Admin_Settings extends STAdmin
                 'choices' => TravelHelper::get_currency(true),
                 'std' => 'USD'
             ],
-            [
-                'id' => 'booking_currency_conversion',
-                'label' => __('Currency conversion', 'traveler'),
-                'desc' => __('It is used to convert any currency into dollars (USD) when booking in paypal with the currencies having not been supported yet.', 'traveler'),
-                'type' => 'list-item',
-                'section' => 'option_booking',
-                'settings' => [
-                    [
-                        'id' => 'name',
-                        'label' => __('Currency Name', 'traveler'),
-                        'type' => 'select',
-                        'operator' => 'and',
-                        'choices' => TravelHelper::ot_all_currency()
-                    ],
-                    [
-                        'id' => 'rate',
-                        'label' => __('Exchange rate', 'traveler'),
-                        'type' => 'text',
-                        'operator' => 'and',
-                        'desc' => __('Exchange rate vs primary currency. Set "1" if it\'s already the primary currency', 'traveler')
-                    ],
-                ]
-            ],
+
             [
                 'id' => 'is_guest_booking',
                 'label' => __('Allow guest booking', 'traveler'),
@@ -4606,7 +4575,7 @@ class ST_Admin_Settings extends STAdmin
                 'id' => 'use_woocommerce_for_booking',
                 'section' => 'option_booking',
                 'label' => __('Use WooCommerce checkout', 'traveler'),
-                'desc' => __('Enable/disable Woocomerce for Booking. If you use single currency, set same currency rate in both Theme Settings > Booking Option > List of currencies and WooCommerces > Settings > General - Currency. If you use multi currencies, install WOOCS - WooCommerce Currency Switcher plugin then set up same currency rate in both Theme Settings > Booking Option > List of currencies and WooCommerces > Settings > Currency. And WOOCS - WooCommerce Currency Switcher free allow 2 currency only', 'traveler'),
+                'desc' => __('Enable/disable Woocommerce Checkout. Follow this document to set required pages: https://travelerwp.com/how-to-set-up-checkout-options-and-payment-methods/', 'traveler'),
                 'type' => 'on-off',
                 'std' => 'off',
             ],
@@ -4614,7 +4583,7 @@ class ST_Admin_Settings extends STAdmin
                 'id' => 'multi_item_in_cart',
                 'section' => 'option_booking',
                 'label' => __('Multi item in cart', 'traveler'),
-                'desc' => __('If enabled, the customer cannot cancel the booking. Only the admin can cancel the whole order in WPAdmin. If disable multi-item-cart, the customer can cancel the booking in the User Dashboard. ', 'traveler'),
+                'desc' => __('If enabled, the customer cannot cancel the booking in the User Dashboard. Only the admin can cancel the whole order in WPAdmin.', 'traveler'),
                 'type' => 'on-off',
                 'condition' => "use_woocommerce_for_booking:is(on)",
                 'std' => 'off',
@@ -4709,33 +4678,33 @@ class ST_Admin_Settings extends STAdmin
             ],
             /* ------------- End Booking Option -------------- */
         ];
-        if (function_exists('icl_get_languages')) {
-            $custom_settings_currency_mapping = [
-                [
-                    'id' => 'booking_currency_mapping_detect',
-                    'label' => __('Auto detect currency by language', 'traveler'),
-                    'type' => 'on-off',
-                    'section' => 'option_booking',
-                    'std' => 'off'
-                ],
-                [
-                    'id' => 'booking_currency_mapping',
-                    'label' => __('Mapping currencies', 'traveler'),
-                    'desc' => __('Mapping currency with language', 'traveler'),
-                    'type' => 'st_mapping_currency',
-                    'condition' => 'booking_currency_mapping_detect:is(on)',
-                    'section' => 'option_booking',
-                    'sdata' => [
-                        'langs' => icl_get_languages('skip_missing=0'),
-                        'list_currency' => st()->get_option('booking_currency'),
-                        'mapping_currency' => get_option('mapping_currency_' . ICL_LANGUAGE_CODE)
-                    ]
-                ]
-            ];
-            array_splice($r, 5, 0, $custom_settings_currency_mapping);
-        }
+        // if (function_exists('icl_get_languages')) {
+        //     $custom_settings_currency_mapping = [
+        //         [
+        //             'id' => 'booking_currency_mapping_detect',
+        //             'label' => __('Auto detect currency by language', 'traveler'),
+        //             'type' => 'on-off',
+        //             'section' => 'option_booking',
+        //             'std' => 'off'
+        //         ],
+        //         [
+        //             'id' => 'booking_currency_mapping',
+        //             'label' => __('Mapping currencies', 'traveler'),
+        //             'desc' => __('Mapping currency with language', 'traveler'),
+        //             'type' => 'st_mapping_currency',
+        //             'condition' => 'booking_currency_mapping_detect:is(on)',
+        //             'section' => 'option_booking',
+        //             'sdata' => [
+        //                 'langs' => icl_get_languages('skip_missing=0'),
+        //                 'list_currency' => st()->get_option('booking_currency'),
+        //                 'mapping_currency' => get_option('mapping_currency_' . ICL_LANGUAGE_CODE)
+        //             ]
+        //         ]
+        //     ];
+        //     array_splice($r, 5, 0, $custom_settings_currency_mapping);
+        // }
 
-        return $r;
+        return apply_filters( 'traveler_booking_settings', $r );
     }
 
     public function __locationSettings()
@@ -5128,6 +5097,8 @@ class ST_Admin_Settings extends STAdmin
             $list_menu_style = array_merge($list_menu_style, $array_modern);
         }
         $array_menu_header_style = apply_filters('st_menu_header_style', $list_menu_style);
+
+		$custom_font = apply_filters( 'st_custom_fonts', [] );
         return [
             /* ---- .START STYLE OPTIONS ---- */
             [
@@ -5201,6 +5172,7 @@ class ST_Admin_Settings extends STAdmin
                 'output' => 'body',
                 'fonts' => st()->get_option('google_fonts')
             ],
+			$custom_font,
             [
                 'id' => 'google_fonts',
                 'label' => __('Google Fonts', 'traveler'),

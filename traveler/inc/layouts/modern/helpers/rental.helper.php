@@ -1239,6 +1239,21 @@ if (!class_exists('RentalHelper')) {
                     }
                 }
             }
+
+			$data_groupday_new = ST_Rental_Availability::inst()
+				->where('post_id', $rental_id)
+				->where('groupday', 1)
+				->get()->result();
+
+			if (!empty($data_groupday_new)) {
+				foreach ($data_groupday_new as $k => $v) {
+					if ( $v['check_in'] == strtotime( $check_in ) && $v['check_out'] == strtotime( $check_out ) ) {
+						return true;
+					} elseif ( ( $v['check_in'] <= strtotime( $check_in ) && $v['check_out'] >= strtotime( $check_in ) ) || ( $v['check_in'] <= strtotime( $check_out ) && $v['check_out'] >= strtotime( $check_out ) ) ) {
+						return false;
+					}
+				}
+			}
             return true;
         }
         static function _get_maxmin_by_date($rental_id, $check_in, $check_out)

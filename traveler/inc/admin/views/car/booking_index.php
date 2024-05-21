@@ -323,8 +323,10 @@ echo '<h2>'.__('Car Booking','traveler').'</h2>';
                             </td>
 
                             <td class="post-title page-title column-title">
-
-                                <?php $date= get_post_meta($post_id, 'check_in', true);if($date) echo date('m/d/Y',strtotime($date));?><br>
+								<?php
+								$check_in  = date( TravelHelper::getDateFormat(), strtotime( get_post_meta( $post_id, 'check_in', true ) ) );
+								echo balanceTags( $check_in . "<br/>" );
+								?>
 
                                 <?php echo get_post_meta($post_id , 'check_in_time' , true); ?>
 
@@ -332,7 +334,10 @@ echo '<h2>'.__('Car Booking','traveler').'</h2>';
 
                             <td class="post-title page-title column-title">
 
-                                <?php $date= get_post_meta($post_id, 'check_out', true);if($date) echo date('m/d/Y',strtotime($date)); ?><br>
+								<?php
+								$check_out  = date( TravelHelper::getDateFormat(), strtotime( get_post_meta( $post_id, 'check_out', true ) ) );
+								echo balanceTags( $check_out . "<br/>" );
+								?>
 
                                 <?php  echo get_post_meta($post_id , 'check_out_time' , true);?>
 
@@ -362,15 +367,40 @@ echo '<h2>'.__('Car Booking','traveler').'</h2>';
 
                                 <?php
 
-                                $currency = TravelHelper::_get_currency_book_history($post_id);
+								$pay_amount = 0;
+								$data_prices = get_post_meta( $order_id , 'data_prices' , true);
+								$deposit_price = isset($data_prices['deposit_price']) ? $data_prices['deposit_price'] : 0;
+								$deposit_status = get_post_meta($order_id, 'deposit_money', true);
+								$booking_fee_price = isset($data_prices['booking_fee_price']) ? $data_prices['booking_fee_price'] : 0;
+								$coupon_price = isset($data_price['coupon_price']) ? $data_price['coupon_price'] : 0;
 
+								$item = get_post_meta( $order_id, 'st_cart_info', true );
+								if ( get_post_meta( $item_id, 'car_type', true ) == 'normal' ) {
+									$item = $item[$item_id];
+								} else {
+									$item = $item['car_transfer'];
+								}
+								$price_with_tax = (float)$item['data']['price_with_tax'];
+								$price_with_tax -= $coupon_price;
+								if(is_array($deposit_status) && !empty($deposit_status['type']) && floatval($deposit_status['amount']) > 0){
+									$pay_amount = $deposit_price;
+									if(!empty($booking_fee_price)){
+										$pay_amount += $booking_fee_price;
+									}
+								} else {
+									if(!empty($booking_fee_price)){
+										$price_with_tax += $booking_fee_price;
+									}
+									$pay_amount = $price_with_tax;
+								}
+
+								$currency = get_post_meta( $post_id, 'currency', true );
                                 //$total_price = floatval( get_post_meta( $item_id, 'total_price', true ) );
 
-                                $data_prices = ( get_post_meta( $post_id, 'data_prices', true ) );
 
                                 ?>
 
-                                <strong><?php echo TravelHelper::format_money( $data_prices['price_with_tax'], $currency ); ?></strong>
+                                <strong><?php echo TravelHelper::format_money_from_db( $pay_amount, $currency ); ?></strong>
 
                             </td>
                             <td class="post-title page-title column-title">

@@ -2138,6 +2138,7 @@
                                     $journey_transfer_to   = STInput::request( 'journey_transfer_to' );
                                     $journey_price         = STInput::request( 'journey_price' );
                                     $journey_return        = STInput::request( 'journey_return' );
+									$journey_price_return  = STInput::request( 'journey_price_return' );
                                     if ( !empty( $journey_transfer_from ) ) {
                                         foreach ( $journey_transfer_from as $k => $v ) {
 	                                        if(!empty($journey_title[ $k ])) {
@@ -2147,6 +2148,7 @@
 			                                        'transfer_to'   => $journey_transfer_to[ $k ],
 			                                        'price'         => $journey_price[ $k ],
 			                                        'return'        => isset( $journey_return[ $k ] ) ? $journey_return[ $k ] : 'no',
+													'price_return'  => $journey_price_return[ $k ],
 		                                        ];
 	                                        }
                                         }
@@ -2155,6 +2157,22 @@
                                 } else {
                                     update_post_meta( $post_id, 'journey', [] );
                                 }
+								STAdminCars::delete_transfers( $post_id );
+								if ( ! empty( $data ) ) {
+									foreach ( $data as $transfer ) {
+										if ( ! empty( $transfer['title'] ) && ! empty( $transfer['transfer_from'] ) && ! empty( $transfer['transfer_to'] ) ) {
+											$return_dt = '';
+											if ( isset( $transfer['return'] ) ) {
+												$return_dt = $transfer['return'];
+											}
+											$transfer_from_name = STCarTransfer::inst()->get_transfer_name( $transfer['transfer_from'] );
+											$transfer_to_name   = STCarTransfer::inst()->get_transfer_name( $transfer['transfer_to'] );
+											STAdminCars::insert_transfer( $post_id, $transfer_from_name . ' - ' . $transfer_to_name, $transfer['transfer_from'], $transfer['transfer_to'], $return_dt, $transfer['price'], STInput::post( 'price_type' ), STInput::post( 'num_passenger', 1 ), $transfer['price_return'] );
+										}
+									}
+								}
+								STAdminCars::save_min_max_price_transfer( $post_id );
+
                                 if ( !empty( $_REQUEST[ 'st_price' ] ) ) {
                                     $data               = [];
                                     $price_new  = STInput::request( 'st_price' );
@@ -2230,6 +2248,7 @@
                                 update_post_meta( $post_id, 'st_allow_cancel', STInput::request( 'st_allow_cancel' ) );
                                 update_post_meta( $post_id, 'st_cancel_number_days', STInput::request( 'st_cancel_number_days' ) );
                                 update_post_meta( $post_id, 'st_cancel_percent', STInput::request( 'st_cancel_percent' ) );
+								do_action( 'st_partner_cars', $post_id );
                                 echo json_encode(array(
                                     'status' => true,
                                     'next_step' => 5,
@@ -2415,7 +2434,7 @@
                         $validator->set_rules('id_gallery', __("Gallery", 'traveler'), 'required');
                         break;
                     case 4:
-                        $validator->set_rules('cars_price', __("Price", 'traveler'), 'required');
+                        // $validator->set_rules('cars_price', __("Price", 'traveler'), 'required');
                         // $validator->set_rules('number_car', __("Number of cars for rent", 'traveler'), 'required');
                         if(isset($_REQUEST['car_type'])){
                             $car_type = $_REQUEST['car_type'];
@@ -2491,7 +2510,6 @@
                                     $my_post['post_status'] = 'draft';
                                 }
                                 wp_update_post($my_post);
-                                update_post_meta($post_id, 'show_agent_contact_info', STInput::request('show_agent_contact_info'));
                                 update_post_meta($post_id, 'contact_email', STInput::request('contact_email'));
                                 update_post_meta($post_id, 'contact_web', STInput::request('contact_web'));
                                 update_post_meta($post_id, 'contact_phone', STInput::request('contact_phone'));
@@ -2600,6 +2618,8 @@
                                 }else{
                                     update_post_meta($post_id, 'activity_program', '');
                                 }
+
+								do_action( 'st_partner_activity_tab_info', $post_id );
                                 echo json_encode(array(
                                     'status' => true,
                                     'next_step' => 3,
@@ -3277,7 +3297,6 @@
                                     $my_post['post_status'] = 'draft';
                                 }
                                 wp_update_post($my_post);
-                                update_post_meta($post_id, 'show_agent_contact_info', STInput::request('show_agent_contact_info'));
                                 update_post_meta($post_id, 'contact_email', STInput::request('contact_email'));
                                 update_post_meta($post_id, 'website', STInput::request('website'));
                                 update_post_meta($post_id, 'phone', STInput::request('phone'));
@@ -4123,6 +4142,9 @@
 		                            'post_id' => $post_id
 	                            ];
 	                            TravelHelper::updateDuplicate( 'hotel_room', $data, $where );
+								update_post_meta($post_id, 'st_allow_cancel', STInput::request('st_allow_cancel'));
+                                update_post_meta($post_id, 'st_cancel_number_days', STInput::request('st_cancel_number_days'));
+                                update_post_meta($post_id, 'st_cancel_percent', STInput::request('st_cancel_percent'));
                                 update_post_meta($post_id, 'number_room', (int)STInput::request('number_room'));
                                 update_post_meta($post_id, 'adult_number', (int)STInput::request('adult_number'));
                                 update_post_meta($post_id, 'children_number', (int)STInput::request('children_number'));
@@ -4146,6 +4168,10 @@
                             if(isset($_REQUEST['st_room_external_booking']) && $_REQUEST['st_room_external_booking'] == 'on'){
                                 array_push($arr_field, 'st_room_external_booking_link');
                             }
+							if(isset($_REQUEST['st_allow_cancel']) && $_REQUEST['st_allow_cancel'] == 'on'){
+								array_push($arr_field, 'st_cancel_number_days');
+								array_push($arr_field, 'st_cancel_percent');
+							}
                             $err = $this->stSetErrorMessage($arr_field);
                             echo json_encode(array(
                                 'status' => false,
@@ -4278,9 +4304,6 @@
                                 } else {
                                     update_post_meta($post_id, 'extra_price', '');
                                 }
-                                update_post_meta($post_id, 'st_allow_cancel', STInput::request('st_allow_cancel'));
-                                update_post_meta($post_id, 'st_cancel_number_days', STInput::request('st_cancel_number_days'));
-                                update_post_meta($post_id, 'st_cancel_percent', STInput::request('st_cancel_percent'));
                                 update_post_meta( $post_id, 'disable_adult_name', STInput::request( 'disable_adult_name' ) );
                                 update_post_meta( $post_id, 'disable_children_name', STInput::request( 'disable_children_name' ) );
                                 update_post_meta( $post_id, 'disable_infant_name', STInput::request( 'disable_infant_name' ) );
@@ -4305,10 +4328,6 @@
                                 $arr_err = array('price');
                                 if(isset($_REQUEST['deposit_payment_status']) && $_REQUEST['deposit_payment_status'] == 'percent'){
                                     array_push($arr_err, 'deposit_payment_amount');
-                                }
-                                if(isset($_REQUEST['st_allow_cancel']) && $_REQUEST['st_allow_cancel'] == 'on'){
-                                    array_push($arr_err, 'st_cancel_number_days');
-                                    array_push($arr_err, 'st_cancel_percent');
                                 }
                                 $err = $this->stSetErrorMessage($arr_err);
                                 echo json_encode(array(
@@ -4491,6 +4510,7 @@
                     'col' => '6',
                     'plh' => '',
                     'text_add' => __('+ Add A Facility', 'traveler'),
+					'desc' => __( 'You can add unlimited facilities. This option can be used for only WPBakery Single Hotel with Room Layout', 'traveler' ),
                     'fields' => array(
                         array(
                             'type' => 'text',
@@ -8717,7 +8737,6 @@
                 }
                 $validator->set_rules( 'activity-time', __( "Activity time", 'traveler' ), 'required' );
                 $validator->set_rules( 'activity_booking_period', __( "Booking Period", 'traveler' ), 'unsigned_integer' );
-                $validator->set_rules( 'venue-facilities', __( "Venue Facilities", 'traveler' ), 'required' );
                 if ( STInput::post( 'hide_adult_in_booking_form' ) == 'off' )
                     $validator->set_rules( 'adult_price', __( "Adult Price", 'traveler' ), 'required|is_numeric' );
                 if ( STInput::post( 'hide_children_in_booking_form' ) == 'off' )
@@ -8753,7 +8772,6 @@
                 }
                 $validator->set_rules( 'activity-time', __( "Activity time", 'traveler' ), 'required' );
                 $validator->set_rules( 'activity_booking_period', __( "Booking Period", 'traveler' ), 'unsigned_integer' );
-                $validator->set_rules( 'venue-facilities', __( "Venue Facilities", 'traveler' ), 'required' );
                 if ( STInput::post( 'hide_adult_in_booking_form' ) == 'off' )
                     $validator->set_rules( 'adult_price', __( "Adult Price", 'traveler' ), 'required|is_numeric' );
                 if ( STInput::post( 'hide_children_in_booking_form' ) == 'off' )
@@ -8906,7 +8924,6 @@
                         update_post_meta( $post_id, 'type_activity', STInput::request( 'type_activity' ) );
                         update_post_meta( $post_id, 'activity-time', STInput::request( 'activity-time' ) );
                         update_post_meta( $post_id, 'duration', STInput::request( 'duration' ) );
-                        update_post_meta( $post_id, 'venue-facilities', stripslashes( STInput::request( 'venue-facilities' ) ) );
                         update_post_meta( $post_id, 'activity_booking_period', (int)STInput::request( 'activity_booking_period' ) );
                         update_post_meta( $post_id, 'max_people', STInput::request( 'max_people' ) );
                         //tab price settings
@@ -9353,28 +9370,7 @@
                             }
                             update_post_meta( $post_id, 'price_by_number_of_day_hour', $data );
                         }
-                        if ( !empty( $_REQUEST[ 'journey_title' ] ) ) {
-                            $data                  = [];
-                            $journey_title         = STInput::request( 'journey_title' );
-                            $journey_transfer_from = STInput::request( 'journey_transfer_from' );
-                            $journey_transfer_to   = STInput::request( 'journey_transfer_to' );
-                            $journey_price         = STInput::request( 'journey_price' );
-                            $journey_return        = STInput::request( 'journey_return' );
-                            if ( !empty( $journey_transfer_from ) ) {
-                                foreach ( $journey_transfer_from as $k => $v ) {
-                                    $data[] = [
-                                        'title'         => $journey_title[ $k ],
-                                        'transfer_from' => $journey_transfer_from[ $k ],
-                                        'transfer_to'   => $journey_transfer_to[ $k ],
-                                        'price'         => $journey_price[ $k ],
-                                        'return'        => isset( $journey_return[ $k ] ) ? $journey_return[ $k ] : 'no',
-                                    ];
-                                }
-                            }
-                            update_post_meta( $post_id, 'journey', $data );
-                        } else {
-                            update_post_meta( $post_id, 'journey', [] );
-                        }
+
                         // Extra service for car transfer
                         $extra = STInput::request( 'extra', '' );
                         if ( isset( $extra[ 'title' ] ) && is_array( $extra[ 'title' ] ) && count( $extra[ 'title' ] ) ) {
@@ -10346,6 +10342,15 @@
                 if ( $st_is_woocommerce_checkout ) {
                     $order_id = wc_get_order_id_by_order_item_id($post_id);
                     $total_price = get_post_meta($order_id, '_order_total', true);
+					if ( empty( $total_price ) ) {
+						global $wpdb;
+						$querystr = "SELECT total_amount
+									FROM  " . $wpdb->prefix . "wc_orders
+									WHERE
+									id = '{$order_id}'
+									";
+						$total_price = $wpdb->get_row( $querystr, OBJECT )->total_amount;
+					}
                     return $total_price;
                 } else {
                     $data_prices = get_post_meta( $post_id, 'data_prices', true );
@@ -10531,11 +10536,13 @@
                         if ( !empty( $icon_type ) ) {
 
                             $price         = self::_get_order_total_price( $value->order_item_id );
-                            $currency      = TravelHelper::_get_currency_book_history( $value->order_item_id );
+                            // $currency      = TravelHelper::_get_currency_book_history( $value->order_item_id );
+							$currency = get_post_meta($value->order_item_id, 'currency', true);
                             $st_is_woocommerce_checkout = apply_filters( 'st_is_woocommerce_checkout', false );
                             if ( !empty($st_is_woocommerce_checkout) ) {
                                 $post_id = $value->wc_order_id;
-                                $currency = TravelHelper::_get_currency_book_history($post_id);
+                                // $currency = TravelHelper::_get_currency_book_history($post_id);
+								$currency = get_post_meta($post_id, 'currency', true);
                             }
                             $status_string = "";
                             $data_status   = self::_get_order_statuses();
@@ -10608,9 +10615,9 @@
                                            ' . $this->get_type_order_item_not_icon( $id_item, $value->st_booking_post_type ) . '
                                         </td>';
                                         if ( $st_is_woocommerce_checkout ) {
-                                            $html .='<td class="hidden-xs">' . esc_html(TravelHelper::format_money_raw( $price, $currency )) . '</td>';
+                                            $html .='<td class="hidden-xs">' . esc_html(TravelHelper::format_money_from_db( $price, $currency )) . '</td>';
                                         } else {
-                                            $html .='<td class="hidden-xs">' . TravelHelper::format_money_raw( $price, $currency ) . '</td>';
+                                            $html .='<td class="hidden-xs">' . TravelHelper::format_money_from_db( $price, $currency ) . '</td>';
                                         }
                                         $html .='<td >' . $status_string . '</td>
                                         <td class="text-center" style="width:5%">' . $action . '</td>
@@ -10618,16 +10625,16 @@
                                 }
                             } else {
                                 $html .= '
-                            <tr data-op class="' . $id_item . ' " data-id-order="' . $value->id . '">
+                            	<tr data-op class="' . $id_item . ' " data-id-order="' . $value->id . '">
                                 <td class="hidden-xs"> ' . $value->order_item_id . '</td>
                                 <td class=""> <a href="' . $this->get_link_order_item( $id_item ) . '">' . $this->get_title_order_item( $id_item ) . '</a></td>
                                 <td class="hidden-xs" class="booking-history-type ' . get_post_type( $id_item ) . '">
                                    ' . $this->get_type_order_item_not_icon( $id_item, $value->st_booking_post_type ) . '
                                 </td>';
                                 if ( $st_is_woocommerce_checkout ) {
-                                    $html .='<td class="hidden-xs">' . esc_html(TravelHelper::format_money( $price )) . '</td>';
+                                    $html .='<td class="hidden-xs">' . esc_html(TravelHelper::format_money_from_db( $price, $currency )) . '</td>';
                                 } else {
-                                    $html .='<td class="hidden-xs">' . TravelHelper::format_money( $price ) . '</td>';
+                                    $html .='<td class="hidden-xs">' . TravelHelper::format_money_from_db( $price, $currency ) . '</td>';
                                 }
 
                                 $html .='<td><span style="color: ' . esc_attr( $status_color ) . '">' . esc_html( $status_text ) . '</span></td>
@@ -13827,7 +13834,7 @@
 
 			public function _update_upsell( $post_id, $type_service, $list_item ) {
 				if ( !empty( $type_service ) && !empty( $list_item ) ) {
-					$list_item = explode( ',', $list_item );
+					// $list_item = explode( ',', $list_item );
 					$st_upsell = [
 						'type-service' => $type_service,
 						'list-item'    => $list_item

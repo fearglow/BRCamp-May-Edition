@@ -1,8 +1,4 @@
 <?php
-if(New_Layout_Helper::isNewLayout()){
-    echo st()->load_template('inbox/form-book/st_activity_new');
-    return;
-}
 wp_enqueue_script('custom_activity_inbox');
 wp_enqueue_script('st-qtip');
 $booking_data = $message_data['booking_data'];
@@ -12,7 +8,7 @@ $booking_data = $message_data['booking_data'];
     $child_number = STInput::request('child_number');
     $infant_number = STInput::request('infant_number');
     $extra = STInput::request("extra_price");
-    $starttime_value = STInput::request('starttime', '');
+    $starttime_value = STInput::request('starttime_tour', '');
     $controls = STInput::request('guest_name');
     $guest_titles = STInput::request('guest_title');
 
@@ -97,6 +93,7 @@ $activity_external_link = get_post_meta(get_the_ID(), 'st_activity_external_book
                                         data-post-id="<?php echo esc_attr($post_id) ?>"
                                         data-posttype="<?php echo esc_attr(get_post_type($post_id))?>"
                                     />
+									<p><?php echo __('Please select date again', 'traveler') ?></p>
                                 </div>
                             </div>
                             <div class="meta-item">
@@ -169,13 +166,42 @@ $activity_external_link = get_post_meta(get_the_ID(), 'st_activity_external_book
 
 
                             <!--Starttime-->
-                            <input type="hidden" data-starttime="<?php echo esc_attr($starttime_value); ?>"
-                                    data-checkin="<?php echo esc_attr($check_in); ?>" data-checkout="<?php echo esc_attr($check_out); ?>" data-tourid="<?php echo esc_attr($post_id); ?>" id="starttime_hidden_load_form"/>
-                            <div class="mt10 mb20 activity-starttime" <?php echo empty($starttime_value) ? 'style="display: none;"' : ''; ?>>
+							<?php
+							$current_calendar = TravelHelper::get_current_available_calendar(TravelHelper::post_origin($post_id, 'st_tours'));
+							$current_calendar = date(TravelHelper::getDateFormat(), strtotime($current_calendar));
+							$list_time = AvailabilityHelper::_get_starttime_tour_frontend_by_date($post_id, $current_calendar, $current_calendar, 'st_activity');
+							?>
+                            <input type="hidden"
+								data-starttime="<?php echo esc_attr($starttime_value); ?>"
+                                data-checkin="<?php echo esc_attr($check_in); ?>"
+								data-checkout="<?php echo esc_attr($check_out); ?>"
+								data-tourid="<?php echo esc_attr($post_id); ?>"
+								id="starttime_hidden_load_form"/>
+                            <div class="mt10 mb20 activity-starttime" <?php echo empty(!empty($list_time['data']) && !empty($list_time['data'][0])) ? 'style="display: none;"' : ''; ?>>
                                 <label><?php echo __('Start time', 'traveler'); ?></label>
-                                <select class="form-control st_activity_starttime" name="starttime"></select>
+                                <select class="form-control st_activity_starttime" name="starttime_tour" id="starttime_tour">
+									<?php if(!empty($list_time['data']) && !empty($list_time['data'][0])){
+										$name = count($list_time['data']) > 1 ? __('Available', 'traveler') : __('Available', 'traveler');
+										foreach($list_time['data'] as $key => $time){
+											if(intval($list_time['check'][$key]) > 0){
+												$num_vacancies = intval($list_time['check'][$key]);
+											} elseif ( intval($list_time['check'][$key]) == -1 ) {
+												$num_vacancies = esc_html__('Unlimited','traveler');
+											} else {
+												$num_vacancies = esc_html__('0','traveler');
+											}
+											?>
+											<option value="<?php echo esc_attr($time);?>">
+												<?php echo esc_attr($time);?> ( <?php echo esc_html($num_vacancies);?> <?php echo esc_html($name);?> )
+											</option>
+											<?php
+										}
+									}
+									?>
+								</select>
                             </div>
                             <!--End starttime-->
+
                             <!--Extra price-->
                             <?php $extra_price = get_post_meta($post_id, 'extra_price', true); ?>
                             <?php if (is_array($extra_price) && count($extra_price)): ?>
@@ -236,7 +262,11 @@ $activity_external_link = get_post_meta(get_the_ID(), 'st_activity_external_book
                             <?php endif; ?>
                             <div class="message_box mt10"></div>
                             <!--End extra price-->
-                            <div class="guest_name_input hidden mb15" data-placeholder="<?php esc_html_e('Guest %d name','traveler') ?>" data-hide-children="<?php echo get_post_meta($post_id,'disable_children_name',true) ?>" data-hide-infant="<?php echo get_post_meta($post_id,'disable_infant_name',true) ?>">
+                            <div class="guest_name_input hidden mb15"
+								data-placeholder="<?php esc_html_e('Guest %d name','traveler') ?>"
+								data-hide-adult="<?php echo get_post_meta($post_id,'disable_adult_name',true) ?>"
+								data-hide-children="<?php echo get_post_meta($post_id,'disable_children_name',true) ?>"
+								data-hide-infant="<?php echo get_post_meta($post_id,'disable_infant_name',true) ?>">
                                 <label ><?php esc_html_e('Guest Name','traveler') ?> <span class="required">*</span></label>
                                 <div class="guest_name_control">
                                     <?php

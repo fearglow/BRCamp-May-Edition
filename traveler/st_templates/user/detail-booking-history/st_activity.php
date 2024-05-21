@@ -134,7 +134,7 @@ $date_format = TravelHelper::getDateFormat();
                             <div class="item_booking_detail">
                                 <strong><?php esc_html_e("Adult Price :",'traveler') ?> </strong>
                                 <?php $adult_price =  get_post_meta( $order_id, 'adult_price', true ); ?>
-                                <?php echo TravelHelper::format_money( $adult_price ); ?>
+                                <?php echo TravelHelper::format_money_from_db( $adult_price, $currency ); ?>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -147,7 +147,7 @@ $date_format = TravelHelper::getDateFormat();
                             <div class="item_booking_detail">
                                 <strong><?php esc_html_e("Children Price :",'traveler') ?> </strong>
                                 <?php $child_price =  get_post_meta( $order_id, 'child_price', true ); ?>
-                                <?php echo TravelHelper::format_money( $child_price ); ?>
+                                <?php echo TravelHelper::format_money_from_db( $child_price, $currency ); ?>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -160,7 +160,7 @@ $date_format = TravelHelper::getDateFormat();
                             <div class="item_booking_detail">
                                 <strong><?php esc_html_e("Infant Price :",'traveler') ?> </strong>
                                 <?php $infant_price =  get_post_meta( $order_id, 'infant_price', true ); ?>
-                                <?php echo TravelHelper::format_money( $infant_price ); ?>
+                                <?php echo TravelHelper::format_money_from_db( $infant_price, $currency ); ?>
                             </div>
                         </div>
                         <?php
@@ -182,7 +182,7 @@ $date_format = TravelHelper::getDateFormat();
                         <div class="col-md-6 <?php if(empty($data_extra)) echo "hide"; ?>">
                             <div class="item_booking_detail">
                                 <strong><?php esc_html_e("Extra Price:",'traveler') ?> </strong>
-                                <?php echo TravelHelper::format_money($extra_price); ?>
+                                <?php echo TravelHelper::format_money_from_db($extra_price, $currency); ?>
                                 <?php if ( is_array( $data_extra ) && count( $extras ) ){ ?>
                                     <table class="table mt10 mb10" style="table-layout: fixed;" width="200">
                                         <tr>

@@ -3558,6 +3558,9 @@ main.page-content {
 }
 
 .st_partner_payout_item {
+	.item-pay {
+		cursor: pointer;
+	}
     .i-radio {
         .st_partner_payout {
             opacity: 1 !important;

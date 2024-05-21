@@ -251,10 +251,7 @@ if(!class_exists('STOptiontree'))
              */
             $custom_metabox = [];
 
-			$new_layout = st()->get_option( 'st_theme_style', 'modern' );
-			if ( $new_layout == 'classic' ) {
-				include_once ST()->dir( 'st-metabox.php' );
-			}
+			include_once ST()->dir('st-metabox.php');
 
 
             /**

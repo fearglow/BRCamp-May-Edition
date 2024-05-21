@@ -29,22 +29,24 @@ $origin_price = STPrice::getRoomPriceOnlyCustomPrice($room_id, strtotime($check_
 </p>
 
 <?php
-	$class = '';
-	$id_collapse = '';
+	$class          = '';
+	$class_collapse = '';
+	$id_collapse    = '';
 	if ( apply_filters( 'st_woo_cart_is_collapse', false ) ) {
-		$class       = 'collapse';
-		$id_collapse = 'collapseBookingDetail';
+		$class          = 'collapse';
+		$class_collapse = 'collapseBookingDetail';
+		$id_collapse    = 'collapse_' . md5( json_encode( $st_booking_data['cart_item_key'] ) );
 	}
 ?>
 
 <div id="<?php echo esc_attr( $div_id ); ?>" >
-	<p class="accordion-button collapsed <?= esc_attr( $id_collapse ) ?>"
+	<p class="accordion-button collapsed <?= esc_attr( $class_collapse ) ?>"
 		data-bs-toggle="collapse"
-		data-bs-target="#collapseBookingDetail"
+		data-bs-target="#<?= esc_attr( $id_collapse ) ?>"
 		aria-expanded="true"
-		aria-controls="collapseBookingDetail"
+		aria-controls="<?= esc_attr( $id_collapse ) ?>"
 	>
-		<a data-toggle="collapse" href="#collapseBookingDetail" aria-expanded="true">
+		<a data-toggle="collapse" href="#<?= esc_attr( $id_collapse ) ?>" aria-expanded="true">
 			<?php echo __( 'Booking Details', 'traveler' ); ?>
 		</a>
 	</p>

@@ -18,14 +18,14 @@ $url=st_get_link_with_search(get_permalink($post_translated),array('start','date
     <div class="item service-border st-border-radius">
         <div class="featured-image">
             <div class="st-tag-feature-sale">
-                
+
                 <?php
                 $is_featured = get_post_meta($post_translated, 'is_featured', true);
                 if ($is_featured == 'on') { ?>
                     <div class="featured">
-                        <?php 
+                        <?php
                             if(!empty(st()->get_option('st_text_featured', ''))){
-                                echo esc_html(st()->get_option('st_text_featured', ''));
+                                echo wp_kses_post(st()->get_option('st_text_featured', ''));
                             } else {?>
                                 <?php echo esc_html__('Featured', 'traveler') ?>
                             <?php }
@@ -53,7 +53,7 @@ $url=st_get_link_with_search(get_permalink($post_translated),array('start','date
                 </a>
             <?php } ?>
             <a href="<?php echo esc_url($url); ?>">
-                <img itemprop="image" src="<?php echo wp_get_attachment_image_url($thumbnail_id, array(450, 300)); ?>"
+                <img itemprop="image" src="<?php echo wp_get_attachment_image_url($thumbnail_id, array(900, 600)); ?>"
                      alt="<?php echo TravelHelper::get_alt_image(); ?>" class="<?php echo esc_attr($class_image); ?>"/>
             </a>
             <?php do_action('st_list_compare_button', get_the_ID(), get_post_type(get_the_ID())); ?>
@@ -62,7 +62,7 @@ $url=st_get_link_with_search(get_permalink($post_translated),array('start','date
         <div class="content-item">
             <?php if ($address) { ?>
                 <div class="sub-title st-address d-flex align-items-center" itemprop="itinerary" itemscope itemtype="https://schema.org/ItemList">
-                     
+
                     <span itemprop="streetAddress"> <i class="stt-icon-location1"></i> <?php echo esc_html($address); ?></span>
                 </div>
             <?php } ?>

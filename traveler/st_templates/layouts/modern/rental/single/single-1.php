@@ -152,9 +152,6 @@ while ( have_posts() ) :
 							<!-- Featured -->
 							<?php echo st()->load_template( 'layouts/modern/rental/single/item/featured' ) ?>
 							<!-- End Featured -->
-							
-							
-							
 
 							<div class="st-hr large"></div>
 
@@ -164,14 +161,14 @@ while ( have_posts() ) :
 							>
 								<?php the_content(); ?>
 							</div>
-							
+
 
 							<!-- Camp Map -->
 							<div class="site-map-container">
 								<img src="/wp-content/uploads/2022/05/SITE-MAP.jpg" alt="Site Map">
 							</div>
-							<!-- End Camp Map -->							
-
+							<!-- End Camp Map -->	
+							
 							<div class="st-hr large"></div>
 
 							<!-- Discount -->

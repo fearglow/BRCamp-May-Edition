@@ -30,7 +30,7 @@ $url=st_get_link_with_search(get_permalink(),array('start','end','date','adult_n
                     <div class="featured">
                         <?php
                             if(!empty(st()->get_option('st_text_featured', ''))){
-                                echo esc_html(st()->get_option('st_text_featured', ''));
+                                echo wp_kses_post(st()->get_option('st_text_featured', ''));
                             } else {?>
                                 <?php echo esc_html__('Featured', 'traveler') ?>
                             <?php }
@@ -58,7 +58,7 @@ $url=st_get_link_with_search(get_permalink(),array('start','end','date','adult_n
                 </a>
             <?php } ?>
             <a href="<?php echo esc_url($url); ?>">
-                <img itemprop="photo" src="<?php echo wp_get_attachment_image_url($thumbnail_id, array(450, 300)); ?>"
+                <img itemprop="photo" src="<?php echo wp_get_attachment_image_url($thumbnail_id, array(900, 600)); ?>"
                      alt="<?php echo TravelHelper::get_alt_image(); ?>" class="<?php echo esc_attr($class_image); ?>"/>
             </a>
             <?php do_action('st_list_compare_button', get_the_ID(), get_post_type(get_the_ID())); ?>

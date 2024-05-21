@@ -273,11 +273,11 @@ class ST_Single_Hotel extends TravelerObject {
 			$sql = $wpdb->prepare( ' AND parent_id = %d ', $hotel_parent );
 		}
 
-		$adult_number = STInput::get( 'adult_number', 0 );
+		$adult_number = STInput::get( 'adult_num_search', 0 );
 		if ( intval( $adult_number ) < 0 ) {
 			$adult_number = 0;
 		}
-		$child_number = STInput::get( 'child_number', 0 );
+		$child_number = STInput::get( 'child_number_search', 0 );
 		$where       .= " AND tb.status = 'available'";
 		if ( intval( $child_number ) < 0 ) {
 			$child_number = 0;
@@ -324,7 +324,7 @@ class ST_Single_Hotel extends TravelerObject {
 		} else {
 
 			if ( ! empty( $get_unavailability_room_check ) ) {
-				$list = array_push( $list, $get_unavailability_room_check );
+				$list = array_merge( $list, $get_unavailability_room_check );
 			}
 			$list_new = implode( ',', $list );
 

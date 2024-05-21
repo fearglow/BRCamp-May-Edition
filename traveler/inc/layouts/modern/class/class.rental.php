@@ -322,7 +322,6 @@ if (!class_exists('STRental')) {
             }
             query_posts($args);
             $st_search_query = $wp_query;
-			//vv($wp_query->request);
             $this->remove_alter_search_query();
         }
         public function __getMapFilterAjax()
@@ -1198,15 +1197,15 @@ if (!class_exists('STRental')) {
             global $wpdb;
             $check_in = STInput::get('start', date(TravelHelper::getDateFormat()));
             if (!empty($check_in)) {
-                $check_in = date('Y-m-d', strtotime(TravelHelper::convertDateFormat($check_in)));
+                $check_in = strtotime(TravelHelper::convertDateFormat($check_in));
             } else {
-                $check_in =  date('Y-m-d', strtotime(TravelHelper::convertDateFormat(date(TravelHelper::getDateFormat()) )));
+                $check_in =  strtotime(TravelHelper::convertDateFormat(date(TravelHelper::getDateFormat()) ));
             }
             $check_out = STInput::get('end', '');
             if (empty($check_out)) {
-                $check_out = date('Y-m-d', strtotime('+1 day', strtotime($check_in)));
+                $check_out = strtotime('+1 day', $check_in);
             } else {
-                $check_out = date('Y-m-d', strtotime(TravelHelper::convertDateFormat($check_out)));
+                $check_out = strtotime(TravelHelper::convertDateFormat($check_out));
             }
 
             $table = $wpdb->prefix . 'st_rental';
@@ -1215,42 +1214,46 @@ if (!class_exists('STRental')) {
             $join .= " INNER JOIN
             (
                 SELECT tb3.number , tb3.number_booked , tb3.post_id,
-                SUM(
-                    CASE
-                        WHEN tb.is_sale_schedule != 'on' THEN
-                            CASE
-                                WHEN tb.discount_type = 'percent'
-                                    THEN
-                                        CAST(tb3.price AS DECIMAL) -(CAST(tb3.price AS DECIMAL) / 100) * CAST(tb.discount_rate AS DECIMAL)
-                                ELSE CAST(tb3.price AS DECIMAL) - CAST(tb.discount_rate AS DECIMAL)
-                            END
-                        WHEN tb.is_sale_schedule = 'on'THEN
-                            CASE
-                                WHEN(UNIX_TIMESTAMP(DATE(tb.sale_price_from)) <= UNIX_TIMESTAMP('{$check_in}') AND UNIX_TIMESTAMP(DATE(tb.sale_price_to)) >= UNIX_TIMESTAMP('{$check_out}'))
-                                    THEN
-                                        CASE
-                                            WHEN tb.discount_type = 'percent'
-                                                THEN CAST(tb3.price AS DECIMAL) - (CAST(tb3.price AS DECIMAL) / 100) * CAST(tb.discount_rate AS DECIMAL)
-                                            ELSE CAST(tb3.price AS DECIMAL) - CAST(tb.discount_rate AS DECIMAL)
-                                        END
-                                ELSE tb3.price
-                            END
-                        ELSE tb3.price
-                    END
-                ) as st_rental_price
-                FROM {$table_avail} AS tb3 LEFT JOIN {$wpdb->prefix}st_rental AS tb
-                ON
-                    tb.post_id = tb3.post_id
-
-
-                  WHERE tb3.check_in >= UNIX_TIMESTAMP('{$check_in}') AND tb3.check_out < UNIX_TIMESTAMP('{$check_out}') AND(
-                      CAST(tb3.number AS DECIMAL) - CAST(tb3.number_booked AS DECIMAL) > 0
-
-                  ) GROUP BY tb3.post_id
-
+					SUM(
+						CASE
+							WHEN tb.is_sale_schedule != 'on' THEN
+								CASE
+									WHEN tb.discount_type = 'percent'
+										THEN
+											CAST(tb3.price AS DECIMAL) -(CAST(tb3.price AS DECIMAL) / 100) * CAST(tb.discount_rate AS DECIMAL)
+									ELSE CAST(tb3.price AS DECIMAL) - CAST(tb.discount_rate AS DECIMAL)
+								END
+							WHEN tb.is_sale_schedule = 'on'THEN
+								CASE
+									WHEN(UNIX_TIMESTAMP(DATE(tb.sale_price_from)) <= {$check_in} AND UNIX_TIMESTAMP(DATE(tb.sale_price_to)) >= {$check_out})
+										THEN
+											CASE
+												WHEN tb.discount_type = 'percent'
+													THEN CAST(tb3.price AS DECIMAL) - (CAST(tb3.price AS DECIMAL) / 100) * CAST(tb.discount_rate AS DECIMAL)
+												ELSE CAST(tb3.price AS DECIMAL) - CAST(tb.discount_rate AS DECIMAL)
+											END
+									ELSE tb3.price
+								END
+							ELSE tb3.price
+						END
+					) as st_rental_price
+                FROM {$table_avail} AS tb3
+				LEFT JOIN {$wpdb->prefix}st_rental AS tb ON tb.post_id = tb3.post_id
+                WHERE (
+						tb3.check_in >= {$check_in}
+						AND tb3.check_out < {$check_out}
+						AND( CAST(tb3.number AS DECIMAL) - CAST(tb3.number_booked AS DECIMAL) > 0 )
+					)
+					OR
+					(
+						tb3.check_in >= {$check_in}
+						AND tb3.check_out <= {$check_out}
+						AND( CAST(tb3.number AS DECIMAL) - CAST(tb3.number_booked AS DECIMAL) > 0 )
+						AND tb3.groupday = 1
+					)
+				GROUP BY tb3.post_id
               ) AS tb2
-              ON
-              {$wpdb->prefix}posts.ID = tb2.post_id";
+              ON {$wpdb->prefix}posts.ID = tb2.post_id";
             return $join;
         }
         /**

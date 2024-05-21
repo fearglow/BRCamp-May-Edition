@@ -216,16 +216,16 @@
         }
         .mfp-content{
             max-width: 100%;
-            width: 100%;
-            background: transparent;
-            height: 100%;
+            // width: 100%;
+            // background: transparent;
+            // height: 100%;
             @media screen and (max-width:767px) {
-                height: auto;
+                // height: auto;
             }
             .mfp-close{
                 display: inline-block;
                 z-index: 99;
-                right: 30px;
+                right: -30px;
                 top: 30px;
                 background: #FFFFFF;
                 box-shadow: 0px 1px 2px rgb(0 0 0 / 8%), 0px 4px 12px rgb(0 0 0 / 5%);
@@ -252,12 +252,12 @@
                 }
             }
             .mfp-figure{
-                background: transparent;
-                height: 100%;
+                // background: transparent;
+                // height: 100%;
                 .mfp-close{
                     display: inline-block;
                     z-index: 99;
-                    right: 30px;
+                    right: -30px;
                     top: 30px;
                     background: #FFFFFF;
                     box-shadow: 0px 1px 2px rgb(0 0 0 / 8%), 0px 4px 12px rgb(0 0 0 / 5%);
@@ -273,12 +273,12 @@
                     }
                 }
                 figure {
-                    background: transparent;
-                    height: 100%;
+                    // background: transparent;
+                    // height: 100%;
                     img.mfp-img{
-                        max-height: 100% !important;
-                        height: 100%;
-                        object-fit: cover;
+                        // max-height: 100% !important;
+                        // height: 100%;
+                        // object-fit: cover;
                     }
                 }
                 &:after{
@@ -1179,9 +1179,20 @@
                 }
             }
         }
-
-
     }
+	&.single-st_tours.st-mod-style:not(.st-header-9) {
+		// .mfp-content {
+		// 	height: auto;
+		// 	.mfp-close,
+		// 	.mfp-close:active,
+		// 	.mfp-close:focus {
+		// 		right: -15px;
+		// 		top: -15px;
+		// 		opacity: 1;
+		// 		background: #FFFFFF url(../../../../../../v2/images/svg/ico_close.svg) center center no-repeat;
+		// 	}
+		// }
+	}
 }
 .st-dot{
     height: 3px;
@@ -1193,6 +1204,6 @@
 
 @media( max-width:767px ) {
 	.single.st-mod-style .mfp-content .mfp-figure figure img.mfp-img {
-		height: auto;
+		// height: auto;
 	}
 }

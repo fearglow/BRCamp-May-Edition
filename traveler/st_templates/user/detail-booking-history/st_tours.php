@@ -160,7 +160,7 @@ if(!empty($data_price)){
                     <div class="item_booking_detail">
                         <strong><?php esc_html_e("Adult Price :",'traveler') ?> </strong>
                         <?php $adult_price =  get_post_meta( $order_id, 'adult_price', true ); ?>
-                        <?php echo TravelHelper::format_money( $adult_price ); ?>
+                        <?php echo TravelHelper::format_money_from_db( $adult_price, $currency ); ?>
                     </div>
                 </div>
                     <?php endif; ?>
@@ -175,7 +175,7 @@ if(!empty($data_price)){
                     <div class="item_booking_detail">
                         <strong><?php esc_html_e("Children Price :",'traveler') ?> </strong>
                         <?php $child_price =  get_post_meta( $order_id, 'child_price', true ); ?>
-                        <?php echo TravelHelper::format_money( $child_price ); ?>
+                        <?php echo TravelHelper::format_money_from_db( $child_price, $currency ); ?>
                     </div>
                 </div>
                     <?php endif; ?>
@@ -190,7 +190,7 @@ if(!empty($data_price)){
                     <div class="item_booking_detail">
                         <strong><?php esc_html_e("Infant Price :",'traveler') ?> </strong>
                         <?php $infant_price =  get_post_meta( $order_id, 'infant_price', true ); ?>
-                        <?php echo TravelHelper::format_money( $infant_price ); ?>
+                        <?php echo TravelHelper::format_money_from_db( $infant_price, $currency ); ?>
                     </div>
                 </div>
                     <?php endif; ?>
@@ -198,7 +198,7 @@ if(!empty($data_price)){
                         <div class="col-md-6">
                             <div class="item_booking_detail">
                                 <strong><?php esc_html_e("Base Price :",'traveler') ?> </strong>
-    			                <?php echo !empty($data_price['origin_price']) ? TravelHelper::format_money( $data_price['origin_price'] ) : '0'; ?>
+    			                <?php echo !empty($data_price['origin_price']) ? TravelHelper::format_money_from_db( $data_price['origin_price'], $currency ) : '0'; ?>
                             </div>
                         </div>
                     <?php endif; ?>
@@ -221,7 +221,7 @@ if(!empty($data_price)){
                 <div class="col-md-6 <?php if(empty($data_extra)) echo "hide"; ?>">
                     <div class="item_booking_detail">
                         <strong><?php esc_html_e("Extra Price:",'traveler') ?> </strong>
-                        <?php echo TravelHelper::format_money($extra_price); ?>
+                        <?php echo TravelHelper::format_money_from_db($extra_price, $currency); ?>
                         <?php if ( is_array( $data_extra ) && count( $extras ) ){ ?>
                             <table class="table mt10 mb10" style="table-layout: fixed;" width="200">
                                 <tr>
@@ -244,7 +244,7 @@ if(!empty($data_price)){
                                             </label>
                                         </td>
                                         <td width="40%">
-                                            <?php echo TravelHelper::format_money( $price ); ?>
+                                            <?php echo TravelHelper::format_money_from_db( $price, $currency ); ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -261,7 +261,7 @@ if(!empty($data_price)){
                     <div class="col-md-6 <?php if(empty($hotel_packages)) echo "hide"; ?>">
                         <div class="item_booking_detail">
                             <strong><?php esc_html_e("Hotel Package:",'traveler') ?> </strong>
-                            <?php echo TravelHelper::format_money($hotel_package_price); ?>
+                            <?php echo TravelHelper::format_money_from_db($hotel_package_price, $currency); ?>
                             <?php if ( is_array( $hotel_packages ) && count( $hotel_packages ) ){ ?>
                                 <table class="table mt10 mb10" style="table-layout: fixed;" width="200">
                                     <tr>
@@ -285,7 +285,7 @@ if(!empty($data_price)){
                                                 </label>
                                             </td>
                                             <td width="40%">
-                                                <?php echo TravelHelper::format_money( $price ); ?>
+                                                <?php echo TravelHelper::format_money_from_db( $price, $currency ); ?>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
@@ -300,7 +300,7 @@ if(!empty($data_price)){
                     <div class="col-md-6 <?php if(empty($activity_packages)) echo "hide"; ?>">
                         <div class="item_booking_detail">
                             <strong><?php esc_html_e("Activity Package:",'traveler') ?> </strong>
-                            <?php echo TravelHelper::format_money($activity_package_price); ?>
+                            <?php echo TravelHelper::format_money_from_db($activity_package_price, $currency); ?>
                             <?php if ( is_array( $activity_packages ) && count( $activity_packages ) ){ ?>
                                 <table class="table mt10 mb10" style="table-layout: fixed;" width="200">
                                     <tr>
@@ -323,7 +323,7 @@ if(!empty($data_price)){
                                                 </label>
                                             </td>
                                             <td width="40%">
-                                                <?php echo TravelHelper::format_money( $price ); ?>
+                                                <?php echo TravelHelper::format_money_from_db( $price, $currency ); ?>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
@@ -338,7 +338,7 @@ if(!empty($data_price)){
                     <div class="col-md-6 <?php if(empty($car_packages)) echo "hide"; ?>">
                         <div class="item_booking_detail">
                             <strong><?php esc_html_e("Car Package:",'traveler') ?> </strong>
-                            <?php echo TravelHelper::format_money($car_package_price); ?>
+                            <?php echo TravelHelper::format_money_from_db($car_package_price, $currency); ?>
                             <?php if ( is_array( $car_packages ) && count( $car_packages ) ){ ?>
                                 <table class="table mt10 mb10" style="table-layout: fixed;" width="200">
                                     <tr>
@@ -361,7 +361,7 @@ if(!empty($data_price)){
                                                 </label>
                                             </td>
                                             <td width="40%">
-                                                <?php echo TravelHelper::format_money( $price ) . ' x ' . esc_html($val->car_quantity); ?>
+                                                <?php echo TravelHelper::format_money_from_db( $price, $currency ) . ' x ' . esc_html($val->car_quantity); ?>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
@@ -376,7 +376,7 @@ if(!empty($data_price)){
                     <div class="col-md-6 <?php if(empty($flight_packages)) echo "hide"; ?>">
                         <div class="item_booking_detail">
                             <strong><?php esc_html_e("Flight Package:",'traveler') ?> </strong>
-    		                <?php echo TravelHelper::format_money($flight_package_price); ?>
+    		                <?php echo TravelHelper::format_money_from_db($flight_package_price, $currency); ?>
     		                <?php if ( is_array( $hotel_packages ) && count( $hotel_packages ) ){ ?>
                                 <table class="table mt10 mb10" style="table-layout: fixed;" width="200">
                                     <tr>
@@ -411,7 +411,7 @@ if(!empty($data_price)){
                                             <td width="40%">
     							                <?php
                                                     echo strtoupper($val->$price_flight_package);
-                                                    echo TravelHelper::format_money( $price_flight_package );
+                                                    echo TravelHelper::format_money_from_db( $price_flight_package, $currency );
                                                 ?>
                                             </td>
                                         </tr>

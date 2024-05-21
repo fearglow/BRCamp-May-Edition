@@ -1,14 +1,8 @@
 <?php
 /**
- * @package WordPress
- * @subpackage Traveler
- * @since 1.0
- *
- * Template Name : Member Package New
- *
- * Created by ShineTheme
- *
+ * Template Name: Member Package New
  */
+
 $admin_packages = STAdminPackages::get_inst();
 $user_id = get_current_user_id();
 $can_upgrade = $admin_packages->can_upgrade($user_id);

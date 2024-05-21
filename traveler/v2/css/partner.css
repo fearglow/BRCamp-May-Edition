@@ -2959,6 +2959,9 @@ main.page-content .modal-cancel-booking .booking-cancel-notice .notice-success {
   display: inline-block;
 }
 
+.st_partner_payout_item .item-pay {
+  cursor: pointer;
+}
 .st_partner_payout_item .i-radio .st_partner_payout {
   opacity: 1 !important;
   left: 50%;

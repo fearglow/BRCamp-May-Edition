@@ -383,8 +383,8 @@
                         <td class="post-title page-title column-title">
 
                             <?php
-                                $price = get_post_meta( $post_id, 'total_price', true );
-                                $currency = TravelHelper::_get_currency_book_history( $post_id );
+                                $price    = get_post_meta( $post_id, 'total_price', true );
+								$currency = get_post_meta( $post_id, 'currency', true );
 
 								echo TravelHelper::format_money_from_db($price, $currency);
                             ?>

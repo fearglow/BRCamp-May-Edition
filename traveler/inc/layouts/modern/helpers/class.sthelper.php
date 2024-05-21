@@ -27,8 +27,8 @@ if (!function_exists('st_traveler_get_option')) {
         } else {
             return $default;
         }
-            
-        
+
+
     }
 }
 if (!function_exists('st_hex2rgb')) {
@@ -44,10 +44,10 @@ if (!function_exists('st_hex2rgb')) {
             $g = hexdec(substr($hex, 2, 2));
             $b = hexdec(substr($hex, 4, 2));
         }
-      
+
         //return implode(",", $rgb); // returns the rgb values separated by commas
         return 'rgba('.$r.','.$g.','.$b.','.$opacity.')';
-       
+
     }
 }
 
@@ -65,10 +65,10 @@ if (!function_exists('st_hex2rgb_new')) {
             $g = hexdec(substr($hex, 2, 2));
             $b = hexdec(substr($hex, 4, 2));
         }
-      
+
         //return implode(",", $rgb); // returns the rgb values separated by commas
         return 'rgba('.$r.','.$g.','.$b.','.$opacity.')';
-       
+
     }
 
 }
@@ -214,7 +214,7 @@ if (!function_exists('st_get_profile_avatar')) {
                 } catch (\Throwable $th) {
                     var_dump($th);
                 }
-                
+
             } else {
                 $gravatar_pic_url = get_avatar($id, $size, null, TravelHelper::get_alt_image());
             }
@@ -299,7 +299,7 @@ if (!function_exists('st_breadcrumbs_new')) {
                         echo '<li>';
                         if (!empty($bc_style) and $bc_style != "mt15")
                             echo "<i class=\" main-color fa fa-home\"></i> ";
-                        echo '<a href="' . home_url() . '">' . st_get_language('home') . '</a></li>';
+                        echo '<a href="' . home_url() . '">' . __( 'Home', 'traveler' ) . '</a></li>';
                         if (is_category() || is_single() || is_tag()) {
                             // if (is_category() or is_tag()) {
                             //     the_archive_title('<li class="active">', '</li');
@@ -307,7 +307,7 @@ if (!function_exists('st_breadcrumbs_new')) {
                             $cats = get_the_category( $post->ID );
                             foreach ( $cats as $cat ) {
                                 echo '<li><a href="'.get_category_link($cat->term_id).'">' . balanceTags( $cat->cat_name ) . '</a></li>';
-                            } 
+                            }
                             do_action('st_single_breadcrumb', $sep);
                             if (get_post_type($post->ID) == 'hotel_room') {
                                 $hotel_parent = get_post_meta($post->ID, 'room_parent', true);
@@ -414,7 +414,7 @@ if (!function_exists('st_breadcrumbs')) {
                 echo '<li>';
                 if (!empty($bc_style) and $bc_style != "mt15")
                     echo "<i class=\" main-color fa fa-home\"></i> ";
-                echo '<a href="' . home_url() . '">' . st_get_language('home') . '</a></li>';
+                echo '<a href="' . home_url() . '">' . __( 'Home', 'traveler' ) . '</a></li>';
                 if (is_category() || is_single()) {
                     $cats = get_the_category($post->ID);
                     foreach ($cats as $cat) {
@@ -810,7 +810,7 @@ if(!function_exists('st_get_author_posts_url')){
         if (empty($post_id)){
             return false;
         }
-        
+
         $post_author_id = get_post_field('post_author', get_the_ID());
         $partner_page = st()->get_option('partner_info_page', '');
         if ($partner_page != '') {
@@ -832,14 +832,14 @@ if (!function_exists('st_get_avatar_in_list_service')) {
         if (empty($post_id)){
             return false;
         }
-            
+
         if (st()->get_option('avatar_in_list_service', 'off') == 'on') {
             $post_author_id = get_post_field('post_author', get_the_ID());
             $partner_page = st()->get_option('partner_info_page', '');
             if ($partner_page != '') {
                 $partner_link = get_permalink($partner_page);
                 $author_link = esc_url(add_query_arg(['partner_id' => $post_author_id], $partner_link));
-               
+
             } else {
                 $author_link = esc_url(get_author_posts_url(get_the_author_meta('ID')));
             }
@@ -1552,48 +1552,48 @@ if (!function_exists('st_validate_guest_name')) {
     function st_validate_guest_name($post_id, $adult_number = 0, $children_number = 0, $infant_number = 0) {
         $passValidate = true;
         $total = $adult_number;
-       
+
         $disable_adult_name = get_post_meta($post_id, 'disable_adult_name', true);
-    
+
         $disable_children_name = get_post_meta($post_id, 'disable_children_name', true);
         $disable_infant_name = get_post_meta($post_id, 'disable_infant_name', true);
         if ($disable_adult_name == 'on'){
             $total = 0;
         }
-       
+
         if ($disable_children_name != 'on'){
             $total += $children_number;
         }
-        
+
         if ($disable_infant_name != 'on'){
             $total += $infant_number;
         }
-       
+
         if($total > 1){
             $total -= 1;
         }
-        
+
         if ($total > 0) {
             $guest_name = STInput::post('guest_name');
-         
+
             if (empty($guest_name)){
                 $guest_name = STInput::get('guest_name');
-                
+
             }
-                
+
             $guest_title = STInput::post('guest_title');
             if (empty($guest_title)){
                 $guest_title = STInput::get('guest_title');
             }
-           
+
             if (empty($guest_name) or ! is_array($guest_name) or count($guest_name) < $total){
                 $passValidate = false;
             }
-                
+
             if (empty($guest_title) or ! is_array($guest_title) or count($guest_title) < $total){
                 $passValidate = false;
             }
-                
+
             if ($passValidate) {
                 for ($i = 0; $i < $total; $i++) {
                     if (empty($guest_name[$i]) or empty($guest_title[$i]))

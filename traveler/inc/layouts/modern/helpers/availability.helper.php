@@ -757,9 +757,8 @@ if (!class_exists('AvailabilityHelper')) {
                         'infant_price' => isset($item['infant_price']) ? (float)$item['infant_price'] : '',
                         'status' => $item['status'],
                         'groupday' => isset($item['groupday']) ? $item['groupday'] : '',
+						'starttime' => str_contains( $table, 'st_tour_availability' ) || str_contains( $table, 'st_activity_availability' ) ? $item['starttime'] : '',
                     ];
-                    if ($table == 'st_tour_availability' or $table == 'st_activity_availability')
-                        $return['starttime'] = $item['starttime'];
                 }
             }
             return $return;

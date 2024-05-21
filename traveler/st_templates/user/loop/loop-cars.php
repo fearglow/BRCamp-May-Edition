@@ -37,7 +37,7 @@ $url = st_get_link_with_search(get_permalink(get_the_ID()), array('pick-up-date'
 <div <?php post_class('st-item-list') ?>>
     <a rel="tooltip" data-original-title="<?php st_the_language('user_edit') ?>" href="<?php echo esc_url(add_query_arg(array('sc'=>'edit-cars','id'=>get_the_ID()),get_the_permalink($page_my_account_dashboard))) ?>"  class="btn_remove_post_type cursor fa fa-edit booking-item-wishlist-remove" style="background: #ed8323 ; color: #fff"></a>
     <a data-id="<?php the_ID() ?>" data-id-user="<?php echo esc_attr($data['ID']) ?>" data-placement="top" rel="tooltip"  class="btn_remove_post_type cursor fa fa-times booking-item-wishlist-remove" data-original-title="<?php st_the_language('user_remove') ?>" style="top:30px;"></a>
-    
+
     <a data-id="<?php the_ID() ?>" data-id-user="<?php echo esc_attr($data['ID']) ?>" data-status="<?php if($status == 'trash' ) echo "on";else echo 'off'; ?>" data-placement="top" rel="tooltip"  class="btn_on_off_post_type_partner cursor fa <?php if($status == 'trash' ) echo "fa-eye-slash";else echo 'fa-eye'; ?> booking-item-wishlist-remove" data-original-title="<?php _e("On/Off",'traveler') ?>" style="top:60px"></a>
     <div class="spinner user_img_loading ">
         <div class="bounce1"></div>
@@ -140,25 +140,29 @@ $url = st_get_link_with_search(get_permalink(get_the_ID()), array('pick-up-date'
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-3 col-sm-3 section-footer">
-                <div class="service-price">
-                        <span>
-                            <?php echo TravelHelper::getNewIcon('thunder', '#ffab53', '10px', '16px'); ?>
-                        </span>
-                    <span class="price">
-                            <?php
-                            echo TravelHelper::format_money($cars_price);
-                            ?>
-                        </span>
-                    <span class="unit">/<?php echo strtolower(STCars::get_price_unit('label')) ?></span>
-                </div>
-                <a href="<?php echo esc_url($url) ?>"
-                   class="btn btn-primary btn-view-more"><?php echo __('VIEW CAR', 'traveler'); ?></a>
+			<div class="col-lg-3 col-md-3 col-sm-3 section-footer">
+				<?php
+				$car_type = get_post_meta( get_the_ID(), 'car_type', true );
+				if ( $car_type !== 'car_transfer' ) :
+					?>
+					<div class="service-price">
+						<span>
+							<?php echo TravelHelper::getNewIcon('thunder', '#ffab53', '10px', '16px'); ?>
+						</span>
+						<span class="price">
+							<?php echo TravelHelper::format_money($cars_price); ?>
+						</span>
+						<span class="unit">/<?php echo strtolower(STCars::get_price_unit('label')) ?></span>
+					</div>
+				<?php endif; ?>
 
-                <?php if (!empty($info_price['discount']) and $info_price['discount'] > 0 and $info_price['price'] > 0) { ?>
-                    <?php echo STFeatured::get_sale($info_price['discount']); ?>
-                <?php } ?>
-            </div>
+				<a href="<?php echo esc_url($url) ?>"
+				class="btn btn-primary btn-view-more"><?php echo __('VIEW CAR', 'traveler'); ?></a>
+
+				<?php if (!empty($info_price['discount']) and $info_price['discount'] > 0 and $info_price['price'] > 0) { ?>
+					<?php echo STFeatured::get_sale($info_price['discount']); ?>
+				<?php } ?>
+			</div>
         </div>
     </div>
 </div>

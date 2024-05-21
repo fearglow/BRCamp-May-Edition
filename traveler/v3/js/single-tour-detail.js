@@ -243,6 +243,8 @@
                         delegate: 'a',
                         type: 'image',
                         closeMarkup: '<button class="mfp-close"><i class="stt-icon-close"></i></button>',
+						fixedContentPos: true,
+						overflowY: 'hidden',
                         gallery: {
                             enabled: true,
                             arrowMarkup: '<button title="%title%" type="button" class="mfp-arrow stt-icon-arrow-%dir%"></button>',
@@ -253,7 +255,9 @@
                 $('.st-list-item-gallery').magnificPopup({
                     delegate: 'a', // child items selector, by clicking on it popup will open
                     type: 'image',
-                    mainClass: 'stt-single-popup'
+                    mainClass: 'stt-single-popup',
+					fixedContentPos: true,
+					overflowY: 'hidden',
                     // other options
                 });
 

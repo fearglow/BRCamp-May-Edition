@@ -48,7 +48,7 @@
 
     }
 
-	$currency = TravelHelper::_get_currency_book_history( $item_id );
+	$currency = get_post_meta( $item_id, 'currency', true );
 
 ?>
 
@@ -406,13 +406,13 @@
 
 	                                                    $price = floatval( get_post_meta( $car_id, 'cars_price', true ) );
 
-	                                                    $price = TravelHelper::format_money( $price ) . ' / ' . STAdminCars::get_price_unit();
+	                                                    $price = TravelHelper::format_money_from_db( $price, $currency ) . ' / ' . STAdminCars::get_price_unit();
 
                                                     }else{
 
 	                                                    $price    = STAdminCars::get_min_max_price_transfer($car_id);
 
-	                                                    $price = TravelHelper::format_money((float)$price['min_price']);
+	                                                    $price = TravelHelper::format_money_from_db( (float)$price['min_price'], $currency );
 
                                                     }
 
@@ -494,7 +494,7 @@
 
                                             if ( !empty( $check_in ) ) {
 
-                                                $check_in = date( 'm/d/Y', strtotime( $check_in ) );
+												$check_in = date( TravelHelper::getDateFormat(), strtotime( $check_in ) );
 
                                             } else {
 
@@ -544,7 +544,7 @@
 
                                             if ( !empty( $check_out ) ) {
 
-                                                $check_out = date( 'm/d/Y', strtotime( $check_out ) );
+                                                $check_out = date( TravelHelper::getDateFormat(), strtotime( $check_out ) );
 
                                             } else {
 
@@ -590,6 +590,26 @@
 
                                 ]); ?>
 
+								<?php
+								if(!empty($discount_rate = get_post_meta($item_id, 'discount_rate', true))){
+									$discount_type = get_post_meta($order_item_id, 'discount_type', true);
+									?>
+									<div class="form-row">
+										<label class="form-label" for=""><?php _e( 'Discount', 'traveler' ) ?></label>
+										<div class="controls">
+											<strong>
+												<?php
+												if ($discount_type == 'amount') {
+													echo TravelHelper::format_money_from_db($discount_rate, $currency);
+												} else {
+													echo esc_html($discount_rate) . '%';
+												} ?>
+											</strong>
+										</div>
+									</div>
+								<?php } ?>
+
+
                                 <?php if($st_tab == 'normal'): ?>
 
                                 <div class="form-row">
@@ -608,81 +628,40 @@
 
                                                 if ( intval( $car_id ) > 0 && get_post_type( $car_id ) == 'st_cars' ) {
 
-                                                    $item_equipment = get_post_meta( $car_id, 'cars_equipment_list', true );
+													$extras = get_post_meta( $item_id, 'data_equipment', true );
+													$days_extra = get_post_meta( $item_id, 'numberday', true );
 
-                                                    if ( is_array( $item_equipment ) && count( $item_equipment ) ) {
+													$unit_extra = st()->get_option('cars_price_unit', 'day');
+													$text_unit_extra = '';
+													switch ($unit_extra) {
+														case 'distance':
+														case 'hour':
+															$text_unit_extra = __('Hour(s)', 'traveler');
+															break;
+														default:
+															$text_unit_extra = __('Day(s)', 'traveler');
+															break;
+													}
+													foreach ($extras['value'] as $name => $number):
+														$number_item = intval($extras['value'][$name]);
+														if ($number_item <= 0) $number_item = 0;
+														if ($number_item > 0):
+															$price_item = floatval($extras['price'][$name]);
+															if ($price_item <= 0) $price_item = 0;
+															$price_type = $extras['price'][$name];
+															?>
+															<span class="pull-left">
+															<?php
+															if ($price_type == 'fixed') {
+																echo esc_html($extras['title'][$name]) . ' (' . TravelHelper::format_money_from_db( $price_item, $currency ) . ') x ' . esc_html($number_item) . ' ' . __('Item(s)', 'traveler');
+															} else {
+																echo esc_html($extras['title'][$name]) . ' (' . TravelHelper::format_money_from_db( $price_item, $currency ) . ') x ' . esc_html($number_item) . ' ' . __('Item(s)', 'traveler') . ' x ' . esc_html($days_extra) . ' ' . esc_html($text_unit_extra);
+															}
 
-                                                        $mang_ss = [];
-
-
-
-                                                        $list_item_equipment = get_post_meta( $item_id, 'data_equipment', true );
-
-                                                        if ( is_array( $list_item_equipment ) && count( $list_item_equipment ) ) {
-
-                                                            foreach ( $list_item_equipment as $key => $value ) {
-
-                                                                $mang_ss[] = $value->title;
-
-                                                            }
-
-                                                        } else {
-
-                                                            $list_item_equipment = isset( $_POST[ 'item_equipment' ] ) ? $_POST[ 'item_equipment' ] : [ '' ];
-
-                                                            if ( is_array( $list_item_equipment ) && count( $list_item_equipment ) ) {
-
-                                                                foreach ( $list_item_equipment as $key => $value ) {
-
-                                                                    if ( !empty( $value ) )
-
-                                                                        $title = explode( '--', $value );
-
-                                                                    if ( !empty( $title[ 0 ] ) )
-
-                                                                        $mang_ss[] = $title[ 0 ];
-
-                                                                }
-
-                                                            }
-
-                                                        }
-
-
-
-                                                        $i = 0;
-
-
-
-                                                        foreach ( $item_equipment as $key => $val ) {
-
-                                                            $checked = null;
-
-                                                            $item    = $val[ 'title' ] . '--' . $val[ 'cars_equipment_list_price' ];
-
-                                                            if ( in_array( $val[ 'title' ], $mang_ss ) ) {
-
-                                                                $checked = 'checked';
-
-                                                            }
-
-
-
-                                                            $cars_equipment_list_price      = TravelHelper::convert_money( $val[ 'cars_equipment_list_price' ] );
-
-                                                            $cars_equipment_list_price_html = TravelHelper::format_money( $cars_equipment_list_price, false );
-
-                                                            echo '<div class="form-group" style="margin-bottom: 10px">
-
-                                                            <label for="item_equipment-' . $i . '"><input ' . $checked . ' id="item_equipment-' . $i . '" type="checkbox" name="item_equipment[]" value="' . $val[ 'title' ] . '--' . $cars_equipment_list_price . '">' . $val[ 'title' ] . '(' . $cars_equipment_list_price_html . ')</label>
-
-                                                            </div>';
-
-                                                            $i++;
-
-                                                        }
-
-                                                    }
+															?>
+															</span> <br/>
+														<?php endif;
+													endforeach;
 
                                                 }
 
@@ -718,50 +697,74 @@
 
                                 <?php } ?>
 
-                                <?php
 
-                                if(!empty($booking_fee_price = get_post_meta($item_id, 'booking_fee_price', true))){
 
-                                    ?>
 
-                                    <div class="form-row">
+								<?php
+								$item = get_post_meta($item_id, 'st_cart_info', true);
+								if ( get_post_meta( $car_id, 'car_type', true ) == 'normal' ) {
+									$item = $item[$order_item_id];
+								} else {
+									$item = $item['car_transfer'];
+								}
+								$price_with_tax = (float)$item['data']['price_with_tax'];
+								$price_with_tax -= $coupon_price;
+								$total_price = 0;
 
-                                        <label class="form-label" for=""><?php _e( 'Fee', 'traveler' ) ?></label>
+								$deposit_status = get_post_meta($item_id, 'deposit_money', true);
+								if((is_array($deposit_status) && !empty($deposit_status['type']) && floatval($deposit_status['amount']) > 0)){
+									$deposit_price = isset($data_price['deposit_price']) ? $data_price['deposit_price'] : 0;
+									$total_price = $deposit_price;
+									?>
+									<div class="form-row">
+										<label class="form-label" for=""><?php _e( 'Total', 'traveler' ) ?></label>
+										<div class="controls">
+											<strong><?php echo TravelHelper::format_money_from_db( $price_with_tax, $currency ); ?></strong>
+										</div>
+									</div>
+									<div class="form-row">
+										<label class="form-label" for=""><?php _e( 'Deposit', 'traveler' ) ?></label>
+										<div class="controls">
+											<strong><?php echo TravelHelper::format_money_from_db( $deposit_price, $currency ); ?></strong>
+										</div>
+									</div>
+									<?php
+									if ( ! empty( $booking_fee_price = get_post_meta( $item_id, 'booking_fee_price', true ) ) ) {
+										$total_price = $total_price + $booking_fee_price;
+										?>
+										<div class="form-row">
+											<label class="form-label" for=""><?php _e( 'Fee', 'traveler' ) ?></label>
+											<div class="controls">
+												<strong><?php echo TravelHelper::format_money_from_db( $booking_fee_price, $currency ); ?></strong>
+											</div>
+										</div>
+									<?php } ?>
+									<div class="form-row">
+										<label class="form-label" for=""><?php _e( 'Pay Amount', 'traveler' ) ?></label>
+										<div class="controls">
+											<strong><?php echo TravelHelper::format_money_from_db( $total_price, $currency ); ?></strong>
+										</div>
+									</div>
+								<?php } else { ?>
+									<?php
+									if ( ! empty( $booking_fee_price = get_post_meta( $item_id, 'booking_fee_price', true ) ) ) {
+										$price_with_tax = $price_with_tax + $booking_fee_price;
+										?>
+										<div class="form-row">
+											<label class="form-label" for=""><?php _e( 'Fee', 'traveler' ) ?></label>
+											<div class="controls">
+												<strong><?php echo TravelHelper::format_money_from_db( $booking_fee_price, $currency ); ?></strong>
+											</div>
+										</div>
+									<?php } ?>
+									<div class="form-row">
+										<label class="form-label" for=""><?php _e( 'Pay Amount', 'traveler' ) ?></label>
+										<div class="controls">
+											<strong><?php echo TravelHelper::format_money_from_db( $price_with_tax, $currency ); ?></strong>
+										</div>
+									</div>
+								<?php } ?>
 
-                                        <div class="controls">
-
-                                            <strong><?php echo TravelHelper::format_money_from_db($booking_fee_price ,$currency); ?></strong>
-
-                                        </div>
-
-                                    </div>
-
-                                <?php } ?>
-
-                                <div class="form-row">
-
-                                    <label class="form-label" for=""><?php _e( 'Pay Amount', 'traveler' ) ?></label>
-
-                                    <div class="controls">
-
-                                        <?php
-
-                                        $data_prices = ( get_post_meta( $item_id, 'data_prices', true ) );
-
-                                        ?>
-
-                                        <strong><?php echo TravelHelper::format_money_from_db( $data_prices['price_with_tax'], $currency ); ?></strong>
-
-                                    </div>
-
-                                </div>
-
-								<div class="form-row">
-                                    <label class="form-label" for=""><?php _e( 'Total', 'traveler' ) ?></label>
-                                    <div class="controls">
-                                        <strong><?php echo TravelHelper::format_money_from_db( $data_prices['total_price_with_tax'], $currency ); ?></strong>
-                                    </div>
-                                </div>
 
                                 <?php
 

@@ -591,64 +591,70 @@ switch ($current_range) {
             </div>
 
             <div class="report-chart">
-				<div class="table-responsive">
-					<table class="wp-list-table widefat striped pages">
-						<thead>
-							<tr>
-								<th class="col-name"><?php esc_html_e('Order', 'traveler'); ?></th>
-								<th class="col-name"><?php esc_html_e('Service', 'traveler'); ?></th>
-								<th class="col-name"><?php esc_html_e('Type', 'traveler'); ?></th>
-								<th class="col-name"><?php esc_html_e('Date', 'traveler'); ?></th>
-								<th class="col-name"><?php esc_html_e('Status', 'traveler'); ?></th>
-								<th class="col-name"><?php esc_html_e('Total', 'traveler'); ?></th>
-								<th class="col-name"><?php esc_html_e('Booking Fees', 'traveler'); ?></th>
-							</tr>
-						</thead>
-						<tbody>
-							<?php
-							$total_booking_fee_price = 0; // Initialize total booking fees
-							if (!empty($listsUsers)) {
-								foreach ($listsUsers as $oneUser) {
-									// Assuming there's a way to get the WooCommerce order ID from each $oneUser
-									$wc_order_id = isset($oneUser['wc_order_id']) ? $oneUser['wc_order_id'] : null;
+                <div class="table-responsive">
+                    <table class="wp-list-table widefat striped pages">
+                        <thead>
+                            <tr>
+                                <th class="col-name"><?php esc_html_e('Order', 'traveler'); ?></th>
+                                <th class="col-name"><?php esc_html_e('Service', 'traveler'); ?></th>
+                                <th class="col-name"><?php esc_html_e('Type', 'traveler'); ?></th>
+                                <th class="col-name"><?php esc_html_e('Date', 'traveler'); ?></th>
+                                <th class="col-name"><?php esc_html_e('Status', 'traveler'); ?></th>
+                                <th class="col-name"><?php esc_html_e('Total', 'traveler'); ?></th>
+                                <th class="col-name"><?php esc_html_e('Booking Fees', 'traveler'); ?></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $total_booking_fee_price = 0; // Initialize total booking fees
+                            $total_price = 0; // Initialize total price
 
-									if ($wc_order_id) {
-										// Retrieve the booking fee price using get_post_meta()
-										$total_price += floatval($oneUser['total_order']); // Accumulate totals
-										$booking_fee_price = get_post_meta($wc_order_id, 'booking_fee_price', true);
-										$booking_fee_price = !empty($booking_fee_price) ? floatval($booking_fee_price) : 0; // Ensure it's a number and provide a default
-									} else {
-										// Handle cases where wc_order_id is not available
-										$booking_fee_price = 0;
-										$total_price = 0;
-									}
+                            if (!empty($listsUsers)) {
+                                foreach ($listsUsers as $oneUser) {
+                                    // Assuming there's a way to get the WooCommerce order ID from each $oneUser
+                                    $wc_order_id = isset($oneUser['wc_order_id']) ? $oneUser['wc_order_id'] : null;
 
-									$total_booking_fee_price += $booking_fee_price; // Add to total
-									?>
-									<tr>
-										<td>#<?php echo esc_html($oneUser['order_item_id']); ?></td>
-										<td><a href="<?php echo esc_url(get_permalink($oneUser['st_booking_id'])); ?>" target="_blank"><?php echo get_the_title($oneUser['st_booking_id']); ?></a></td>
-										<td><?php echo ucfirst(str_replace('st_', '', $oneUser['st_booking_post_type'])); ?></td>
-										<td><?php echo date_i18n(get_option('date_format'), strtotime($oneUser['created'])); ?></td>
-										<td><?php echo esc_html($oneUser['status']); ?></td>
-										<td><?php echo TravelHelper::format_money($oneUser['total_order']); ?></td>
-										<td><?php echo TravelHelper::format_money($booking_fee_price); ?></td>
-									</tr>
-									<?php
-								}
-							} else {
-								echo '<tr><td colspan="7">' . esc_html__('--- Empty ---', 'traveler') . '</td></tr>';
-							}
-							?>
-							<tr>
-								<td colspan="5" style="text-align: right;"><strong><?php esc_html_e('Total:', 'traveler'); ?></strong></td>
-								<td><strong><?php echo TravelHelper::format_money($total_price); ?></strong></td>
-								<td><strong><?php echo TravelHelper::format_money($total_booking_fee_price); ?></strong></td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</div>
+                                    if ($wc_order_id) {
+                                        // Retrieve the booking fee price using get_post_meta()
+                                        $booking_fee_price = get_post_meta($wc_order_id, 'booking_fee_price', true);
+                                        $booking_fee_price = !empty($booking_fee_price) ? floatval($booking_fee_price) : 0; // Ensure it's a number and provide a default
+                                    } else {
+                                        // Handle cases where wc_order_id is not available
+                                        $booking_fee_price = 0;
+                                    }
+
+                                    $total_price += floatval($oneUser['total_order']); // Accumulate totals
+                                    $total_booking_fee_price += $booking_fee_price; // Add to total
+                                    ?>
+                                    <tr>
+                                        <td>#<?php echo esc_url($oneUser['order_item_id']); ?>
+                                            <?php if ($oneUser['user_id'] && $user = new WP_User($oneUser['user_id'])) {
+                                                echo ($user->first_name) ? ($user->first_name) . ' ' . esc_attr($user->last_name) : esc_attr($user->display_name);
+                                            } ?>
+                                            <?php do_action('st_after_order_page_admin_information_table', $oneUser['order_item_id']); ?>
+                                        </td>
+                                        <td><a href="<?php echo esc_url(get_permalink($oneUser['st_booking_id'])); ?>" target="_blank"><?php echo get_the_title($oneUser['st_booking_id']); ?></a></td>
+                                        <td><?php echo ucfirst(str_replace('st_', '', $oneUser['st_booking_post_type'])); ?></td>
+                                        <td><?php echo date_i18n(get_option('date_format'), strtotime($oneUser['created'])); ?></td>
+                                        <td><?php echo esc_html($oneUser['status']); ?></td>
+                                        <td><?php echo TravelHelper::format_money($oneUser['total_order']); ?></td>
+                                        <td><?php echo TravelHelper::format_money($booking_fee_price); ?></td>
+                                    </tr>
+                                    <?php
+                                }
+                            } else {
+                                echo '<tr><td colspan="7">' . esc_html__('--- Empty ---', 'traveler') . '</td></tr>';
+                            }
+                            ?>
+                            <tr>
+                                <td colspan="5" style="text-align: right;"><strong><?php esc_html_e('Total:', 'traveler'); ?></strong></td>
+                                <td><strong><?php echo TravelHelper::format_money($total_price); ?></strong></td>
+                                <td><strong><?php echo TravelHelper::format_money($total_booking_fee_price); ?></strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
 
                 <div class="st-admin-paginate">

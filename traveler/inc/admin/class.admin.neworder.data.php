@@ -371,6 +371,15 @@
                         }
                         if ( $type == 'woocommerce' ) {
                             $total_order = get_post_meta( $wc_order_id, '_order_total', true );
+							if ( empty( $total_order ) ) {
+								global $wpdb;
+								$querystr = "SELECT total_amount
+											FROM  " . $wpdb->prefix . "wc_orders
+											WHERE
+											id = '{$wc_order_id}'
+											";
+								$total_order = $wpdb->get_row( $querystr, OBJECT )->total_amount;
+							}
                         }
                         global $sitepress;
                         if ( $sitepress ) {
@@ -449,6 +458,15 @@
                         }
                         if ( $type == 'woocommerce' ) {
                             $total_order = get_post_meta( $wc_order_id, '_order_total', true );
+							if ( empty( $total_order ) ) {
+								global $wpdb;
+								$querystr = "SELECT total_amount
+											FROM  " . $wpdb->prefix . "wc_orders
+											WHERE
+											id = '{$wc_order_id}'
+											";
+								$total_order = $wpdb->get_row( $querystr, OBJECT )->total_amount;
+							}
                         }
                         global $sitepress;
                         if ( $sitepress ) {

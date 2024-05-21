@@ -1047,6 +1047,10 @@ body.st-header-9 #st-content-wrapper.st-style-elementor .st-heading-section {
   }
 }
 
+figure {
+  max-width: 100%;
+}
+
 .aligncenter {
   clear: both;
   display: block;
@@ -4625,19 +4629,11 @@ body.st-header-9 #st-content-wrapper.st-style-elementor .st-heading-section {
 }
 .single.st-mod-style .mfp-content {
   max-width: 100%;
-  width: 100%;
-  background: transparent;
-  height: 100%;
-}
-@media screen and (max-width: 767px) {
-  .single.st-mod-style .mfp-content {
-    height: auto;
-  }
 }
 .single.st-mod-style .mfp-content .mfp-close {
   display: inline-block;
   z-index: 99;
-  right: 30px;
+  right: -30px;
   top: 30px;
   background: #FFFFFF;
   box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.08), 0px 4px 12px rgba(0, 0, 0, 0.05);
@@ -4665,14 +4661,10 @@ body.st-header-9 #st-content-wrapper.st-style-elementor .st-heading-section {
     font-size: 18px;
   }
 }
-.single.st-mod-style .mfp-content .mfp-figure {
-  background: transparent;
-  height: 100%;
-}
 .single.st-mod-style .mfp-content .mfp-figure .mfp-close {
   display: inline-block;
   z-index: 99;
-  right: 30px;
+  right: -30px;
   top: 30px;
   background: #FFFFFF;
   box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.08), 0px 4px 12px rgba(0, 0, 0, 0.05);
@@ -4686,15 +4678,6 @@ body.st-header-9 #st-content-wrapper.st-style-elementor .st-heading-section {
 }
 .single.st-mod-style .mfp-content .mfp-figure .mfp-close i {
   line-height: 56px;
-}
-.single.st-mod-style .mfp-content .mfp-figure figure {
-  background: transparent;
-  height: 100%;
-}
-.single.st-mod-style .mfp-content .mfp-figure figure img.mfp-img {
-  max-height: 100% !important;
-  height: 100%;
-  object-fit: cover;
 }
 .single.st-mod-style .mfp-content .mfp-figure:after {
   background: transparent;
@@ -5496,7 +5479,6 @@ body.st-header-9 #st-content-wrapper.st-style-elementor .st-heading-section {
   border-bottom: transparent;
   padding-bottom: 0;
 }
-
 .st-dot {
   height: 3px;
   width: 3px;
@@ -5505,11 +5487,6 @@ body.st-header-9 #st-content-wrapper.st-style-elementor .st-heading-section {
   display: inline-block;
 }
 
-@media (max-width: 767px) {
-  .single.st-mod-style .mfp-content .mfp-figure figure img.mfp-img {
-    height: auto;
-  }
-}
 .single-hotel_room #st-content-wrapper.st-style-elementor .st-hotel-room-content,
 .single-st_hotel #st-content-wrapper.st-style-elementor .st-hotel-room-content,
 .single-st_rental #st-content-wrapper.st-style-elementor .st-hotel-room-content {
@@ -6190,6 +6167,9 @@ body.st-mod-style #st-content-wrapper.st-style-elementor .room-rates .rate-calen
     display: flex !important;
     z-index: 9999999;
   }
+  .single-hotel_room #st-content-wrapper.st-style-elementor .st-hotel-room-content .hotel-target-book-mobile.hide {
+    display: none !important;
+  }
   .single-hotel_room #st-content-wrapper.st-style-elementor .st-hotel-room-content .fixed-on-mobile {
     overflow: auto;
     padding: 20px;
@@ -6257,6 +6237,9 @@ body.st-mod-style #st-content-wrapper.st-style-elementor .room-rates .rate-calen
   .single-hotel_room #st-content-wrapper.st-style-elementor .rate-calendar.style-2 .st-availability-calendar-wrapper .calendar .calendar-table .table-condensed tbody tr .td-date.not-show,
   .single-st_tours #st-content-wrapper.st-style-elementor .rate-calendar.style-2 .st-availability-calendar-wrapper .calendar .calendar-table .table-condensed tbody tr .td-date.not-show {
     height: 0 !important;
+  }
+  body.st-mod-style #st-content-wrapper.st-style-elementor.singe-room-layout-3 .widgets .st-fixed-form-booking {
+    margin-top: 0;
   }
 }
 @media screen and (max-width: 575px) {

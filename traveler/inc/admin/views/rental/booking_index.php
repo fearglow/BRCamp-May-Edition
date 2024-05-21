@@ -290,13 +290,13 @@ echo '<h2>'.__('Rental Booking','traveler').'</h2>';
 
                             <td class="post-title page-title column-title">
 
-                                <?php $date= get_post_meta($post_id, 'check_in', true);if($date) echo date('m/d/Y',strtotime($date)); ?>
+                                <?php $date= get_post_meta($post_id, 'check_in', true);if($date) echo date(TravelHelper::getDateFormat(),strtotime($date)); ?>
 
                             </td>
 
                             <td class="post-title page-title column-title">
 
-                                <?php $date= get_post_meta($post_id, 'check_out', true);if($date) echo date('m/d/Y',strtotime($date)); ?>
+                                <?php $date= get_post_meta($post_id, 'check_out', true);if($date) echo date(TravelHelper::getDateFormat(),strtotime($date)); ?>
 
                             </td>
 
@@ -324,8 +324,8 @@ echo '<h2>'.__('Rental Booking','traveler').'</h2>';
 
                                 <?php
 
-                                $price = get_post_meta($post_id,'total_price',true);
-                                $currency = TravelHelper::_get_currency_book_history($post_id);
+								$price    = get_post_meta($post_id, 'total_price',true);
+								$currency = get_post_meta( $post_id, 'currency', true );
 
 								echo TravelHelper::format_money_from_db($price, $currency);
 

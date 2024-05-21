@@ -1808,6 +1808,7 @@ if ( ! class_exists( 'STTour' ) ) {
 			$child_number          = intval( STInput::request( 'child_number', 0 ) );
 			$infant_number         = intval( STInput::request( 'infant_number', 0 ) );
 			$starttime             = STInput::request( 'starttime_tour', '' );
+			$layout                = get_post_meta( $item_id, 'st_custom_layout_new', true );
 			$data['adult_number']  = $adult_number;
 			$data['child_number']  = $child_number;
 			$data['infant_number'] = $infant_number;
@@ -1829,7 +1830,7 @@ if ( ! class_exists( 'STTour' ) ) {
 			$format_check_in = date("Y-m-d", strtotime($check_in));
 			$starttime_data = AvailabilityHelper::_get_starttime_tour_by_date($item_id, strtotime($format_check_in));
 
-			if ( !empty( $starttime_data[0]->starttime ) && empty( $starttime ) ) {
+			if ( !empty( $starttime_data[0]->starttime ) && empty( $starttime ) && $layout != '7' ) {
 				STTemplate::set_message( __( 'Start time is over.', 'traveler' ), 'danger' );
 				$pass_validate = false;
 				return false;

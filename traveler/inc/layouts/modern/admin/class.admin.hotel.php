@@ -678,14 +678,14 @@ if (!class_exists('STAdminHotel')) {
                         'label' => __('Set auto calculation average price', 'traveler'),
                         'id' => 'is_auto_caculate',
                         'type' => 'on-off',
-                        'desc' => __('The average price of hotel<br/>ON: Automatically<br/>OFF: Input manually', 'traveler'),
+                        'desc' => __('The average price of hotel. Show only if Theme Options > Hotel Options > Price show on listing = Avg Price<br/>ON: Automatically<br/>OFF: Input manually', 'traveler'),
                         'std' => 'on'
                     ],
                     [
                         'label' => __('Average price', 'traveler'),
                         'id' => 'price_avg',
                         'type' => 'text',
-                        'desc' => __('Enter default average price', 'traveler'),
+                        'desc' => __('Enter default average price if OFF for Set auto calculation average price', 'traveler'),
                         'std' => 0,
                         'conditions' => 'is_auto_caculate:is(on)',
 						'is_number' => true,

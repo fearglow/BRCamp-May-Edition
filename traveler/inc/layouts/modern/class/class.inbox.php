@@ -250,10 +250,10 @@ if (!class_exists('ST_Inbox')) {
                     $url = add_query_arg(array('message_id' => $message_id), $url);
                 }
                 $blogname = get_bloginfo('name');
-                $subject = esc_html__('[New Message]You have a new message from ', 'traveler').esc_attr($blogname);
+                $subject = esc_html__('You have a new message from ', 'traveler').esc_attr($blogname);
                 $service_html = '';
                 if(!empty($data_message['post_id'])){
-                    $service_html = esc_html__('to ','traveler').get_the_title($data_message['post_id']);
+                    $service_html = get_the_title($data_message['post_id']);
                 }
                 $content .= '<div class="content">
                                         <div class="content-header">
@@ -261,9 +261,9 @@ if (!class_exists('ST_Inbox')) {
                                         </div>
                                         <div class="content-center">
                                             <p>'.esc_html__('Hello ','traveler').'<b>'.$user_data->user_login.'</b>'.'</p>
-                                            <p>'.sprintf(esc_html__('You have a message from %s %s with the content:','traveler'), $current_user_data->user_login, $service_html).'</p>
+                                            <p>'.sprintf(esc_html__('You have a message from %s in %s with the content:','traveler'), $current_user_data->user_login, $service_html).'</p>
                                             <p><b>'.nl2br(stripslashes($data_message['content'])).'</b></p>';
-                $content .= '<p>'.esc_html__('you can answer for them ','traveler').'<a target="_blank" href="'.esc_url($url).'">'.esc_html__('here','traveler').'</a>'.esc_html__(' or going to the section message administration to follow.').'</p>';
+                $content .= '<p>'.esc_html__('you can answer here ','traveler').'<a target="_blank" href="'.esc_url($url).'">'.esc_html__('here','traveler').'</a>'.esc_html__(' . Or going to the Account > Message Administration to follow.').'</p>';
                 $content .= '<div class="content-footer">';
                 $content .= '<a class="btn btn-default" href="'.esc_url($url).'">'.esc_html__('Message Management','traveler').'</a>';
                 $content .=             '</div></div>

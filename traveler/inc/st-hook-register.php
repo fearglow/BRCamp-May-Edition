@@ -19,6 +19,7 @@ add_action( 'widgets_init', 'st_add_sidebar' );
 add_action('wp_enqueue_scripts', 'st_add_scripts');
 if ( current_user_can('subscriber') || current_user_can('contributor') && !current_user_can('upload_files') ){
     add_action("admin_init", "st_allow_contributor_uploads");
+	add_filter('woocommerce_prevent_admin_access', '__return_false');
 }
 //Ad admin scripts
 add_action('admin_enqueue_scripts','st_admin_add_scripts');

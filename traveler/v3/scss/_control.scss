@@ -1004,7 +1004,11 @@ button {
 @media (max-width: 767px) {
     .st-header-2 {
         header#header {
-            margin-bottom: -102px;
+			margin-bottom: 0;
+			height: auto;
+			.header i {
+				filter: brightness(0%);
+			}
         }
 
         .search-form-wrapper {
@@ -3229,6 +3233,10 @@ button {
             align-items: center;
             justify-content: space-between;
             z-index: 9;
+			.item.onsale {
+				text-decoration: line-through;
+				color: #B1BAC1;
+			}
         }
 
         .fixed-on-mobile {
@@ -3238,7 +3246,7 @@ button {
             width: 100% !important;
             bottom: 0;
             background: #fff;
-            z-index: 888;
+            z-index: 999;
             display: none;
             overflow: scroll;
 
@@ -4452,4 +4460,13 @@ header#main-header,
 
 .st-border-radius-16{
     border-radius: 16px !important;
+}
+
+
+.page-template-template-tp-flights-search-modern,
+.page-template-template-tp-flights-search {
+	overflow: auto !important;
+	&:not(.admin-bar) iframe {
+		top: 0 !important;
+	}
 }

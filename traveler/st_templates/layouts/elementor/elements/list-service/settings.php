@@ -154,7 +154,7 @@ if (!class_exists('ST_List_Service_Element')) {
             $this->add_control(
                 'style',
                 [
-                    'label' => esc_html__('Style (Not for tour single)', 'traveler'),
+                    'label' => esc_html__('Style (Not for Grid Tour Single)', 'traveler'),
                     'type' => 'select',
                     'label_block' => true,
                     'options' => $layout_style,
@@ -183,7 +183,7 @@ if (!class_exists('ST_List_Service_Element')) {
                 [
                     'label' => esc_html__( 'Choose service', 'traveler' ),
                     'type' => \Elementor\Controls_Manager::SELECT,
-                    'options' => ST_Elementor::listSerrviceSelectionName(array('st_cartransfer')),
+                    'options' => ST_Elementor::listSerrviceSelectionName(['st_cartransfer,tp_flight,tp_hotel,bookingdc,expedia']),
                     'default' => 'st_hotel',
                     'condition' => [
                         'type_form' => 'single'

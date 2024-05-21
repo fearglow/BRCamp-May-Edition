@@ -311,7 +311,7 @@ if(in_array(STInput::get('sc'),$hide_menu_ins))
 
                             <?php } ?>
                             <?php if (STUser_f::_check_service_available_partner('st_hotel')): ?>
-                                <li class="sidebar-dropdown st-active <?php if (in_array($sc, array('my-hotel', 'create-hotel', 'edit-hotel', 'add-hotel-booking', 'booking-hotel', 'hotel-inventory', 'my-room', 'create-room', 'add-hotel-room-booking', 'booking-hotel-room'))){echo 'active';}  ?>">
+                                <li class="sidebar-dropdown st-active <?php if (in_array($sc, array('my-hotel', 'create-hotel', 'edit-hotel', 'add-hotel-booking', 'booking-hotel', 'hotel-inventory', 'my-room', 'edit-room', 'create-room', 'add-hotel-room-booking', 'booking-hotel-room'))){echo 'active';}  ?>">
                                     <a href="#">
                                         <img src="<?php echo get_template_directory_uri()."/v2/images/dashboard/ico_hotel.svg";?>" alt="" class="st-icon-menu">
                                         <span><?php _e("Hotel", 'traveler') ?></span>

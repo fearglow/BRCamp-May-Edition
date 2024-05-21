@@ -2553,22 +2553,28 @@ if ( ! class_exists( 'STAdminTours' ) ) {
 					$discount_type     = get_post_meta( $post_ID, 'discount_type', true );
 					$price_adult       = ! empty( get_post_meta( $post_ID, 'adult_price', true ) ) ? get_post_meta( $post_ID, 'adult_price', true ) : 0;
 					$price_child       = ! empty( get_post_meta( $post_ID, 'child_price', true ) ) ? get_post_meta( $post_ID, 'child_price', true ) : 0;
+					$price_infant      = ! empty( get_post_meta( $post_ID, 'infant_price', true ) ) ? get_post_meta( $post_ID, 'infant_price', true ) : 0;
 					$str_discount_type = ( $discount_type == 'percent' ) ? '%' : '';
 					if ( ! empty( $discount ) ) {
 						$is_sale_schedule = get_post_meta( $post_ID, 'is_sale_schedule', true );
 
 						if ( isset( $discount_type ) && $discount_type == 'amount' ) {
-							$sale_adult = $price_adult - $discount;
-							$sale_child = $price_child - $discount;
+							$sale_adult  = $price_adult - $discount;
+							$sale_child  = $price_child - $discount;
+							$sale_infant = $price_infant - $discount;
 						} else {
 							$sale_adult = ! empty( $price_adult ) ? $price_adult - $price_adult * ( $discount / 100 ) : 0;
 							$sale_child = ! empty( $price_child ) ? $price_child - $price_child * ( $discount / 100 ) : 0;
+							$sale_infant = ! empty( $price_infant ) ? $price_infant - $price_infant * ( $discount / 100 ) : 0;
 						}
 						if ( isset( $sale_adult ) && intval( $sale_adult ) < 0 ) {
 							$sale_adult = 0;
 						}
 						if ( isset( $sale_child ) && intval( $sale_child ) < 0 ) {
 							$sale_child = 0;
+						}
+						if ( isset( $sale_infant ) && intval( $sale_infant ) < 0 ) {
+							$sale_infant = 0;
 						}
 						if ( $is_sale_schedule == 'on' ) {
 							$sale_from = get_post_meta( $post_ID, 'sale_price_from', true );
@@ -2577,6 +2583,7 @@ if ( ! class_exists( 'STAdminTours' ) ) {
 							$sale_to   = mysql2date( 'd/m/Y', $sale_to );
 							echo '<span> ' . __( 'Adult Price', 'traveler' ) . ': ' . TravelHelper::format_money( $price_adult ) . '</span> <i class="fa fa-arrow-right"></i> <strong>' . TravelHelper::format_money( $sale_adult ) . '</strong><br>';
 							echo '<span>' . __( 'Child Price', 'traveler' ) . ': ' . TravelHelper::format_money( $price_child ) . '</span> <i class="fa fa-arrow-right"></i> <strong>' . TravelHelper::format_money( $sale_child ) . '</strong><br>';
+							echo '<span>' . __( 'Infant Price', 'traveler' ) . ': ' . TravelHelper::format_money( $price_infant ) . '</span> <i class="fa fa-arrow-right"></i> <strong>' . TravelHelper::format_money( $sale_infant ) . '</strong><br>';
 							if ( isset( $discount_type ) && $discount_type == 'amount' ) {
 								echo '<span>' . __( 'Discount rate', 'traveler' ) . ' : ' . TravelHelper::format_money( $discount ) . '</span><br>';
 							} else {
@@ -2586,6 +2593,8 @@ if ( ! class_exists( 'STAdminTours' ) ) {
 						} else {
 							echo '<span> ' . __( 'Adult Price', 'traveler' ) . ': ' . TravelHelper::format_money( $price_adult ) . '</span> <i class="fa fa-arrow-right"></i> <strong>' . TravelHelper::format_money( $sale_adult ) . '</strong><br>';
 							echo '<span>' . __( 'Child Price', 'traveler' ) . ': ' . TravelHelper::format_money( $price_child ) . '</span> <i class="fa fa-arrow-right"></i> <strong>' . TravelHelper::format_money( $sale_child ) . '</strong><br>';
+							echo '<span>' . __( 'Infant Price', 'traveler' ) . ': ' . TravelHelper::format_money( $price_infant ) . '</span> <i class="fa fa-arrow-right"></i> <strong>' . TravelHelper::format_money( $sale_infant ) . '</strong><br>';
+
 							if ( isset( $discount_type ) && $discount_type == 'amount' ) {
 								echo '<span>' . __( 'Discount rate', 'traveler' ) . ' : ' . TravelHelper::format_money( $discount ) . '</span><br>';
 							} else {
@@ -2594,7 +2603,8 @@ if ( ! class_exists( 'STAdminTours' ) ) {
 						}
 					} else {
 						echo '<span> ' . __( 'Adult Price', 'traveler' ) . ': ' . TravelHelper::format_money( $price_adult ) . '</span><br>';
-						echo '<span>' . __( 'Child Price', 'traveler' ) . ': ' . TravelHelper::format_money( $price_child ) . '</span>';
+						echo '<span>' . __( 'Child Price', 'traveler' ) . ': ' . TravelHelper::format_money( $price_child ) . '</span><br>';
+						echo '<span>' . __( 'Infant Price', 'traveler' ) . ': ' . TravelHelper::format_money( $price_infant ) . '</span>';
 					}
 				}
 			}

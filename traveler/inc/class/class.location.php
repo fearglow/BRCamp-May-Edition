@@ -244,7 +244,7 @@ if (!class_exists('STLocation')) {
             ];
 
             if ($s) {
-                
+
             }
 
             global $wp_query;
@@ -1445,16 +1445,42 @@ if (!class_exists('STLocation')) {
                 $service_list .= "'".$service ."',";
             }
 
-            $service_list = rtrim($service_list,',');
+            $service_list      = rtrim($service_list,',');
+			$list_car_transfer = self::get_all_car_transfer();
             global $wpdb;
             $table = $wpdb->prefix . 'st_location_relationships';
             $table2 = $wpdb->prefix . 'posts';
-            $sql = "SELECT  lr.post_type , count(lr.id) as total_item FROM {$table} as lr INNER JOIN {$table2} as p ON lr.post_id = p.ID  WHERE 1=1 AND lr.location_from = {$location_id} AND p.post_status IN ('publish', 'private') ";
+            $sql = "SELECT  lr.post_type , count(lr.id) as total_item
+				FROM {$table} as lr
+				INNER JOIN {$table2} as p ON lr.post_id = p.ID
+				WHERE 1=1
+					AND lr.location_from = {$location_id}
+					AND p.post_status IN ('publish', 'private') ";
+			if ( !empty( $list_car_transfer ) ) {
+				$sql .= " AND lr.post_id NOT IN ({$list_car_transfer})";
+			}
             if (!empty($service_list)) {
                 $sql .= " AND lr.post_type IN ({$service_list}) GROUP BY lr.post_type";
             }
             return $wpdb->get_results( $sql, ARRAY_A );
         }
+
+		static function get_all_car_transfer() {
+			global $wpdb;
+			$table = $wpdb->prefix . 'postmeta';
+			$sql   = "SELECT post_id
+				FROM {$table}
+				WHERE meta_key = 'car_type' AND meta_value = 'car_transfer'";
+
+			$data = $wpdb->get_results( $sql, ARRAY_A );
+			$ids = [];
+			foreach ( $data as $key => $value ) {
+				array_push( $ids, $value['post_id'] );
+			}
+			$ids     = array_unique( $ids );
+			$data_id = implode( ',', $ids );
+			return $data_id;
+		}
 
         static function inst() {
             if (!self::$_inst) {

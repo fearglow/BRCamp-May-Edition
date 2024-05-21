@@ -35,9 +35,8 @@ if($list_style =='list' && $style_list == 'vertical'){
     <?php echo st_render_html_attributes($attrs);?> >
     <?php echo st()->load_template('layouts/elementor/common/loader', 'content'); ?>
     <?php
+	$services = ST_Elementor::st_explode_select2($services);
     if($type_form === 'mix_service' && $list_style !== 'slider'){
-        $services = ST_Elementor::st_explode_select2($services);
-
         ?>
         <div class="title d-flex align-items-center">
             <?php
@@ -83,7 +82,6 @@ if($list_style =='list' && $style_list == 'vertical'){
         </div>
     <?php } ?>
     <div class="multi-service-wrapper">
-
         <?php
         if($type_form === 'mix_service'){
             $v= !empty(array_key_first($services)) ? array_key_first($services) : array();

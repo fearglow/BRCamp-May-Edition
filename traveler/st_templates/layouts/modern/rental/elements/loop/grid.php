@@ -26,8 +26,10 @@ $regular_price = get_post_meta( get_the_ID(), 'price', true );
 ?>
 
 <div class="item-service grid-item has-matchHeight">
-	<div class="featured-image">
-		<?php echo STFeatured::get_featured(); ?>
+	<div class="featured-image thumb">
+		<div class="service-tag bestseller">
+			<?php echo STFeatured::get_featured(); ?>
+		</div>
 		<?php if ( ! empty( $info_price['discount'] ) && $info_price['discount'] > 0 && $info_price['price_new'] > 0 ) { ?>
 				<?php echo STFeatured::get_sale( $info_price['discount'] ); ?>
 		<?php } ?>

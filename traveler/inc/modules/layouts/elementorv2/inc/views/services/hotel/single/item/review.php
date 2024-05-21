@@ -46,7 +46,7 @@
                             ?>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
             <div class="review-pagination">
@@ -88,9 +88,10 @@
                 ?>
                 <div id="write-review">
                     <h4 class="heading">
-                        <a href="javascript: void(0)" class="toggle-section c-main f16"
-                        data-target="st-review-form"><?php echo __('Write a review', 'traveler') ?>
-                            <i class="stt-icon-arrow-down"></i></a>
+                        <a href="#" class="toggle-section c-main f16"
+                        	data-target="st-review-form"><?php echo __('Write a review', 'traveler') ?>
+                            <i class="stt-icon-arrow-down"></i>
+						</a>
                     </h4>
                     <?php
                     TravelHelper::comment_form();

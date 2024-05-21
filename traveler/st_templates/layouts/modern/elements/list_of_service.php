@@ -26,7 +26,7 @@ switch ($service) {
             $hotel = STHotel::inst();
             $hotel->alter_search_query();
             $query = new WP_Query($args);
-            $html = '<div class="services-grid"><div class="row">';
+            $html = '<div class="services-grid modern-search-result"><div class="row">';
             while ($query->have_posts()):
                 $query->the_post();
                 $html .= st()->load_template('layouts/modern/hotel/loop/grid', '');
@@ -112,7 +112,7 @@ switch ($service) {
             $rental->alter_search_query();
             $query = new WP_Query($args);
             if ($query->have_posts()) {
-                echo '<div class="search-result-page st-rental service-slider-wrapper"><div class="st-hotel-result"><div class="owl-carousel st-service-rental-slider">';
+                echo '<div class="search-result-page st-rental service-slider-wrapper"><div class="st-hotel-result modern-search-result"><div class="owl-carousel st-service-rental-slider">';
                 while ($query->have_posts()):
                     $query->the_post();
                     echo st()->load_template('layouts/modern/rental/elements/loop/grid', '', array('slider' => true));

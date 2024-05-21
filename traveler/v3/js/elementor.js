@@ -215,7 +215,7 @@
             preloadImages: true,
             centeredSlides: !!(center_slider == 'on'),
             centeredSlidesBounds: true,
-            effect: wrapper_list.attr('data-effect'),
+            // effect: wrapper_list.attr('data-effect'),
 
         }
 

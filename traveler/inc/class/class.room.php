@@ -850,11 +850,7 @@
                 $result_string = $p1 = $p2 = $p3 = $p4 = '';
 
                 if ( $query->found_posts ) {
-                    if ( $query->found_posts > 1 ) {
-                        $p1 = sprintf( __( '%s rooms', 'traveler' ), $query->found_posts );
-                    } else {
-                        $p1 = sprintf( __( '%s room', 'traveler' ), $query->found_posts );
-                    }
+                    $p1 = sprintf( _n( '%s room', '%s rooms', $query->found_posts, 'traveler' ), $query->found_posts );
                 } else {
                     $p1 = __( 'No room found', 'traveler' );
                 }

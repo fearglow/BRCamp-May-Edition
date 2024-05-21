@@ -1258,4 +1258,8 @@
   margin-bottom: 0px !important;
 }
 
+.hotel-single .st-breadcrumb {
+  display: none;
+}
+
 /*# sourceMappingURL=single-hotel-checkout.css.map */

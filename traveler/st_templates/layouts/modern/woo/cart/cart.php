@@ -29,7 +29,6 @@ do_action('woocommerce_before_cart'); ?>
 						<th class="product-thumbnail"><span class="screen-reader-text"><?php esc_html_e( 'Thumbnail image', 'traveler' ); ?></span></th>
 						<th class="product-name"><?php esc_html_e( 'Product', 'traveler' ); ?></th>
 						<th class="product-price"><?php esc_html_e( 'Price', 'traveler' ); ?></th>
-						<th class="product-quantity"><?php esc_html_e( 'Quantity', 'traveler' ); ?></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -67,7 +66,7 @@ do_action('woocommerce_before_cart'); ?>
 
 								<td class="product-remove <?php echo esc_attr(apply_filters('woocommerce_cart_item_class', 'cart_item', $cart_item, $cart_item_key)); ?>">
 									<?php
-										do_action('st_before_cart_item_' . $post_type);
+										do_action('st_before_cart_item_' . $post_type, $post_type);
 										echo apply_filters( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 											'woocommerce_cart_item_remove_link',
 											sprintf(
@@ -180,28 +179,6 @@ do_action('woocommerce_before_cart'); ?>
 										echo apply_filters('woocommerce_cart_item_price', WC()->cart->get_product_price($_product), $cart_item, $cart_item_key);
 										?>
 									</span>
-								</td>
-
-								<td class="product-quantity" data-title="<?php esc_attr_e( 'Quantity', 'traveler' ); ?>">
-									<?php
-									if ( $_product->is_sold_individually() ) {
-										$product_quantity = sprintf( '1 <input type="hidden" name="cart[%s][qty]" value="1" />', $cart_item_key );
-									} else {
-										$product_quantity = woocommerce_quantity_input(
-											array(
-												'input_name'   => "cart[{$cart_item_key}][qty]",
-												'input_value'  => $cart_item['quantity'],
-												'max_value'    => $_product->get_max_purchase_quantity(),
-												'min_value'    => '0',
-												'product_name' => $_product->get_name(),
-											),
-											$_product,
-											false
-										);
-									}
-
-									echo apply_filters( 'woocommerce_cart_item_quantity', $product_quantity, $cart_item_key, $cart_item ); // PHPCS: XSS ok.
-									?>
 								</td>
 							</tr>
 							<?php

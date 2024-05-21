@@ -21,11 +21,9 @@ $phone_number    = get_post_meta( $post_translated, 'phone', true );
 				<div class="featured">
 					<?php
 					if ( ! empty( st()->get_option( 'st_text_featured', '' ) ) ) {
-						echo esc_html( st()->get_option( 'st_text_featured', '' ) );
+						echo wp_kses_post( st()->get_option( 'st_text_featured', '' ) );
 					} else {
-						?>
-							<?php echo esc_html__( 'Featured', 'traveler' ) ?>
-						<?php
+						echo esc_html__( 'Featured', 'traveler' );
 					}
 					?>
 				</div>
@@ -50,14 +48,14 @@ $phone_number    = get_post_meta( $post_translated, 'phone', true );
 			<?php } ?>
 			<a href="<?php echo esc_url( $url ); ?>">
 				<?php
-				echo get_the_post_thumbnail( $post_id, [ 450, 300 ], [
+				echo get_the_post_thumbnail( $post_id, [ 900, 600 ], [
 					'class'    => $class_image . ' st-hover-grow',
 					'alt'      => TravelHelper::get_alt_image(),
 					'itemprop' => 'photo',
 				] )
 				?>
 				<?php
-				echo get_the_post_thumbnail( $post_id, [ 450, 300 ], [
+				echo get_the_post_thumbnail( $post_id, [ 900, 600 ], [
 					'class'    => 'd-none',
 					'alt'      => TravelHelper::get_alt_image(),
 					'itemprop' => 'image',

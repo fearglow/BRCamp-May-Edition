@@ -28,7 +28,7 @@ module.exports = function (grunt) {
                     'js/iconpicker/js/fontawesome-iconpicker.min.js',
                     'js/jquery.scrollTo.min.js',
                     'inc/modules/flights/js/custom_flight.js',
-                    'js/select2/select2.min.js',
+                    'js/select2-new/js/select2.full.js',
                     'js/handlebars-v2.0.0.js',
                     'js/typeahead.js',
                     'js/init/st-select.js',

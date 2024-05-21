@@ -180,15 +180,38 @@ $tour_external_booking_link = get_post_meta( $post_id, 'st_tour_external_booking
                             </div>
                             <?php endif; ?>
                             <!--Starttime-->
-                                <input type="hidden" data-starttime="<?php echo esc_attr($starttime_value); ?>"
-                                       data-checkin="<?php echo esc_attr($check_in); ?>" data-checkout="<?php echo esc_attr($check_out); ?>"
-                                       data-tourid="<?php echo esc_attr($post_id); ?>" id="starttime_hidden_load_form"/>
-                                <div class="mt10 mb20"
-                                     id="starttime_box" <?php echo empty($starttime_value) ? 'style="display: none;"' : ''; ?>>
-                                    <label><?php echo __('Start time', 'traveler'); ?></label>
-                                    <select class="form-control st_tour_starttime" name="starttime_tour"
-                                            id="starttime_tour"></select>
-                                </div>
+							<?php
+							$current_calendar = TravelHelper::get_current_available_calendar(TravelHelper::post_origin($post_id, 'st_tours'));
+							$current_calendar = date(TravelHelper::getDateFormat(), strtotime($current_calendar));
+							$list_time = AvailabilityHelper::_get_starttime_tour_frontend_by_date($post_id,$current_calendar,$current_calendar);
+							?>
+							<input type="hidden"
+								data-starttime="<?php echo esc_attr($starttime_value); ?>"
+								data-checkin="<?php echo esc_attr($check_in); ?>"
+								data-checkout="<?php echo esc_attr($check_out); ?>"
+								data-tourid="<?php echo esc_attr($post_id); ?>"
+								id="starttime_hidden_load_form"/>
+							<div class="mt10 mb20"
+									id="starttime_box" <?php echo empty(!empty($list_time['data']) && !empty($list_time['data'][0])) ? 'style="display: none;"' : ''; ?>>
+								<label><?php echo __('Start time', 'traveler'); ?></label>
+								<select class="form-control st_tour_starttime" name="starttime_tour" id="starttime_tour">
+									<?php if(!empty($list_time['data']) && !empty($list_time['data'][0])){
+										$name = count($list_time['data']) > 1 ? __('vacancies', 'traveler') : __('a vacancy', 'traveler');
+										foreach($list_time['data'] as $key=>$time){
+											if(intval($list_time['check'][$key]) > 0){
+												$num_vacancies = intval($list_time['check'][$key]);
+											} elseif ( intval($list_time['check'][$key]) == -1 ) {
+												$num_vacancies = esc_html__('Unlimited','traveler');
+											} else {
+												$num_vacancies = esc_html__('0','traveler');
+											}
+										?>
+										<option value="<?php echo esc_attr($time);?>"><?php echo esc_attr($time);?> ( <?php echo esc_html($num_vacancies);?> <?php echo esc_html($name);?> )</option>
+									<?php
+										}
+									}?>
+								</select>
+							</div>
                             <!--End starttime-->
                             <!--Extra price-->
 	                        <?php $extra_price = get_post_meta($post_id, 'extra_price', true); ?>
@@ -632,10 +655,12 @@ $tour_external_booking_link = get_post_meta( $post_id, 'st_tour_external_booking
                                     </div>
 		                        <?php } ?>
                                 <!-- End Tour Package -->
-                            <?php
-                            if ( isset( $new_layout ) && $new_layout == 'classic' ) :
-                                ?>
-                                <div class="guest_name_input hidden mb15 mt10" data-placeholder="<?php esc_html_e('Guest %d name','traveler') ?>" data-hide-children="<?php echo get_post_meta($post_id,'disable_children_name',true) ?>" data-hide-infant="<?php echo get_post_meta($post_id,'disable_infant_name',true) ?>">
+
+                                <div class="guest_name_input hidden mb15 mt10"
+									data-placeholder="<?php esc_html_e('Guest %d name','traveler') ?>"
+									data-hide-adult="<?php echo get_post_meta($post_id,'disable_adult_name',true) ?>"
+									data-hide-children="<?php echo get_post_meta($post_id,'disable_children_name',true) ?>"
+									data-hide-infant="<?php echo get_post_meta($post_id,'disable_infant_name',true) ?>">
                                     <label ><strong><?php esc_html_e('Guest Name','traveler') ?></strong> <span class="required">*</span></label>
                                     <div class="guest_name_control">
                                         <?php
@@ -667,8 +692,9 @@ $tour_external_booking_link = get_post_meta( $post_id, 'st_tour_external_booking
                                         </div>
                                     </script>
                                 </div>
-                                <?php
-                            endif; ?>
+
+
+
                             <input type="hidden" name="adult_price" id="adult_price">
                             <input type="hidden" name="child_price" id="child_price">
                             <input type="hidden" name="infant_price" id="infant_price">

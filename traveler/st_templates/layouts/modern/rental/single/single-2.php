@@ -170,9 +170,9 @@ while ( have_posts() ) :
 							<!-- Discount -->
 							<?php echo st()->load_template( 'layouts/modern/rental/single/item/discount' ); ?>
 							<!-- End Discount -->
-							
+
 							<div class="st-hr large"></div>
-							
+
 							<!-- Camp Map -->
 							<?php echo st()->load_template('layouts/modern/rental/single/item/site-map'); ?>
 							<!-- End Camp Map -->							
@@ -189,7 +189,7 @@ while ( have_posts() ) :
 							<!-- End Rental Image Map Shortcode -->
 
 							<div class="st-hr large"></div>
-
+							
 							<!-- Attribute -->
 							<?php echo st()->load_template( 'layouts/modern/rental/single/item/attribute' ); ?>
 							<!-- End Discount -->

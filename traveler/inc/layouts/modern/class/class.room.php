@@ -56,7 +56,7 @@
                 add_action('wp_ajax_st_filter_hotel_room_ajax', [$this, 'st_filter_hotel_room_ajax']);
                 add_action('wp_ajax_nopriv_st_filter_hotel_room_ajax', [$this, 'st_filter_hotel_room_ajax']);
                 add_filter( 'body_class', array($this,'custom_class_date_calendar') );
-                
+
 
             }
             function custom_class_date_calendar( $classes ) {
@@ -68,7 +68,7 @@
                     if($allow_full_day_room !=='on' &&  $allow_full_day !=='on'){
                         $classes[] = 'st-no-fullday-booking';
                     }
-                    
+
                 }
                 return $classes;
             }
@@ -387,7 +387,7 @@
                 global $wpdb;
                 $check_in  = strtotime( $check_in );
                 $check_out = strtotime( $check_out );
-                
+
                 $having             = '';
                 $having_number_room = false;
                 if ( $adult_number ) {
@@ -857,11 +857,7 @@
                 } else $query = $wp_query;
                 $result_string = $p1 = $p2 = $p3 = $p4 = '';
                 if ( $query->found_posts ) {
-                    if ( $query->found_posts > 1 ) {
-                        $p1 = sprintf( __( '%s rooms', 'traveler' ), $query->found_posts );
-                    } else {
-                        $p1 = sprintf( __( '%s room', 'traveler' ), $query->found_posts );
-                    }
+					$p1 = sprintf( _n( '%s room', '%s rooms', $query->found_posts, 'traveler' ), $query->found_posts );
                 } else {
                     $p1 = __( 'No room found', 'traveler' );
                 }

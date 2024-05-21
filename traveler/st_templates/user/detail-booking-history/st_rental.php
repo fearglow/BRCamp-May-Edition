@@ -106,7 +106,7 @@ $date_format = TravelHelper::getDateFormat();
                         <div class="col-md-12">
                             <div class="item_booking_detail">
                                 <strong><?php esc_html_e("Rental Price:",'traveler') ?> </strong>
-                                <?php echo  TravelHelper::format_money( get_post_meta($order_id , 'item_price' , true)); ?>
+                                <?php echo TravelHelper::format_money_from_db( get_post_meta( $order_id, 'item_price', true ), $currency ); ?>
                             </div>
                         </div>
                         <?php if(!empty($discount = get_post_meta($order_id , 'discount_rate' , true))) {?>
@@ -148,7 +148,7 @@ $date_format = TravelHelper::getDateFormat();
                         <div class="col-md-6 <?php if(empty($data_extra)) echo "hide"; ?>">
                             <div class="item_booking_detail">
                                 <strong><?php esc_html_e("Extra Price:",'traveler') ?> </strong>
-                                <?php echo TravelHelper::format_money($extra_price); ?>
+                                <?php echo TravelHelper::format_money_from_db( $extra_price, $currency ); ?>
                                 <?php if ( is_array( $data_extra ) && count( $extras ) ){ ?>
                                     <table class="table mt10 mb10" style="table-layout: fixed;" width="200">
                                         <tr>
@@ -171,7 +171,7 @@ $date_format = TravelHelper::getDateFormat();
                                                     </label>
                                                 </td>
                                                 <td width="40%">
-                                                    <?php echo TravelHelper::format_money( $price ); ?>
+                                                    <?php echo TravelHelper::format_money_from_db( $price, $currency ); ?>
                                                 </td>
                                             </tr>
                                         <?php endforeach; ?>

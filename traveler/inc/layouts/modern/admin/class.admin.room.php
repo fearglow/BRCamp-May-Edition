@@ -1155,7 +1155,7 @@ if (!class_exists('STAdminRoom')) {
                                 'desc' => __('Support: fonticon <code>(eg: fa-facebook)</code>', 'traveler')
                             ],
                         ],
-                        'desc' => __('You can add unlimited facilities. This option can be used for only Single Hotel with Room Layout ', 'traveler')
+                        'desc' => __('You can add unlimited facilities. This option can be used for only WPBakery Single Hotel with Room Layout ', 'traveler')
 
                     ],
                     [
