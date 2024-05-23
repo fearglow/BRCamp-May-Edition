@@ -1214,29 +1214,29 @@ if (!class_exists('STRental')) {
             $join .= " INNER JOIN
             (
                 SELECT tb3.number , tb3.number_booked , tb3.post_id,
-					SUM(
-						CASE
-							WHEN tb.is_sale_schedule != 'on' THEN
-								CASE
-									WHEN tb.discount_type = 'percent'
-										THEN
-											CAST(tb3.price AS DECIMAL) -(CAST(tb3.price AS DECIMAL) / 100) * CAST(tb.discount_rate AS DECIMAL)
-									ELSE CAST(tb3.price AS DECIMAL) - CAST(tb.discount_rate AS DECIMAL)
-								END
-							WHEN tb.is_sale_schedule = 'on'THEN
-								CASE
+                SUM(
+                    CASE
+                        WHEN tb.is_sale_schedule != 'on' THEN
+                            CASE
+                                WHEN tb.discount_type = 'percent'
+                                    THEN
+                                        CAST(tb3.price AS DECIMAL) -(CAST(tb3.price AS DECIMAL) / 100) * CAST(tb.discount_rate AS DECIMAL)
+                                ELSE CAST(tb3.price AS DECIMAL) - CAST(tb.discount_rate AS DECIMAL)
+                            END
+                        WHEN tb.is_sale_schedule = 'on'THEN
+                            CASE
 									WHEN(UNIX_TIMESTAMP(DATE(tb.sale_price_from)) <= {$check_in} AND UNIX_TIMESTAMP(DATE(tb.sale_price_to)) >= {$check_out})
-										THEN
-											CASE
-												WHEN tb.discount_type = 'percent'
-													THEN CAST(tb3.price AS DECIMAL) - (CAST(tb3.price AS DECIMAL) / 100) * CAST(tb.discount_rate AS DECIMAL)
-												ELSE CAST(tb3.price AS DECIMAL) - CAST(tb.discount_rate AS DECIMAL)
-											END
-									ELSE tb3.price
-								END
-							ELSE tb3.price
-						END
-					) as st_rental_price
+                                    THEN
+                                        CASE
+                                            WHEN tb.discount_type = 'percent'
+                                                THEN CAST(tb3.price AS DECIMAL) - (CAST(tb3.price AS DECIMAL) / 100) * CAST(tb.discount_rate AS DECIMAL)
+                                            ELSE CAST(tb3.price AS DECIMAL) - CAST(tb.discount_rate AS DECIMAL)
+                                        END
+                                ELSE tb3.price
+                            END
+                        ELSE tb3.price
+                    END
+                ) as st_rental_price
                 FROM {$table_avail} AS tb3
 				LEFT JOIN {$wpdb->prefix}st_rental AS tb ON tb.post_id = tb3.post_id
                 WHERE (

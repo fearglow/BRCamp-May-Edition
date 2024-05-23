@@ -75,7 +75,7 @@ $list_time = AvailabilityHelper::_get_starttime_tour_frontend_by_date(get_the_ID
         <select class="form-control st_tour_starttime" name="starttime_tour"
                 id="starttime_tour">
             <?php if(!empty($list_time['data']) && !empty($list_time['data'][0])){
-                $name = count($list_time['data']) > 1 ? __('vacancies', 'traveler') : __('a vacancy', 'traveler');
+                $name = count($list_time['data']) > 1 ? __('Available', 'traveler') : __('a vacancy', 'traveler');
                 foreach($list_time['data'] as $key => $time){
 					if(intval($list_time['check'][$key]) > 0){
 						$num_vacancies = intval($list_time['check'][$key]);

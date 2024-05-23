@@ -23,16 +23,16 @@ if(is_singular('location')){
     <div id="dropdown-destination-rental" role="menu" class="form-group d-flex align-items-center form-extra-field dropdown field-detination dropdown-toggle <?php if ( $has_icon ) echo 'has-icon' ?>"  data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="true">
         <?php
         if ( $has_icon ) {
-            echo '<span class="stt-icon stt-icon-location1"></span>';
+            echo '<span class="fas fa-location"></span>';
         }
         ?>
         <div class="st-form-dropdown-icon" >
-            <label><?php echo esc_html__( 'Location', 'traveler' ); ?></label>
+            <label><?php echo esc_html__( 'Campsite Type', 'traveler' ); ?></label>
             <div class="render">
                 <?php
-                $placeholder = esc_html__('Where are you going?', 'traveler');
+                $placeholder = esc_html__('Select type', 'traveler');
                 ?>
-                <input type="text" onkeyup="stKeyupsmartSearch(this)" autocomplete = "off" id="location_name_rental" name="location_name" value="<?php echo esc_attr($location_name); ?>" placeholder = "<?php echo esc_attr($placeholder);?>" data-post-type="st_rental" data-text-no="<?php echo esc_html__('No locations...', 'traveler') ?>"/>
+                <input type="text" onkeyup="stKeyupsmartSearch(this)" autocomplete = "off" id="location_name_rental" name="location_name" value="<?php echo esc_attr($location_name); ?>" placeholder = "<?php echo esc_attr($placeholder);?>" data-post-type="st_rental" data-text-no="<?php echo esc_html__('No campsites...', 'traveler') ?>"/>
             </div>
 
             <input type="hidden" name="location_id" value="<?php echo esc_attr($location_id); ?>"/>
@@ -43,7 +43,7 @@ if(is_singular('location')){
     <div class="dropdown-menu"  aria-labelledby="dropdown-destination-rental">
         <?php echo st()->load_template('layouts/elementor/common/loader'); ?>
         <ul class="st-scrollbar">
-            <li class="location-heading"><span><?php echo esc_html__('Popular destinations', 'traveler'); ?></span></li>
+            
             <?php
             if ( $enable_tree == 'on' ) {
                 New_Layout_Helper::buildTreeOptionLocation( $locations, $location_id, '<span class="stt-icon stt-icon-location1"></span>', true);

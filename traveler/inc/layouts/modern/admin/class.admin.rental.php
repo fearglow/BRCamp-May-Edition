@@ -929,14 +929,14 @@
                         [
                             'id'           => 'rental_bed',
                             'label'        => __( 'No. Tents', 'traveler' ),
-                            'desc'         => __( 'Bed Number', 'traveler' ),
+                            'desc'         => __( 'Number of Tents Allowed', 'traveler' ),
                             'type'         => 'text',
                             'std'          => 1
                         ],
                         [
                             'id'           => 'rental_bath',
                             'label'        => __( 'No. Trailer', 'traveler' ),
-                            'desc'         => __( 'Bath Number', 'traveler' ),
+                            'desc'         => __( 'Number of Trailers Allowed', 'traveler' ),
                             'type'         => 'text',
                             'std'          => 1
                         ],

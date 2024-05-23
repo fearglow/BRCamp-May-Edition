@@ -236,7 +236,7 @@
                 $booking_period = intval( get_post_meta( $post_origin, 'activity_booking_period', true ) );
                 $period         = STDate::dateDiff( $today, $check_in );
                 if ( $period < $booking_period ) {
-                    wp_send_json(array('message' => sprintf( __( 'This activity allow minimum booking is %d day(s)', 'traveler' ), $booking_period ),'price_from' => $price_from));
+                    wp_send_json(array('message' => sprintf( __( 'This activity requires an advanced booking time of %d day', 'traveler' ), $booking_period ),'price_from' => $price_from));
 
                 }
                 if ( $max_number > 0 ) {
@@ -265,14 +265,14 @@
                 }
                 if($min_number > 0){
                     if ( $adult_number + $child_number + $infant_number < $min_number ) {
-                        wp_send_json(array('message' => sprintf( __( 'Min of people for this activity is %d people', 'traveler' ), $min_number ),'price_from' => $price_from));
+                        wp_send_json(array('message' => sprintf( __( 'Minimum guests for this activity is %d', 'traveler' ), $min_number ),'price_from' => $price_from));
                         $pass_validate = false;
                         return false;
                     }
                 }
                 if ( $max_number > 0 ) {
                     if ( $adult_number + $child_number + $infant_number > $max_number ) {
-                        wp_send_json(array('message' => sprintf( __( 'Max of people for this activity is %d people', 'traveler' ), $max_number ),'price_from' => $price_from));
+                        wp_send_json(array('message' => sprintf( __( 'Maximum guests for this activity is %d', 'traveler' ), $max_number ),'price_from' => $price_from));
                         $pass_validate = false;
                         return false;
                     }
@@ -1509,7 +1509,7 @@
                 $booking_period = intval( get_post_meta( $post_origin, 'activity_booking_period', true ) );
                 $period         = STDate::dateDiff( $today, $check_in );
                 if ( $period < $booking_period ) {
-                    STTemplate::set_message( sprintf( __( 'This activity allow minimum booking is %d day(s)', 'traveler' ), $booking_period ), 'danger' );
+                    STTemplate::set_message( sprintf( __( 'This activity requires an advanced booking time of %d day', 'traveler' ), $booking_period ), 'danger' );
                     $pass_validate = false;
                     return false;
                 }
@@ -1528,14 +1528,14 @@
                 }
                 if($min_number > 0){
                     if ( $adult_number + $child_number + $infant_number < $min_number ) {
-                        STTemplate::set_message( sprintf( __( 'Min of people for this activity is %d people', 'traveler' ), $min_number ), 'danger' );
+                        STTemplate::set_message( sprintf( __( 'Minimum guests for this activity is %d', 'traveler' ), $min_number ), 'danger' );
                         $pass_validate = false;
                         return false;
                     }
                 }
                 if ( $max_number > 0 ) {
                     if ( $adult_number + $child_number + $infant_number > $max_number ) {
-                        STTemplate::set_message( sprintf( __( 'Max of people for this activity is %d people', 'traveler' ), $max_number ), 'danger' );
+                        STTemplate::set_message( sprintf( __( 'Maximum guests for this activity is %d', 'traveler' ), $max_number ), 'danger' );
                         $pass_validate = false;
                         return false;
                     }

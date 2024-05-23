@@ -13,7 +13,7 @@
     }
     if(!empty($extra_price)){ ?>
         <div class="form-group form-more-extra">
-            <a href="#dropdown-more-extra" class="dropdown text-center justify-content-center d-flex align-items-center"><?php echo esc_html__( 'More option', 'traveler' ) ?>
+            <a href="#dropdown-more-extra" class="dropdown text-center justify-content-center d-flex align-items-center"><?php echo esc_html__( 'Additional Guests/Trailers', 'traveler' ) ?>
                 <i class="stt-icon-arrow-down"></i></a>
             <ul class="extras">
                 <?php foreach ( $extra_price as $key => $val ):

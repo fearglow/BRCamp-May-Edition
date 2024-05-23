@@ -10625,7 +10625,7 @@
                                 }
                             } else {
                                 $html .= '
-                            	<tr data-op class="' . $id_item . ' " data-id-order="' . $value->id . '">
+                            <tr data-op class="' . $id_item . ' " data-id-order="' . $value->id . '">
                                 <td class="hidden-xs"> ' . $value->order_item_id . '</td>
                                 <td class=""> <a href="' . $this->get_link_order_item( $id_item ) . '">' . $this->get_title_order_item( $id_item ) . '</a></td>
                                 <td class="hidden-xs" class="booking-history-type ' . get_post_type( $id_item ) . '">

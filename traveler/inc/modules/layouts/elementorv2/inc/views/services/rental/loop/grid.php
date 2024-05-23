@@ -78,21 +78,47 @@ $url=st_get_link_with_search(get_permalink(),array('start','end','date','adult_n
             </h3>
             <div class="amenities d-flex align-items-center clearfix">
                 <span class="amenity d-flex align-items-center" data-bs-toggle="tooltip" title="<?php echo esc_attr__('No. People', 'traveler') ?>">
-                    <span class="stt-icon-user2"></span>
+                    <span class="fa fa-hiking"></span>
                     <?php echo (int)get_post_meta(get_the_ID(), 'rental_max_adult', true) + (int)get_post_meta(get_the_ID(), 'rental_max_children', true); ?>
                 </span>
-                <span class="amenity d-flex align-items-center" data-bs-toggle="tooltip" title="<?php echo esc_attr__('No. Bed', 'traveler') ?>">
-                    <span class="stt-icon-bed"></span>
+                <span class="amenity d-flex align-items-center" data-bs-toggle="tooltip" title="<?php echo esc_attr__('No. Tents', 'traveler') ?>">
+                    <span class="fa fa-campground"></span>
                     <?php echo (int)get_post_meta(get_the_ID(), 'rental_bed', true) ?>
                 </span>
-                <span class="amenity d-flex align-items-center" data-bs-toggle="tooltip" title="<?php echo esc_attr__('No. Bathroom', 'traveler') ?>">
-                    <span class="stt-icon-bathtub"></span>
-                    <?php echo (int)get_post_meta(get_the_ID(), 'rental_bath', true) ?>
-                </span>
-                <span class="amenity d-flex align-items-center" data-bs-toggle="tooltip" title="<?php echo esc_attr__('Square', 'traveler') ?>">
-                    <span class="stt-icon-area"></span>
-                    <?php echo (int)get_post_meta(get_the_ID(), 'rental_size', true); ?><?php echo __('m<sup>2</sup>', 'traveler');?>
-                </span>
+                <?php
+					// Fetch terms from the 'amenities' taxonomy associated with the current post
+					$amenities_terms = get_the_terms(get_the_ID(), 'amenities');
+					$display_icon = false; // Flag to determine whether to display the icon
+
+					if (!empty($amenities_terms) && !is_wp_error($amenities_terms)) {
+						foreach ($amenities_terms as $term) {
+							if ($term->name == 'Pet Friendly') {
+								$display_icon = true; // Set flag to true if 'Pet Friendly' is found
+								break; // No need to check further
+							}
+						}
+					}
+
+					if ($display_icon): ?>
+						<span class="amenity d-flex align-items-center" data-bs-toggle="tooltip" title="<?php echo esc_attr__('Pet Friendly', 'traveler') ?>">
+							<i class="fa fa-paw"></i> <!-- FontAwesome paw icon for 'Pet Friendly' -->
+						</span>
+				<?php endif; ?>
+                <span class="amenity d-flex align-items-center" data-bs-toggle="tooltip" title="<?php echo esc_attr__('Site Dimensions', 'traveler') ?>">
+    <span class="fa fa-chart-area"></span>
+    <?php
+    // Retrieve terms associated with the current post for the 'max-length' taxonomy
+    $terms = get_the_terms(get_the_ID(), 'site-dimensions'); // Ensure 'max-length' is the correct taxonomy name
+    if (!empty($terms) && !is_wp_error($terms)) {
+        // Assuming there's only one 'Max Length' term per post
+        $term = array_shift($terms); // Get the first term
+        echo esc_html($term->name); // Display the term's name as is, which includes the length in feet
+    } else {
+        // Fallback content or message if no terms are found
+        echo __( 'NA', 'traveler' );
+    }
+    ?>
+</span>
             </div>
             <div class="reviews" itemprop="starRating" itemscope itemtype="https://schema.org/Rating">
                 <i class="stt-icon-star1"></i>
